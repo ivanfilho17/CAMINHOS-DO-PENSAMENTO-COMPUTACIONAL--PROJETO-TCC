@@ -1,0 +1,775 @@
+/* ==============================
+   ESTILO NEOBRUTALISTA GLOBAL
+   ============================== */
+
+:root {
+  --primary: #ff006e;
+  --secondary: #8338ec;
+  --accent: #3a86ff;
+  --background: #fdfcdc;
+  --black: #000000;
+  --white: #ffffff;
+  --yellow: #fff020;
+  --blue: rgb(13, 180, 231);
+  --khaki: #f0e68c;
+  --gold: #ffd700;
+  --lightgray: #d3d3d3;
+  --darkgray: #a9a9a9;
+  --dust: #d4c4a8;
+  --green: #28a745;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(360deg, #23aeff 0%, var(--background) 100%);
+  color: var(--black);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button,
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* ==============================
+   HEADER
+   ============================== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 4px solid var(--black);
+  background: var(--secondary);
+}
+
+.header .btn {
+  margin-right: 1rem;
+}
+
+.header .btn-header {
+  padding: 0.38rem 0.70rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  border-width: 3px;
+  border-color: var(--black);
+  box-shadow: 4px 5px 0 var(--black);
+  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  text-transform: none;
+}
+
+/* aumenta distância entre os botões Sobre e Avaliar */
+.header .left {
+  display: inline-flex; /* garante layout em linha */
+  gap: 0.2rem; /* ajuste este valor para mais/menos espaço */
+}
+
+/* cor específica para "Sobre" */
+.header .btn-about {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--black);
+  margin-left: 0.5rem;
+}
+
+/* cor específica para "Avaliar" */
+.header .btn-evaluate {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--black);
+}
+
+/* hover mais sutil para os botões do header */
+.header .btn-header:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 3px var(--black);
+}
+
+/* ícone principal do botão (tamanho igual ao texto) */
+.header .btn-header .icon {
+  width: 18px;
+  height: 18px;
+  color: #ffffff;
+  /* permite usar stroke="currentColor" */
+}
+
+/* seta externa menor e com leve deslocamento à direita */
+.header .btn-header .ext-icon {
+  width: 16px;
+  height: 16px;
+  color: #ffffff;
+}
+
+/* mantém traço legível em redução */
+.header .btn-header svg {
+  vector-effect: non-scaling-stroke;
+}
+
+/* transição para ícones */
+.header .btn-header .icon,
+.btn.start .start-icon {
+  transition: color 180ms ease, transform 120ms ease;
+  color: inherit;
+  /* base */
+}
+
+/* ao passar o mouse / foco no teclado (focus-visible): ícone do Sobre */
+.header .btn-about:hover .icon,
+.header .btn-about:focus-visible .icon {
+  color: var(--black);
+}
+
+/* efeito dourado no ícone da ação "Avaliar" ao hover/focus */
+.header .btn-evaluate .icon,
+.header .btn-evaluate .ext-icon {
+  color: #ffffff;
+  /* cor padrão (herda do botão) */
+  transition: color 180ms ease, transform 180ms ease;
+  /* garante que stroke="currentColor" nos SVGs siga esse color */
+}
+
+.header .btn-evaluate:hover .icon,
+.header .btn-evaluate:focus-visible .icon {
+  color: var(--gold);
+  color: var(--gold);
+  /* dourado ao passar o mouse */
+}
+
+.header .btn-evaluate:hover .ext-icon,
+.header .btn-evaluate:focus-visible .ext-icon {
+  color: var(--gold);
+  transform: translate(2px, -2px);
+  /* leve movimento para indicar redirecionamento */
+}
+
+/* ==============================
+   BOTÕES
+   ============================== */
+.btn {
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.6rem 1.2rem;
+  border: 4px solid var(--black);
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 var(--black);
+  transition: transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 6px 6px 0 var(--black);
+}
+
+.btn.option {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  text-align: left;
+}
+
+/* botão Iniciar: manter conteúdo centralizado e responsivo */
+.btn.start {
+  display: inline-flex;
+  justify-content: center;
+  /* centraliza ícone + texto */
+  align-items: center;
+  gap: 1rem;
+  /* espaço entre ícone e texto */
+  font-size: 1.2rem;
+  padding: 0.8rem auto;
+  background: var(--secondary);
+  border-radius: 8px;
+  transform: rotate(-0.2deg);
+  transform-origin: center;
+  /* rotação em torno do centro (não desloca conteúdo) */
+  transition: transform 180ms ease;
+  text-align: center;
+  width: auto;
+  box-sizing: border-box;
+}
+
+
+.btn.start:hover {
+  transform: rotate(-0.2deg) translate(3px, 3px);
+  box-shadow: 3px 3px 3px var(--black);
+}
+
+
+/* garante que o SVG do play siga o tamanho do texto */
+.btn.start .start-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.btn.start:hover .start-icon,
+.btn.start:focus-visible .start-icon {
+  color: var(--gold);
+}
+
+.btn.start:hover,
+.btn.start:focus-visible {
+  color: var(--gold);
+}
+
+.footer {
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  background: var(--khaki);
+  border-top: 4px solid var(--black);
+}
+
+/* ==============================
+   HOME
+   ============================== */
+.home {
+  padding: 2rem;
+  text-align: center;
+  align-items: center;
+}
+
+/* Intro text: largura compatível com o conteúdo e centralizada */
+.home .intro-text {
+  max-width: min(900px, 92%);
+  /* não fica muito largo em telas grandes, adapta em telas pequenas */
+  margin: 0 auto 1.6rem;
+  /* centraliza e dá espaçamento inferior */
+  text-align: center;
+  padding: 0;
+  /* padding controlado por elementos internos */
+  align-items: center;
+}
+
+.home .intro-text h1 {
+  display: inline-block;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  /* responsivo entre 1.8rem e 2.5rem */
+  margin-bottom: 3rem;
+  padding: 0.40rem 0.8rem;
+  background-color: var(--white);
+  border-radius: 6px;
+  border: 3px solid var(--black);
+  box-shadow: 8px 8px 0 var(--black);
+  box-sizing: border-box;
+}
+
+.home .intro-text p {
+  display: inline-block;
+  font-size: clamp(0.98rem, 2.2vw, 1.1rem);
+  line-height: 1.45;
+  padding: 0.15rem 0.9rem;
+  background-color: var(--secondary);
+  border-radius: 6px;
+  color: var(--white);
+  border: 3px solid var(--black);
+  box-shadow: 5px 5px 0 var(--black);
+  box-sizing: border-box;
+}
+
+.home .card h2 {
+  display: inline-block;
+  font-size: 1.2rem;
+  background-color: var(--gold);
+  padding: 2px 8px;
+  border-radius: 10px;
+  border-style: groove;
+  border-width: 2px;
+  border-color: var(--secondary);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2.2rem;
+  margin: 0.5rem;
+  transform: rotate(-0.3deg);
+
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card {
+  position: relative;
+  /* para posicionar lock */
+  background: var(--white);
+  border: 4px solid var(--black);
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 8px 8px 0 var(--black);
+  border-radius: 20px;
+  transition: transform 0.18s ease, filter 180ms ease, opacity 180ms ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* mantém progresso no rodapé */
+  min-height: 220px;
+  /* garante espaço para o footer */
+  
+}
+
+/* layout topo do card: ícone + título alinhados */
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* icone/emoji do título */
+.card-icon {
+  font-size: 1.65rem;
+  /* tamanho um pouco maior que o texto */
+  line-height: 1;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* título ao lado do ícone */
+.card-title {
+  display: inline-block;
+  font-size: 1.1rem;
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* descrição mantém formato, mas com espaçamento maior do título */
+.card-desc {
+  margin-top: 0.9rem;
+  line-height: 1.35;
+  color: #222;
+  flex-grow: 1;
+  /* ocupa espaço intermédio para empurrar footer pra baixo */
+}
+
+/* footer do card (barra de progresso) sempre no rodapé do card */
+.card-footer {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+/* lock badge: canto superior direito */
+.lock-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  z-index: 4;
+}
+
+/* card bloqueado: esmaecido e levemente dessaturado */
+.card.locked {
+  opacity: 0.66;
+  filter: grayscale(100%);
+  pointer-events: auto;
+  /* mantém eventos para acessibilidade/alerta */
+}
+
+/* remover hover transform para cards bloqueados */
+/*.card.locked:hover {
+  transform: none;
+  box-shadow: 8px 8px 0 var(--black);
+}*/
+
+
+/* animação do cadeado no canto superior direito */
+.card.locked .lock-badge {
+  transition: transform 260ms ease, box-shadow 180ms ease;
+}
+
+.card.locked:hover .lock-badge {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.6);
+}
+
+/* acessibilidade: exibir indicação de foco por teclado sem aplicar a cor dourada persistente */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(255,215,0,0.15);
+  outline-offset: 4px;
+}
+
+/* reduz altura da progress-bar dentro do card (estilo compacto) */
+.card .progress-bar {
+  height: 10px;
+  border-width: 3px;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* mantém transição suave da barra */
+.card .progress-fill {
+  transition: width 300ms ease;
+}
+
+@keyframes cards-animation {
+  0%   { transform: translateY(0) rotate(0deg); }
+  30%  { transform: translateY(-6px) rotate(-0.8deg); }
+  60%  { transform: translateY(-2px) rotate(0.6deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+.card:hover {
+  /*transform: translate(-3px, -3px);*/
+  animation: cards-animation 420ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* barra de progresso pequena dentro dos cards */
+.card .progress-bar {
+  height: 18px;
+  border-width: 3px;
+  margin-top: 0.5rem;
+  box-shadow: 2px 2px 0 var(--black);
+  border-radius: 6px;
+}
+
+.card .progress-fill {
+  transition: width 300ms ease;
+}
+
+.card .progress-text {
+  font-size: 0.7rem;
+}
+
+
+/* Layout geral: garante que o root ocupe a altura da viewport e o main ocupe o espaço restante */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Faz o main (.container) crescer e alinhar seu conteúdo na parte inferior */
+.container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* empurra o conteúdo para baixo, antes do footer */
+  /*padding: 3rem 1rem;
+  ajuste opcional de espaçamento interno */
+}
+
+.container .cards,
+.container .cards * {
+  filter: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+/* Fundo only na Home (usa o arquivo em public/) */
+.container.home-bg {
+  background-image: url('/HomeBackground.png');
+  /* nome do arquivo conforme public/ */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  /* necessário para o overlay pseudo-element */
+  /* mantém o padding já utilizado na .home */
+  padding: 2rem;
+}
+
+/* overlay suave para melhorar legibilidade do conteúdo sobre a imagem */
+.container.home-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.308));
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* garante que o conteúdo interno fique acima do overlay */
+.container.home-bg>* {
+  position: relative;
+  z-index: 1;
+}
+
+/* opcional: reduzir repetição visual de cards sobre imagem quando tela pequena */
+@media (max-width: 1920px) {
+  .container.home-bg::before {
+    background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.10));
+  }
+}
+
+/* ==============================
+   MODAL
+   ============================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--white);
+  border: 4px solid var(--black);
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 6px 6px 0 var(--black);
+}
+
+/* Ajuste: botão de fechar menor e no canto inferior direito da modal */
+.modal {
+  position: relative;
+  /* necessário para posicionar o botão dentro */
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--white);
+  border: 4px solid var(--black);
+  box-shadow: 6px 6px 0 var(--black);
+  border-radius: 6px;
+  text-align: justify;
+}
+
+.modal.about-modal {
+  width: min(980px, 95%);
+  max-width: 980px;
+  max-height: 86vh;
+  padding: 1rem 1rem 0.75rem 1rem;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.modal .modal-close {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  border-width: 3px;
+  box-shadow: 3px 3px 0 var(--black);
+  background: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+  text-transform: none;
+}
+
+/* título grande no topo */
+.about-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.2rem 0.2rem 0.6rem 0.2rem;
+}
+.about-header h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.6px;
+  margin: 0;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* botão X (topo) com estilo redondo e borda preta seguindo o estilo dos outros botões */
+.modal-close-top {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.45rem;
+
+  /* tamanho e forma */
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 999px;
+
+  /* estilo de borda e sombra consistente com .btn */
+  border: 3px solid var(--black);
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 2px 2px 0 var(--black);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 40;
+
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  
+}
+
+/* hover / foco por teclado sem "grudar" (usar focus-visible) */
+.modal-close-top:hover,
+.modal-close-top:focus-visible {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.95);
+}
+
+/* área rolável dentro do modal */
+.about-content {
+  overflow-y: auto;
+  max-height: calc(86vh - 150px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-right: 0.5rem;
+}
+
+/* cada bloco colorido */
+.about-section {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 4px solid var(--black);
+  box-shadow: 6px 6px 0 var(--black);
+  border-radius: 6px;
+  background: var(--white);
+  align-items: flex-start;
+}
+
+/* cores dos blocos - ajustar conforme imagem */
+.about-section.yellow { background: var(--yellow); color: #000; }
+.about-section.purple { background: #8a2be2; color: #fff; } /* roxo vibrante */
+.about-section.pink { background: #ff007f; color: #fff; }   /* magenta/rosa */
+.about-section.light { background: #2ff0c7; color: #000; }  /* verde água */
+.about-section.neutral { background: var(--white); color: #111; }
+
+/* ícone grande à esquerda do bloco */
+.about-icon {
+  font-size: 1.6rem;
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* corpo do bloco: títulos e parágrafos */
+.about-body h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.about-body p, .about-body ul {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.about-body ul {
+  margin-left: 1rem;
+  padding-left: 0.6rem;
+}
+
+
+/* mantém animação/efeito similar aos outros botões */
+.modal .modal-close:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--black);
+}
+
+.modal h2 {
+  margin-bottom: 2rem;
+}
+
+/* ==============================
+   MÓDULOS
+   ============================== */
+.module {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.module h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.module iframe {
+  border: 4px solid var(--black);
+  box-shadow: 4px 4px 0 var(--black);
+  margin-bottom: 1rem;
+}
+
+.nav-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ==============================
+   BARRA DE PROGRESSO
+   ============================== */
+.progress-bar {
+  height: 30px;
+  background: var(--white);
+  border: 4px solid var(--black);
+  margin-bottom: 1rem;
+  box-shadow: 4px 4px 0 var(--black);
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--green); /* cor verde */
+  transition: width 0.3s ease;
+  will-change: width;
+}
+
+.progress-text {
+  position: absolute;
+  font-size: 1rem;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: #000000;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* ==============================
+   RESPONSIVIDADE
+   ============================== */
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .btn.start {
+    width: 100%;
+  }
+}
