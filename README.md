@@ -1,0 +1,2 @@
+Este é um projeto de uma aplicação web feito em HTML, CSS e JavaScript, utilizando React.
+O objetivo principal é ser um Objeto de Aprendizagem (OA) para o ensino do Pensamento Computacional (Algoritmos), seguindo o que está previsto no documento de complemento à BNCC Computação, especificamente a habilidade (EF15CO02): Construir e simular algoritmos, de forma independente ou em colaboração, que resolvam problemas simples e do cotidiano com uso de sequências, seleções condicionais e repetições de instruções
