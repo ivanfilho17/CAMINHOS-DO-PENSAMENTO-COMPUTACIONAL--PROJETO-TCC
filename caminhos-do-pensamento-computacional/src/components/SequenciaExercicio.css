@@ -1,0 +1,65 @@
+.exercicio-container {
+    background-color: var(--white);
+    border: 4px solid var(--black);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 6px 6px 0 var(--black);
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.lista-passos {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+}
+
+.passo-item {
+    background-color: var(--khaki);
+    border: 3px solid var(--black);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 4px 4px 0 var(--darkgray);
+    font-weight: 500;
+}
+
+.feedback {
+    margin-top: 1rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.feedback.sucesso {
+    color: #155724;
+    background-color: #d4edda;
+    border: 2px solid #c3e6cb;
+}
+
+.feedback.erro {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 2px solid #f5c6cb;
+}
+
+.passo-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.passo-numero {
+    background-color: var(--secondary);
+    color: var(--white);
+    font-weight: bold;
+    border: 3px solid var(--black);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    /* Impede que o número encolha */
+}

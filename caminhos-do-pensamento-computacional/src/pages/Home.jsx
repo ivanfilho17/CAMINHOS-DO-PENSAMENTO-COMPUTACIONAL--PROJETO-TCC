@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProgressBar from "../components/ProgressBar";
 
-export default function Home({ modules = [], progress = {}, onStart, onOpenModule }) {
+
+export default function Home({ modules = [], progress = {}, onStart, onOpenModule, onShowAlert }) {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const isUnlocked = (m) => {
         if (m?.id === 1) return true;
         return !!(progress[m.id - 1] && progress[m.id - 1].completed);
     };
 
-    const getPercent = (id) =>
-        progress[id] && typeof progress[id].percent === "number" ? progress[id].percent : 0;
+    const getPercent = (id) => {
+        const moduleProgress = progress[id];
+        // Se já foi completado alguma vez, mostra sempre 100%
+        if (moduleProgress?.everCompleted) {
+            return 100;
+        }
+        // Caso contrário, mostra a porcentagem atual (ou 0)
+        return moduleProgress && typeof moduleProgress.percent === "number" ? moduleProgress.percent : 0;
+    };
 
     const handleCardClick = (m) => {
         if (isUnlocked(m)) {
             onOpenModule && onOpenModule(m.id);
         } else {
-            alert("Módulo bloqueado. Complete o módulo anterior para liberar.");
+            onShowAlert && onShowAlert("Módulo bloqueado. Complete o módulo anterior para o liberar.");
         }
     };
 
@@ -48,7 +61,7 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
 
                             <div className="card-top">
                                 <div className="card-icon">
-                                    {m.icon || (m.character && m.character.face) || "🎁"}
+                                    {m.icon || (m.character && m.character.face) || "🃏"}
                                 </div>
 
                                 <h2 className="card-title">{m.title}</h2>
@@ -66,7 +79,7 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
                 })}
             </div>
 
-            <div style={{ marginTop: "1.5rem", display: "flex", justifyContent: "center" }}>
+            <div style={{ marginTop: "1.6rem", display: "inline-flex", justifyContent: "center" }}>
                 <button
                     className="btn start"
                     onClick={() => onStart && onStart(1)}

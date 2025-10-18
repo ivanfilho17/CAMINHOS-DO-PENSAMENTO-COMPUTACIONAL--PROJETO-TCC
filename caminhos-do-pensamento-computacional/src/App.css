@@ -45,34 +45,39 @@ a {
    ============================== */
 .header {
   display: flex;
-  justify-content: space-between;
-  padding: 1rem;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0.7rem 2rem;
   border-bottom: 4px solid var(--black);
-  background: var(--secondary);
+  background: var(--accent);
 }
 
 .header .btn {
-  margin-right: 1rem;
+  margin-right: 2px;
 }
 
 .header .btn-header {
-  padding: 0.38rem 0.70rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem;
+  height: 0;
   border-radius: 8px;
   font-size: 0.88rem;
   border-width: 3px;
   border-color: var(--black);
-  box-shadow: 4px 5px 0 var(--black);
+  box-shadow: 4px 4px 0 var(--black);
   transition: transform 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
   text-transform: none;
+  gap: 0.3rem;
+  margin-bottom: 0.2rem;
 }
 
 /* aumenta distância entre os botões Sobre e Avaliar */
 .header .left {
-  display: inline-flex; /* garante layout em linha */
-  gap: 0.2rem; /* ajuste este valor para mais/menos espaço */
+  display: inline-flex;
+  /* garante layout em linha */
+  gap: 1.2rem;
+  /* ajuste este valor para mais/menos espaço */
 }
 
 /* cor específica para "Sobre" */
@@ -80,20 +85,21 @@ a {
   background: var(--primary);
   color: var(--white);
   border-color: var(--black);
-  margin-left: 0.5rem;
+  padding: 0.7rem;
 }
 
 /* cor específica para "Avaliar" */
 .header .btn-evaluate {
-  background: var(--blue);
+  background: var(--secondary);
   color: var(--white);
   border-color: var(--black);
+  padding: 0.7rem;
 }
 
 /* hover mais sutil para os botões do header */
 .header .btn-header:hover {
   transform: translate(2px, 2px);
-  box-shadow: 3px 3px 3px var(--black);
+  box-shadow: 2px 2px 2px var(--black);
 }
 
 /* ícone principal do botão (tamanho igual ao texto) */
@@ -159,9 +165,11 @@ a {
 .btn {
   background: var(--primary);
   color: var(--white);
-  padding: 0.6rem 1.2rem;
+  padding: 0.4rem 1rem;
   border: 4px solid var(--black);
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
   text-transform: uppercase;
   box-shadow: 4px 4px 0 var(--black);
   transition: transform 0.2s ease;
@@ -169,7 +177,7 @@ a {
 
 .btn:hover {
   transform: translate(2px, 2px);
-  box-shadow: 6px 6px 0 var(--black);
+  box-shadow: 1px 1px 0 var(--black);
 }
 
 .btn.option {
@@ -185,32 +193,30 @@ a {
   justify-content: center;
   /* centraliza ícone + texto */
   align-items: center;
-  gap: 1rem;
+  gap: 8px;
   /* espaço entre ícone e texto */
   font-size: 1.2rem;
-  padding: 0.8rem auto;
+  padding: 0.4rem 0.8rem;
   background: var(--secondary);
   border-radius: 8px;
-  transform: rotate(-0.2deg);
-  transform-origin: center;
-  /* rotação em torno do centro (não desloca conteúdo) */
-  transition: transform 180ms ease;
-  text-align: center;
-  width: auto;
-  box-sizing: border-box;
+  color: var(--white);
+  border: 4px solid var(--black);
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 var(--black);
 }
 
 
 .btn.start:hover {
-  transform: rotate(-0.2deg) translate(3px, 3px);
-  box-shadow: 3px 3px 3px var(--black);
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px var(--black);
 }
 
 
 /* garante que o SVG do play siga o tamanho do texto */
 .btn.start .start-icon {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
 }
 
 .btn.start:hover .start-icon,
@@ -256,10 +262,12 @@ a {
   display: inline-block;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
   /* responsivo entre 1.8rem e 2.5rem */
+  font-weight: 700;
+  text-align: center;
   margin-bottom: 3rem;
   padding: 0.40rem 0.8rem;
   background-color: var(--white);
-  border-radius: 6px;
+  border-radius: 1px;
   border: 3px solid var(--black);
   box-shadow: 8px 8px 0 var(--black);
   box-sizing: border-box;
@@ -271,7 +279,7 @@ a {
   line-height: 1.45;
   padding: 0.15rem 0.9rem;
   background-color: var(--secondary);
-  border-radius: 6px;
+  border-radius: 1px;
   color: var(--white);
   border: 3px solid var(--black);
   box-shadow: 5px 5px 0 var(--black);
@@ -318,27 +326,28 @@ a {
   /* mantém progresso no rodapé */
   min-height: 220px;
   /* garante espaço para o footer */
-  
+
 }
 
-/* layout topo do card: ícone + título alinhados */
+/* layout topo do card: ícone + título alinhados VERTICALMENTE */
 .card-top {
   display: flex;
+  flex-direction: column;
+  /* <<< A MUDANÇA PRINCIPAL */
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  /* Centraliza horizontalmente */
+  gap: 0.5rem;
+  /* Espaço entre o ícone e o título */
+  margin-bottom: 1rem;
+  /* Aumenta a margem inferior para o texto */
 }
 
 /* icone/emoji do título */
 .card-icon {
-  font-size: 1.65rem;
-  /* tamanho um pouco maior que o texto */
+  font-size: 1.6rem;
+  /* Aumenta um pouco o tamanho do emoji */
   line-height: 1;
-  width: 2.2rem;
-  height: 2.2rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  /* As outras propriedades de tamanho podem ser removidas pois o flex-direction já cuida do layout */
 }
 
 /* título ao lado do ícone */
@@ -399,39 +408,38 @@ a {
 
 .card.locked:hover .lock-badge {
   transform: translateY(-4px);
-  box-shadow: 6px 6px 0 rgba(0,0,0,0.6);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6);
 }
 
 /* acessibilidade: exibir indicação de foco por teclado sem aplicar a cor dourada persistente */
 button:focus-visible,
 a:focus-visible {
-  outline: 3px solid rgba(255,215,0,0.15);
+  outline: 3px solid rgba(255, 215, 0, 0.15);
   outline-offset: 4px;
 }
 
-/* reduz altura da progress-bar dentro do card (estilo compacto) */
-.card .progress-bar {
-  height: 10px;
-  border-width: 3px;
-  margin: 0;
-  box-shadow: none;
-}
-
-/* mantém transição suave da barra */
-.card .progress-fill {
-  transition: width 300ms ease;
-}
 
 @keyframes cards-animation {
-  0%   { transform: translateY(0) rotate(0deg); }
-  30%  { transform: translateY(-6px) rotate(-0.8deg); }
-  60%  { transform: translateY(-2px) rotate(0.6deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  30% {
+    transform: translateY(-6px) rotate(-0.8deg);
+  }
+
+  60% {
+    transform: translateY(-2px) rotate(0.6deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
 }
 
 .card:hover {
   /*transform: translate(-3px, -3px);*/
-  animation: cards-animation 420ms cubic-bezier(.2,.9,.3,1);
+  animation: cards-animation 420ms cubic-bezier(.2, .9, .3, 1);
 }
 
 /* barra de progresso pequena dentro dos cards */
@@ -441,6 +449,7 @@ a:focus-visible {
   margin-top: 0.5rem;
   box-shadow: 2px 2px 0 var(--black);
   border-radius: 6px;
+  margin: 0;
 }
 
 .card .progress-fill {
@@ -540,8 +549,7 @@ a:focus-visible {
 
 /* Ajuste: botão de fechar menor e no canto inferior direito da modal */
 .modal {
-  position: relative;
-  /* necessário para posicionar o botão dentro */
+  position: relative; /* necessário para posicionar o botão dentro */
   max-width: 720px;
   margin: 2rem auto;
   padding: 1.5rem;
@@ -583,6 +591,7 @@ a:focus-visible {
   justify-content: flex-start;
   padding: 0.2rem 0.2rem 0.6rem 0.2rem;
 }
+
 .about-header h1 {
   font-size: 1.5rem;
   letter-spacing: 0.6px;
@@ -598,8 +607,8 @@ a:focus-visible {
   top: 0.45rem;
 
   /* tamanho e forma */
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   padding: 0;
   border-radius: 999px;
 
@@ -618,14 +627,14 @@ a:focus-visible {
   z-index: 40;
 
   transition: transform 120ms ease, box-shadow 120ms ease;
-  
+
 }
 
 /* hover / foco por teclado sem "grudar" (usar focus-visible) */
 .modal-close-top:hover,
 .modal-close-top:focus-visible {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.95);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.95);
 }
 
 /* área rolável dentro do modal */
@@ -651,11 +660,33 @@ a:focus-visible {
 }
 
 /* cores dos blocos - ajustar conforme imagem */
-.about-section.yellow { background: var(--yellow); color: #000; }
-.about-section.purple { background: #8a2be2; color: #fff; } /* roxo vibrante */
-.about-section.pink { background: #ff007f; color: #fff; }   /* magenta/rosa */
-.about-section.light { background: #2ff0c7; color: #000; }  /* verde água */
-.about-section.neutral { background: var(--white); color: #111; }
+.about-section.yellow {
+  background: var(--yellow);
+  color: #000;
+}
+
+.about-section.purple {
+  background: #8a2be2;
+  color: #fff;
+}
+
+/* roxo vibrante */
+.about-section.pink {
+  background: #ff007f;
+  color: #fff;
+}
+
+/* magenta/rosa */
+.about-section.light {
+  background: #2ff0c7;
+  color: #000;
+}
+
+/* verde água */
+.about-section.neutral {
+  background: var(--white);
+  color: #111;
+}
 
 /* ícone grande à esquerda do bloco */
 .about-icon {
@@ -674,11 +705,14 @@ a:focus-visible {
   text-transform: uppercase;
   font-weight: 800;
 }
-.about-body p, .about-body ul {
+
+.about-body p,
+.about-body ul {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.45;
 }
+
 .about-body ul {
   margin-left: 1rem;
   padding-left: 0.6rem;
@@ -725,7 +759,7 @@ a:focus-visible {
    BARRA DE PROGRESSO
    ============================== */
 .progress-bar {
-  height: 30px;
+  height: 20px;
   background: var(--white);
   border: 4px solid var(--black);
   margin-bottom: 1rem;
@@ -737,14 +771,15 @@ a:focus-visible {
 
 .progress-fill {
   height: 100%;
-  background: var(--green); /* cor verde */
+  background: var(--green);
+  /* cor verde */
   transition: width 0.3s ease;
   will-change: width;
 }
 
 .progress-text {
   position: absolute;
-  font-size: 1rem;
+  font-size: 0.8rem;
   inset: 0;
   display: flex;
   align-items: center;
@@ -772,4 +807,60 @@ a:focus-visible {
   .btn.start {
     width: 100%;
   }
+
+  /* Estilos para o Modal de Alerta */
+  .modal.alert-modal {
+    text-align: center;
+    max-width: 320px;
+    /* << Modal MAIS estreito */
+    padding: 1.5rem;
+    border-radius: 10px;
+    /* Pode adicionar bordas arredondadas se quiser */
+  }
+
+  .alert-icon {
+    font-size: 4rem;
+    /* << Emoji MAIOR */
+    margin-bottom: 1rem;
+    animation: shake 0.5s;
+  }
+
+  .alert-modal h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    /* Título um pouco menor se necessário */
+  }
+
+  .alert-modal p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  /* Botão "Entendi" MENOR */
+  .alert-modal .btn {
+    padding: 0.4rem 0.8rem; /* Padding reduzido */
+    font-size: 0.85rem; /* Fonte menor */
+    min-width: 100px;
+    /* Largura mínima menor */
+    /* Mantém as outras propriedades do .btn (borda, sombra, etc.) */
+  }
+
+  /* Animação para o ícone de atenção*/
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    25% {
+      transform: translateX(-5px) rotate(-5deg);
+    }
+
+    75% {
+      transform: translateX(5px) rotate(5deg);
+    }
+  }
+
 }

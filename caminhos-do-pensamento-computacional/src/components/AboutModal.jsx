@@ -76,10 +76,10 @@ export default function AboutModal({ isOpen, onClose }) {
           <div style={{ height: 8 }} />
         </div>
 
-        <div className="about-actions">
+        {/*<div className="about-actions">
           <button className="btn modal-close" onClick={onClose}>Fechar</button>
-        </div>
+        </div>*/}
       </div>
-    </div>
+    </div> 
   );
 }
