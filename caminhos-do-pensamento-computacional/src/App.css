@@ -488,7 +488,7 @@ a:focus-visible {
 
 /* Fundo only na Home (usa o arquivo em public/) */
 .container.home-bg {
-  background-image: url('/HomeBackground.png');
+  background-image: url('/homeBG.png');
   /* nome do arquivo conforme public/ */
   background-size: cover;
   background-position: center;

@@ -92,18 +92,27 @@ export default function Module({ moduleData, onComplete, onBackHome, onAdvance, 
 
             {telaAtual === 1 && (
                 <div className="tela-conteudo">
-                    <header className="module-header"><h1>O que é um Algoritmo? 🤔</h1></header>
+                    <header className="module-header"> <h1>Introdução 📄</h1> </header>
+
                     <section className="texto-explicativo">
-                        <p>Imagine que um algoritmo é como uma <strong>receita de bolo</strong> ou um <strong>manual de instruções</strong>. É simplesmente uma lista de passos organizados, uma sequência de ações que você precisa seguir em uma ordem específica para resolver um problema ou completar uma tarefa.</p>
-                        <p>Você usa algoritmos todos os dias e nem percebe! Sua rotina para se arrumar de manhã, os passos para atravessar a rua com segurança ou até as regras de um jogo são exemplos de algoritmos da vida real.</p>
-                        <h4>Características de um Bom Algoritmo</h4>
-                        <p>Um algoritmo precisa ser:</p>
-                        <ul>
-                            <li>✅ <strong>Claro:</strong> Fácil de entender</li>
-                            <li>✅ <strong>Preciso:</strong> Sem ambiguidades (não pode ter duplo sentido)</li>
-                            <li>✅ <strong>Finito:</strong> Tem início e fim</li>
-                            <li>✅ <strong>Eficiente:</strong> Resolve o problema da melhor forma possível</li>
-                        </ul>
+
+                        <h3>O que é um Algoritmo? 🤔</h3>
+
+                        <div>
+                            <p>Imagine que um algoritmo é como uma <strong>receita de bolo</strong> ou um <strong>manual de instruções</strong>. É simplesmente uma lista de passos organizados, uma sequência de ações que você precisa seguir em uma ordem específica para que tudo dê certo no final e consiga resolver um problema ou completar uma tarefa.</p>
+                        
+                            <p>Você usa algoritmos todos os dias e nem percebe! Sua rotina para se arrumar de manhã, os passos para atravessar a rua com segurança ou até as regras de um jogo são exemplos de algoritmos da vida real.</p>
+                            <p>Portanto, da próxima vez que você seguir uma receita ou um conjunto de instruções, lembre-se: você está usando um algoritmo!</p>
+                            <p>Os computadores, celulares e videogames usam algoritmos para fazer absolutamente tudo, desde mostrar um vídeo na internet até fazer um personagem pular em um jogo.</p>
+                            <h4>Características de um Bom Algoritmo</h4>
+                            <p>Um algoritmo precisa ser:</p>
+                            <ul>
+                                <p>✅ <strong>Claro:</strong> Fácil de entender.</p>
+                                <p>✅ <strong>Preciso:</strong> Sem ambiguidades (não pode ter duplo sentido).</p>
+                                <p>✅ <strong>Finito:</strong> Tem início e fim.</p>
+                                <p>✅ <strong>Eficiente:</strong> Resolve o problema da melhor forma possível.</p>
+                            </ul>
+                        </div>
                     </section>
                     <div className="video-container">
                         <h4>Vídeo de Apoio</h4>
@@ -112,8 +121,8 @@ export default function Module({ moduleData, onComplete, onBackHome, onAdvance, 
                     <section className="exemplos-container">
                         <h3>Exemplos do Dia a Dia:</h3>
                         <div className="cards-exemplo">
-                            <div className="card-exemplo anim-glow-yellow"><h4>Algoritmo: Escovar os Dentes</h4><ol><li>Pegar a escova de dentes.</li><li>Colocar pasta na escova.</li><li>Escovar todos os dentes.</li><li>Enxaguar a boca.</li><li>Lavar a escova.</li></ol></div>
-                            <div className="card-exemplo anim-glow-yellow"><h4>Algoritmo: Atravessar a Rua</h4><ol><li>Parar na calçada.</li><li>Olhar para a esquerda.</li><li>Olhar para a direita.</li><li>Se não vier carro, atravessar na faixa.</li><li>Chegar ao outro lado.</li></ol></div>
+                            <div className="card-exemplo anim-glow-blue"><h4>Algoritmo: Escovar os Dentes 🪥</h4><ol><li>Pegar a escova de dentes.</li><li>Colocar pasta na escova.</li><li>Escovar todos os dentes.</li><li>Enxaguar a boca.</li><li>Lavar a escova.</li></ol></div>
+                            <div className="card-exemplo anim-glow-blue"><h4>Algoritmo: Atravessar a Rua 🚶🏽‍➡️🛣️</h4><ol><li>Parar na calçada.</li><li>Olhar para a esquerda.</li><li>Olhar para a direita.</li><li>Se não vier carro, atravessar na faixa.</li><li>Chegar ao outro lado.</li></ol></div>
                         </div>
                     </section>
                     <footer className="module-footer">
@@ -133,7 +142,14 @@ export default function Module({ moduleData, onComplete, onBackHome, onAdvance, 
                 <div className="tela-conteudo">
                     <header className="module-header"><h1>Módulo 1: Sequências ➡️</h1></header>
                     <section className="texto-explicativo">
-                        <p>Como vimos, todo algoritmo é uma sequência de passos. A <strong>sequência</strong> é a parte mais básica. Ela garante que cada instrução seja executada na ordem certa, uma após a outra, sem pular nenhuma etapa.</p>
+                        <p>Agora que você sabe o que é um algoritmo, vamos falar sobre a parte mais importante dele: <strong>a Sequência</strong>.</p> 
+                        <p>Como vimos, todo algoritmo é uma sequência de passos. A <strong>sequência</strong> é a parte mais básica. Uma sequência é a ordem em que os passos de um algoritmo são executados.  Ela garante que cada instrução seja executada na ordem certa, uma após a outra, sem pular nenhuma etapa. É como uma fila: você não pode ser atendido antes da pessoa que está na sua frente. Em um algoritmo, um passo só acontece depois que o anterior terminou.</p>
+                        <p>Se a sequência estiver errada, o algoritmo pode não funcionar como esperado. Por exemplo,Imagine o algoritmo de "calçar os sapatos":</p>
+                        <p>1. Pegar o par de meias. <br></br>
+                        2. Calçar as meias.<br></br>
+                        3. Pegar o par de sapatos.<br></br>
+                        4. Calçar os sapatos.</p>
+                        <p>O que acontece se você inverter a sequência? Tentar calçar os sapatos (passo 4) antes de calçar as meias (passo 2)? Não funciona! A sequência correta é fundamental para que o algoritmo dê certo.</p>
                     </section>
                     <div className="atividades-header"><span className="atividades-icon">🧩</span><h3>Atividades Interativas</h3></div>
                     <SequenciaExercicio desafioId="sanduiche" onConcluido={handleExercicioConcluido} />
@@ -156,13 +172,13 @@ export default function Module({ moduleData, onComplete, onBackHome, onAdvance, 
             {/* TELA 3: QUIZ */}
             {telaAtual === 3 && (
                 <div className="tela-conteudo quiz-screen-wrapper">
-                     <Quiz
+                    <Quiz
                         quizData={moduleData.quiz}
                         onQuizComplete={handleQuizComplete}
                         onQuestionAnswered={handleQuestionAnswered}
-                     />
-                     {/* ADICIONAR ESTE FOOTER */}
-                     <footer className="module-footer quiz-footer">
+                    />
+                    {/* ADICIONAR ESTE FOOTER */}
+                    <footer className="module-footer quiz-footer">
                         <button className="btn btn-icon" onClick={() => setTelaAtual(2)} aria-label="Voltar para Atividades">
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
                         </button>
