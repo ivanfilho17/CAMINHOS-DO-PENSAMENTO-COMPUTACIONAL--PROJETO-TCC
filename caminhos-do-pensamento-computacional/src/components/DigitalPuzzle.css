@@ -1,0 +1,143 @@
+/* --- Contêiner Geral da Atividade --- */
+.puzzle-container {
+    display: flex;/* Permite centralizar conteúdo */
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    margin-top: 2rem;
+    padding: 1.5rem;
+    /* Aumenta padding interno */
+    background-color: var(--white);
+    border: 4px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 6px 6px 0 var(--black);
+}
+
+.puzzle-title {
+    font-size: 1.5rem; /* Tamanho ajustado */
+    font-weight: 700;
+    font-weight: bold;
+    background-color: #fff566;
+    color: var(--black); /* Cor do título */
+    border-bottom: 2px solid var(--black);
+    padding-bottom: 1rem;
+    display: inline-block;
+    padding: 4px 10px;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    margin-bottom: 8px;
+}
+
+.puzzle-instructions {
+    color: var(--darkgray);
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;/* Mais espaço antes do jogo */
+    max-width: 720px;
+    font-size: 1rem;
+}
+
+/* --- Área Principal do Jogo --- */
+.puzzle-content {
+    display: flex;
+    flex-direction: column; /* Empilha a grade e as peças */
+    align-items: center; /* Centraliza a grade e a área de peças */
+    gap: 2rem; /* Espaço entre a grade e as peças */
+    width: 100%;/* Ocupa a largura do contêiner */
+}
+
+/* --- Grade Alvo (Slots) --- */
+.puzzle-grid {
+    display: grid;
+    gap: 1px;
+    margin-bottom: 1rem;
+}
+
+.puzzle-slot {
+    border: 1px dashed #6b7280;
+    border-radius: 8px;
+    background-color: #f9fafb;
+}
+
+.puzzle-slot.over {
+    background-color: rgba(168, 184, 31, 0.3);
+    border-style: dashed;
+    border-color: var(--green);
+}
+
+/* --- Peça do Quebra-Cabeça (Estilo Unificado) --- */
+.puzzle-piece {
+    width: var(--piece-size, 120px);
+    height: var(--piece-size, 120px);
+    cursor: grab;
+    background-clip: padding-box; /* Imagem de fundo é definida via style no JSX */
+}
+
+.puzzle-piece:active {
+    cursor: grabbing;
+}
+
+.puzzle-piece.dragging {
+    transform: scale(1.1) rotate(3deg);
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    opacity: 0.95;
+}
+
+
+/* --- Área das Peças Embaralhadas (Abaixo e Horizontal) --- */
+.puzzle-shuffled {
+    display: flex; /* Organiza peças na HORIZONTAL */
+    background: var(--background);
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 0.5rem;
+    border-radius: 8px;
+    min-width: 120px;
+    min-height: 100px;
+    flex-wrap: wrap; /* Permite quebrar linha se não couber */
+    justify-content: center; /* Centraliza as peças */
+    align-items: center; /* Alinha verticalmente */
+    gap: 1rem;/* Espaço entre as peças */
+}
+
+.shuffled-piece-wrapper {
+    /* Este wrapper agora só controla o espaço */
+    width: var(--piece-size, 100px);
+    height: var(--piece-size, 100px);
+    display: flex;
+    /* Para garantir que a peça preencha */
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Feedback de Conclusão --- */
+
+
+.puzzle-feedback {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #b8f3d4;
+    border: 2px solid #10b981;
+    border-radius: 8px;
+    color: #065f46;
+    font-weight: 500;
+    text-align: center;
+    max-width: 500px;
+}
+
+.feedback {
+    margin-top: 1.5rem;
+    font-weight: bold;
+    padding: 0rem;
+    border-radius: 5px;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+}
+
+.feedback.sucesso {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: var(--black);
+}
+
+/* Você pode adicionar um estilo .feedback.erro se precisar de feedback para erros */

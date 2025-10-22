@@ -1,0 +1,123 @@
+import React, { useState, useEffect } from 'react';
+import Quiz from '../components/Quiz';
+import './IntroPage.css'; // Certifique-se que este ficheiro existe
+
+// Dados para os cards interativos
+const PILARES_CARDS = [
+    { id: 1, pilar: 'Decomposição', icone: '🧩', frenteIcone: '🧩', versoTexto: 'É o que você faz ao planejar uma festa: você não pensa "fazer festa" de uma vez. Você quebra em partes: 1. Lista de convidados. 2. Enviar convites. 3. Comprar comida. 4. Decorar.' },
+    { id: 2, pilar: 'Padrões', icone: '🎨', frenteIcone: '🔄', versoTexto: 'É o que você faz ao notar que toda vez que chove, você precisa de um guarda-chuva. Você percebe uma regra ou padrão que se repete.' },
+    { id: 3, pilar: 'Abstração', icone: '🎯', frenteIcone: '😀', versoTexto: 'É o que você faz ao desenhar um emoji feliz. Você ignora a cor do cabelo, formato do nariz e foca SÓ no essencial: olhos e boca sorrindo para mostrar "felicidade".' },
+    { id: 4, pilar: 'Algoritmos', icone: '👣', frenteIcone: '🗺️', versoTexto: 'É a sua receita de bolo! Um passo a passo que qualquer pessoa pode seguir para chegar ao mesmo resultado. É o passo final que junta todas as outras ideias.' },
+];
+
+export default function IntroPage({ quizData, onBackHome, onCompleteIntro }) {
+    const [tela, setTela] = useState('teoria'); // 'teoria', 'quiz', 'conclusaoIntro'
+    const [flippedCardId, setFlippedCardId] = useState(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [tela]);
+
+    const handleIntroQuizComplete = () => {
+        setTela('conclusaoIntro');
+    };
+
+    return (
+        <div className="intro-container"> {/* Adiciona a classe .module para aproveitar espaçamentos */}
+            {tela === 'teoria' && (
+                <div className="tela-conteudo">
+                    <header className="module-header">
+                        <h1>Introdução 🚀</h1>
+                    </header>
+                    <section className="texto-explicativo">
+                        <h3>O que é Pensamento Computacional?</h3>
+                        <p>Você já se deparou com um problema muito grande, que parecia difícil de resolver? Como montar um quebra-cabeça de muitas peças ou arrumar um quarto super bagunçado?</p>
+                        <p>O Pensamento Computacional não é sobre "pensar como um computador". Na verdade, é o contrário: é um <strong>superpoder que nós, humanos, usamos para ensinar os computadores a resolver problemas</strong>. É uma forma de pensar e organizar ideias para que qualquer problema, não importa o tamanho, possa ser resolvido passo a passo.</p>
+                        <p>Para usar esse superpoder, nós seguimos <strong>4 caminhos</strong> ou <strong>pilares:</strong></p>
+                        <ul>
+                            <li><strong>Decomposição:</strong> Quebrar o problemão em probleminhas.</li>
+                            <li><strong>Reconhecimento de Padrões:</strong> Encontrar semelhanças entre eles.</li>
+                            <li><strong>Abstração:</strong> Focar no que é importante e ignorar o resto.</li>
+                            <li><strong>Algoritmos:</strong> Criar um plano passo a passo para resolver.</li>
+                        </ul>
+                        <p>Vamos explorar cada um desses pilares juntos!</p>
+                    </section>
+
+                    <div className="pilares-titulo-container">
+                        <h4>Clique nos cards abaixo para ver exemplos:</h4>
+                    </div>
+                    <section className="pilares-container">
+                        {PILARES_CARDS.map(pilar => (
+                            <div key={pilar.id} className="flip-card" onClick={() => setFlippedCardId(flippedCardId === pilar.id ? null : pilar.id)}>
+                                <div className={`flip-card-inner ${flippedCardId === pilar.id ? 'flipped' : ''}`}>
+                                    <div className="flip-card-front">
+                                        <div className="pilar-icone">{pilar.frenteIcone}</div>
+                                        <h4>{pilar.pilar}</h4>
+                                    </div>
+                                    <div className="flip-card-back">
+                                        <p>{pilar.versoTexto}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+
+                    <div className="video-container">
+                        <h4>Vídeo de Apoio</h4>
+                        {/* Vídeo sugerido: "O que é Pensamento Computacional?" do Programação para Crianças */}
+                        <iframe width="100%" height="400" src="https://www.youtube.com/embed/pRpjYrdb9UY?si=KBx1Haeeg-pXxE2a" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+
+                    <footer className="module-footer">
+                        <button className="btn btn-icon" onClick={onBackHome} aria-label="Voltar ao Menu">
+                            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+                        </button>
+                        <button className="btn" onClick={() => setTela('quiz')}>
+                            <svg className="icon-avancar" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
+                        </button>
+                    </footer>
+                </div>
+            )}
+
+            {tela === 'quiz' && (
+                <div className="tela-conteudo quiz-screen-wrapper">
+                    <Quiz
+                        quizData={quizData}
+
+                        // Chamar a nova função ao completar o quiz
+                        onQuizComplete={handleIntroQuizComplete}
+                    // onQuestionAnswered={...}
+                    />
+                    <footer className="module-footer quiz-footer">
+                        <button className="btn btn-icon" onClick={() => setTela('teoria')} aria-label="Voltar para Teoria">
+                            <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
+                        </button>
+                        {/* Pode adicionar um botão de Home aqui se quiser */}
+                        {/* <button className="btn btn-icon" onClick={onBackHome} aria-label="Voltar ao Menu">...</button> */}
+                    </footer>
+                </div>
+            )}
+
+            {/* 4. NOVA TELA DE CONCLUSÃO DA INTRODUÇÃO */}
+            {tela === 'conclusaoIntro' && (
+                <div className="tela-conteudo conclusao-intro-container">
+                    <h2>Muito bem! 👏🏽😃</h2>
+                    <p>Agora que você já viu o que é o Pensamento Computacional, vamos entender melhor cada um dos seus pilares? Iremos começar pela <strong>Decomposição</strong>.</p>
+                    <p>Clique em <strong>AVANÇAR</strong> para prosseguir.</p>
+                    <footer className="module-footer conclusao-intro-botoes">
+                        {/* Botão para voltar para a teoria da introdução */}
+                        <button className="btn btn-icon" onClick={() => setTela('teoria')} aria-label="Voltar para Introdução">
+                            <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
+                        </button>
+                        {/* Botão para avançar para o Módulo 1 */}
+                        <button className="btn start" onClick={onCompleteIntro} aria-label="Ir para Módulo 1: Decomposição">
+                            Avançar
+                            <svg className="icon-avancar" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
+                        </button>
+                    </footer>
+                </div>
+            )}
+
+        </div>
+    );
+}

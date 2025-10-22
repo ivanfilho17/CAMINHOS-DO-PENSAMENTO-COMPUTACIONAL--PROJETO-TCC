@@ -25,8 +25,15 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
 
     const handleCardClick = (m) => {
         if (isUnlocked(m)) {
-            onOpenModule && onOpenModule(m.id);
+            // SE for o Módulo 1, VAI PARA A INTRODUÇÃO
+            if (m.id === 1) {
+                onStart && onStart(); // Chama a função que leva para IntroPage
+            } else {
+                // Para os outros módulos desbloqueados, abre o módulo diretamente
+                onOpenModule && onOpenModule(m.id);
+            }
         } else {
+            // Módulo bloqueado
             onShowAlert && onShowAlert("Módulo bloqueado. Complete o módulo anterior para o liberar.");
         }
     };
@@ -35,7 +42,7 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
         <div className="home">
             <div className="intro-text">
                 <h1>Caminhos do Pensamento Computacional</h1>
-                <p>Aprenda sobre algoritmos de forma prática, interativa e divertida!</p>
+                <p>Explore os pilares do Pensamento Computacional de forma prática, interativa e divertida!</p>
             </div>
 
             <div className="cards">
@@ -82,13 +89,14 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
             <div style={{ marginTop: "1.6rem", display: "inline-flex", justifyContent: "center" }}>
                 <button
                     className="btn start"
-                    onClick={() => onStart && onStart(1)}
-                    aria-label="Iniciar"
+                    // Chama onStart (que leva para a Intro) em vez de onOpenModule(1)
+                    onClick={() => onStart && onStart()}
+                    aria-label="Iniciar Jornada"
                 >
                     <svg className="icon start-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                         <path d="M5 3v18l15-9L5 3z" />
                     </svg>
-                    Iniciar
+                    Iniciar Jornada
                 </button>
             </div>
         </div>

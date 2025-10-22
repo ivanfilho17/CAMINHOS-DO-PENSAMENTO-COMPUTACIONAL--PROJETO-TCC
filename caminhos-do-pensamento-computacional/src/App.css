@@ -288,7 +288,7 @@ a {
 
 .home .card h2 {
   display: inline-block;
-  font-size: 1.2rem;
+  font-size: 1rem;
   background-color: var(--gold);
   padding: 2px 8px;
   border-radius: 10px;
@@ -326,7 +326,6 @@ a {
   /* mantém progresso no rodapé */
   min-height: 220px;
   /* garante espaço para o footer */
-
 }
 
 /* layout topo do card: ícone + título alinhados VERTICALMENTE */
@@ -338,30 +337,38 @@ a {
   /* Centraliza horizontalmente */
   gap: 0.5rem;
   /* Espaço entre o ícone e o título */
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   /* Aumenta a margem inferior para o texto */
+}
+
+.card-top h2 {
+  font-size: 0.5rem;
 }
 
 /* icone/emoji do título */
 .card-icon {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   /* Aumenta um pouco o tamanho do emoji */
   line-height: 1;
   /* As outras propriedades de tamanho podem ser removidas pois o flex-direction já cuida do layout */
 }
 
-/* título ao lado do ícone */
+/* título */
 .card-title {
   display: inline-block;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0;
   vertical-align: middle;
-}
+} 
 
 /* descrição mantém formato, mas com espaçamento maior do título */
 .card-desc {
-  margin-top: 0.9rem;
-  line-height: 1.35;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  line-height: 1.15;
+  justify-items: center;
+  text-align: center;
   color: #222;
   flex-grow: 1;
   /* ocupa espaço intermédio para empurrar footer pra baixo */
@@ -488,7 +495,7 @@ a:focus-visible {
 
 /* Fundo only na Home (usa o arquivo em public/) */
 .container.home-bg {
-  background-image: url('/homeBG.png');
+  background-image: url('assets/homeBG.png');
   /* nome do arquivo conforme public/ */
   background-size: cover;
   background-position: center;
@@ -617,7 +624,6 @@ a:focus-visible {
   background: var(--primary);
   color: var(--white);
   box-shadow: 2px 2px 0 var(--black);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -625,9 +631,7 @@ a:focus-visible {
   line-height: 1;
   cursor: pointer;
   z-index: 40;
-
   transition: transform 120ms ease, box-shadow 120ms ease;
-
 }
 
 /* hover / foco por teclado sem "grudar" (usar focus-visible) */

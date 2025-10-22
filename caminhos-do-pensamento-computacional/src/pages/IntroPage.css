@@ -1,0 +1,174 @@
+.intro-container {
+    color: var(--black);
+    width: 100%;
+    max-width: 900px;
+    margin: 1rem auto;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.intro-container .texto-explicativo ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+}
+
+.intro-container .texto-explicativo li {
+    margin-bottom: 0.5rem;
+}
+
+.intro-container .texto-explicativo {
+    margin-bottom: 1rem;
+}
+
+.texto-explicativo h3 {
+    margin-bottom: 2rem;
+
+}
+
+/* --- Estilos dos Flip Cards --- */
+.pilares-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    /* Espaço após o texto explicativo */
+    margin-top: 0;
+}
+
+.pilares-titulo-container {
+    text-align: center;
+    /* Centraliza o título */
+}
+
+.pilares-titulo-container h4 {
+    font-size: 1.2rem;
+    padding: 3px;
+    /* Padding um pouco menor que o do vídeo */
+    color: var(--black);
+    background-color: var(--white);
+    border: 3px solid var(--black);
+    box-shadow: 5px 5px 0 var(--black);
+    margin-bottom: -1rem;
+}
+
+.flip-card {
+    background-color: transparent;
+    height: 200px;
+    /* Altura dos cards */
+    perspective: 1000px;
+    /* Efeito 3D para a virada */
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    /* Efeito de virada com mola */
+    transform-style: preserve-3d;
+}
+
+/* Quando a classe .flipped é adicionada (pelo clique) */
+.flip-card-inner.flipped {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    /* Safari */
+    backface-visibility: hidden;
+    /* Esconde o verso enquanto está na frente */
+    border: 4px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 6px 6px 0 var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+/* Frente do Card */
+.flip-card-front {
+    background-color: var(--khaki);
+    /* Cor da frente */
+    color: var(--black);
+}
+
+.flip-card-front h4 {
+    margin-top: 1.5rem;
+}
+
+.pilar-icone {
+    font-size: 4rem;
+    /* Tamanho do ícone na frente */
+}
+
+/* Verso do Card */
+.flip-card-back {
+    background-color: var(--secondary);
+    /* Cor do verso */
+    color: var(--white);
+    transform: rotateY(180deg);
+    /* Começa virado */
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.conclusao-intro-container {
+    text-align: center;
+    background: var(--background);
+    /* Usa a cor de fundo padrão */
+    padding: 2rem;
+    border: 4px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 6px 6px 0 var(--black);
+    max-width: 600px;
+    /* Um pouco mais estreito que o módulo normal */
+    margin: 1rem auto;
+    /* Centraliza vertical e horizontalmente */
+}
+
+.conclusao-intro-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+    /* Cor roxa para destaque */
+}
+
+.conclusao-intro-container p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.conclusao-intro-botoes {
+    justify-content: space-between;
+    /* Botões nas extremidades */
+    border-top: 3px solid var(--black);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+/* Garante que os botões tenham o estilo correto */
+.conclusao-intro-botoes .btn-icon {
+    background-color: var(--primary);
+}
+
+.conclusao-intro-botoes .btn-icon svg {
+    fill: var(--white);
+}
+
+
+.conclusao-intro-botoes .btn.start svg {
+    margin-left: 0;
+    /* Remove margem se houver */
+}

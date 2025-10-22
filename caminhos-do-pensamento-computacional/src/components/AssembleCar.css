@@ -1,0 +1,181 @@
+.assemble-car-container {
+  max-width: 900px;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
+  background-color: var(--white);
+  border: 4px solid var(--black);
+  border-radius: 10px;
+  box-shadow: 6px 6px 0 var(--black);
+  color: var(--black);
+}
+
+.ac-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: var(--yellow);
+  padding: 4px 12px;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.ac-instructions {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  color: var(--darkgray);
+}
+
+.ac-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center; /* Alinha verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+}
+
+/* --- INVENTÁRIO DE PEÇAS (Direita) --- */
+.inventory {
+  flex: 1 1 200px;
+  max-width: 250px; /* Largura máxima */
+  background: var(--background);
+  border: 3px solid #000;
+  border-radius: 12px;
+  box-shadow: 5px 5px 0 #000;
+  padding: 12px;
+  order: 2;
+}
+
+.inventory h4 {
+  margin-bottom: 12px;
+  font-weight: 700;
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 3px solid var(--black);
+  text-align: center;
+}
+
+.inventory-grid {
+  display: flex;
+  flex-direction: column; /* Peças empilhadas */
+  align-items: center; /* Peças centralizadas */
+  gap: 12px;
+}
+
+/* ESTILO BASE DAS PEÇAS (arrastáveis e encaixadas) */
+.car-part {
+  border: 3px solid #000;
+  cursor: grab;
+  font-weight: 600;
+  text-align: center;
+  color: transparent; /* Esconde o texto, mostra só a forma */
+  user-select: none;
+}
+.car-part:active { cursor: grabbing; }
+
+/* Formas e tamanhos das peças no inventário */
+.car-part.carroceria { width: 140px; height: 50px; border-radius: 4px; }
+.car-part.teto {
+    width: 90px; height: 40px;
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+.car-part.roda { width: 50px; height: 50px; border-radius: 50%; }
+.car-part.farol { width: 20px; height: 15px; border-radius: 2px; }
+.car-part.lanterna { width: 20px; height: 15px; border-radius: 2px; }
+
+
+.car-part.dragging {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+/* --- ÁREA DE MONTAGEM (Esquerda) --- */
+.assembly-area {
+  flex: 2 1 450px; /* Ocupa mais espaço */
+  min-width: 400px;
+  border: 4px dashed var(--black);
+  border-radius: 12px;
+  position: relative;
+  height: 250px;
+  order: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.car-silhouette {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.silhouette {
+  fill: none;
+  stroke: var(--darkgray);
+  stroke-width: 3;
+  stroke-dasharray: 8 6;
+  opacity: 0.7;
+}
+
+/* --- SLOTS DE ENCAIXE --- */
+.slot {
+  position: absolute;
+  z-index: 2;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  /* border: 1px solid red; */ /* Para debug */
+}
+.slot.over {
+  background-color: rgba(40, 167, 69, 0.3);
+  transform: scale(1.05);
+}
+
+/* POSICIONAMENTO E TAMANHO EXATO DOS SLOTS (ajustado para viewBox 400x200) */
+/* (Valores em percentagem para responsividade dentro do SVG) */
+#slot-carroceria { top: 46%; left: 15%; width: 70%; height: 34%; }
+#slot-teto       { top: 24.5%; left: 31%; width: 46.8%; height: 25%; }
+#slot-roda-e     { top: 67%; left: 22.8%; width: 12.5%; height: 26%; border-radius: 100%; }
+#slot-roda-d     { top: 67%; left: 64%; width: 13%; height: 26%; border-radius: 100%; }
+#slot-farol      { top: 50.2%; left: 14.8%; width: 5%; height: 12%; border-radius: 30%; }
+#slot-lanterna   { top: 52%; left: 79.3%; width: 6%; height: 8%; }
+
+
+/* --- PEÇAS ENCAIXADAS --- */
+.placed-part {
+  width: 100%;
+  height: 100%;
+  border: 3px solid #000;
+}
+.placed-part.carroceria { background-color: #ff4d4d; border-radius: 5px; }
+.placed-part.teto       { background-color: #a9a9a9; clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%); border-bottom: none; }
+.placed-part.roda       { background-color: #333333; border-radius: 50%; }
+.placed-part.farol      { background-color: #ffd700; border-radius: 3px; }
+.placed-part.lanterna   { background-color: #d63031; border-radius: 3px; }
+
+
+/* --- ANIMAÇÕES --- */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+.shake {
+  animation: shake 0.4s;
+  background-color: var(--primary) !important; /* Vermelho piscando ao errar */
+}
+
+.feedback {
+    margin-top: 1.5rem;
+    font-weight: bold;
+    padding: 0.8rem;
+    border-radius: 5px;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    text-align: center;
+}
+.feedback.sucesso { color: #155724; background-color: #d4edda; border-color: var(--green);}

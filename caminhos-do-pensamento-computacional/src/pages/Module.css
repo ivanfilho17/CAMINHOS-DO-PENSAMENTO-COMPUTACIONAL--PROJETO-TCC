@@ -14,6 +14,7 @@
     /* Espaçamento entre as seções */
 }
 
+
 .module-header {
     text-align: center;
     border-bottom: 4px solid var(--black);
@@ -22,7 +23,7 @@
 
 .module-header h1 {
     display: inline-flex;
-    align-self: center;
+    justify-content: center;
     text-align: center;
     font-size: 2.2rem;
     background-color: var(--yellow);
@@ -30,6 +31,19 @@
     padding: 0.4rem;
     border: 4px solid var(--black);
     box-shadow: 6px 6px 0 var(--black);
+}
+
+.module-header h4 {
+    text-align: center;
+    font-size: 1rem;
+    background-color: var(--secondary);
+    color: var(--white);
+    padding: 0.4rem;
+    margin-top: 1.5rem;
+    margin-left: 18.2rem;
+    margin-right: 18.2rem;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
 }
 
 .texto-explicativo h3 {
@@ -96,7 +110,7 @@
     border: 4px solid var(--black);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 6px 6px 0 var(--black);
+    box-shadow: 4px 4px 0 var(--black);
 }
 
 .card-exemplo h4 {
@@ -133,8 +147,8 @@
 }
 
 .card-exemplo:hover {
-    transform: translateY(-3px) rotate(0deg);
-    box-shadow: 8px 10px 0 var(--black);
+    transform: translateY(-3px);
+    box-shadow: 8px 8px 0 var(--black);
 }
 
 /* Animações de brilho */
@@ -287,6 +301,9 @@
 .conclusao-container h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
+    background-color: var(--yellow);
+    border: 4px solid var(--black);
+    box-shadow: 4px 4px;
 }
 
 .conclusao-container .subtitulo {
@@ -336,6 +353,7 @@
     height: 60px;
     padding: 0.5rem;
 }
+
 
 /* Animações (permanecem as mesmas) */
 .premio-wrapper {
@@ -387,4 +405,48 @@
 
 .quiz-footer .btn-icon svg {
     fill: var(--white);
+}
+
+.atividade-container {
+    background-color: var(--white);
+    border: 4px solid var(--black);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 6px 6px 0 var(--black);
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.atividade-container h3 {
+    margin-bottom: 0.5rem;
+}
+
+.atividade-container>p {
+    margin-bottom: 1rem;
+    color: var(--darkgray);
+}
+
+
+/* REGRA-CHAVE PARA O TAMANHO DOS ÍCONES */
+.conclusao-botoes .btn svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--white);
+    /* Garante a cor branca */
+}
+
+/* Cores específicas para os botões da tela de conclusão */
+.conclusao-botoes .btn-home {
+    background-color: var(--primary);
+    /* Rosa */
+}
+
+.conclusao-botoes .btn-refazer {
+    background-color: var(--accent);
+    /* Azul */
+}
+
+.conclusao-botoes .btn-avancar {
+    background-color: var(--secondary);
+    /* Lilás */
 }

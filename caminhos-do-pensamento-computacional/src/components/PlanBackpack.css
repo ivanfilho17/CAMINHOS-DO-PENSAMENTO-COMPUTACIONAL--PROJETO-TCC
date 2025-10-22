@@ -1,0 +1,248 @@
+/* === ESTILO NEO-BRUTALISTA PARA A ATIVIDADE "PLANEJANDO A MOCHILA" === */
+
+.plan-backpack-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px;
+    font-family: "Poppins", "Inter", system-ui, sans-serif;
+    color: #111;
+}
+
+.pb-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-weight: bold;
+    background: #fff566;
+    display: inline-block;
+    padding: 4px 10px;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    margin-bottom: 8px;
+}
+
+.pb-instructions {
+    margin: 6px 0 20px;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 8px 12px;
+}
+
+/* === Estrutura Principal === */
+.pb-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* === ESTEIRA DE ITENS === */
+.pb-esteira {
+    flex: 1 1 320px;
+    background: #ffd5cc;
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 5px 5px 0 #000;
+}
+
+.pb-esteira h4 {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
+
+.pb-esteira-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: 150px;
+    padding: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.pb-esteira-item {
+    width: 110px;
+    height: 70px;
+}
+
+/* === ITENS === */
+.pb-item {
+    cursor: grab;
+    user-select: none;
+    width: 100%;
+    height: 64px;
+    padding: 8px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    /* Centraliza emoji e nome verticalmente */
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-weight: 600;
+    text-align: center;
+    transition: transform 0.1s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pb-item:active {
+    cursor: grabbing;
+    transform: translate(2px, 2px);
+}
+
+.pb-item-emoji {
+    font-size: 28px;
+    margin: 0;
+}
+
+.pb-item-label {
+    font-size: 14px;
+}
+
+/* === ITENS DURANTE O ARRASTE === */
+
+.pb-item.dragging {
+  background: #fffae3;
+  box-shadow: 6px 6px 0 #000;
+  transform: scale(1.03);
+  z-index: 9999 !important;
+  position: relative;
+}
+
+/* === FEEDBACK VISUAL === */
+.pb-item.correct {
+    background: #9aff9a;
+    border-color: #008000;
+    box-shadow: 4px 4px 0 #008000;
+}
+
+.pb-item.wrong {
+    background: #ff9a9a;
+    border-color: #ff0000;
+    animation: pb-shake 0.4s ease;
+}
+
+@keyframes pb-shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-6px);
+    }
+
+    40% {
+        transform: translateX(6px);
+    }
+
+    60% {
+        transform: translateX(-4px);
+    }
+
+    80% {
+        transform: translateX(4px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.shake {
+    animation: pb-shake 0.4s ease;
+}
+
+/* === CAIXAS (CATEGORIAS) === */
+.pb-categories {
+    flex: 1 1 520px;
+}
+
+.pb-categories h4 {
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.pb-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+/* === BOX DE CATEGORIA === */
+.pb-category-wrapper {
+    min-height: 150px;
+}
+
+.pb-category {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 5px 5px 0 #000;
+    transition: 0.1s ease;
+}
+
+.pb-category.over {
+    background: #b2f2bb;
+    transform: translate(-2px, -2px);
+}
+
+.pb-category-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 8px;
+    padding: 4px;
+    background: #fff;
+    border-bottom: 2px solid #000;
+}
+
+/* === ITENS COLOCADOS === */
+.pb-item-placed .pb-item {
+    background: #5bff0f;
+    margin-bottom: 3px;
+}
+
+.pb-placeholder {
+    color: #555;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* === FEEDBACK DE SUCESSO === */
+.pb-feedback-success {
+    margin-top: 18px;
+    padding: 12px;
+    background: #7bf59f;
+    border: 3px solid #000;
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 4px 4px 0 #000;
+    font-size: 15px;
+}
+
+/* === NOTA === */
+.pb-esteira-note {
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 900px) {
+    .pb-categories-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pb-main {
+        flex-direction: column;
+    }
+
+    .pb-item {
+        width: 100%;
+    }
+}
