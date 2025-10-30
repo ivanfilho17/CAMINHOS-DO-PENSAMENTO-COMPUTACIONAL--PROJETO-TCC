@@ -69,7 +69,7 @@ function CategoryBox({ category, children, isOver }) {
     );
 }
 
-// ✅ COMPONENTE MOVIDO PARA FORA
+// COMPONENTE MOVIDO PARA FORA
 function DroppableCategory({ category, slots, items, shaking }) {
     const { setNodeRef, isOver } = useDroppable({ id: category.id });
     const itemsInCategory = slots[category.id] || [];
@@ -145,7 +145,7 @@ export default function PlanBackPack({ onConcluido }) {
         }
     };
 
-    // ✅ Efeito ajustado e seguro
+    // Efeito ajustado e seguro
     useEffect(() => {
         const placedCount = Object.values(slots).reduce((acc, arr) => acc + arr.length, 0);
         const allPlaced = placedCount === items.length;
@@ -165,7 +165,7 @@ export default function PlanBackPack({ onConcluido }) {
             <h3 className="pb-title">Atividade: Planejando a Mochila 🎒</h3>
             <p className="pb-instructions">
                 Objetivo: use a <strong>decomposição</strong> para organizar a tarefa:{" "}
-                <em>“Vamos arrumar a mochila para a aula de amanhã!”</em>
+                <em>“Vamos arrumar a mochila para a aula!”</em>
             </p>
 
             <DndContext key="plan-backpack" onDragEnd={handleDragEnd}>

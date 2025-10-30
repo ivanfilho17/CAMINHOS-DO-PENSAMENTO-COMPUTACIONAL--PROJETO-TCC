@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import ProgressBar from "../components/ProgressBar";
+import Header from "../components/Header";
 
 
 export default function Home({ modules = [], progress = {}, onStart, onOpenModule, onShowAlert }) {
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        window.scrollTo(0,0);
     }, []);
 
     const isUnlocked = (m) => {
-        if (m?.id === 1) return true;
-        return !!(progress[m.id - 1] && progress[m.id - 1].completed);
+        // Módulo 1 só desbloqueia após completar a introdução
+        if (m?.id === 1) {
+            return progress.intro?.completed === true;
+        }
+        // Outros módulos desbloqueiam se o anterior foi completado
+        return !!(progress[m.id - 1] && progress[m.id - 1].everCompleted);
     };
 
     const getPercent = (id) => {
@@ -25,16 +30,25 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
 
     const handleCardClick = (m) => {
         if (isUnlocked(m)) {
-            // SE for o Módulo 1, VAI PARA A INTRODUÇÃO
-            if (m.id === 1) {
-                onStart && onStart(); // Chama a função que leva para IntroPage
-            } else {
-                // Para os outros módulos desbloqueados, abre o módulo diretamente
-                onOpenModule && onOpenModule(m.id);
-            }
+            // Vai direto para o módulo, independente de qual seja
+            onOpenModule && onOpenModule(m.id);
         } else {
-            // Módulo bloqueado
-            onShowAlert && onShowAlert("Módulo bloqueado. Complete o módulo anterior para o liberar.");
+            // Mensagem personalizada para módulo 1
+            if (m.id === 1) {
+                onShowAlert && onShowAlert("Complete a Introdução primeiro! Clique em 'Iniciar' abaixo.");
+            } else {
+                onShowAlert && onShowAlert("Módulo bloqueado. Complete o módulo anterior para desbloqueá-lo.");
+            }
+        }
+    };
+
+    // Função para retornar o emoji da medalha de cada módulo
+    const getMedalEmoji = (moduleId) => {
+        switch (moduleId) {
+            case 1, 2, 3, 4:
+                return "🏅"; 
+            default:
+                return "🏅"; 
         }
     };
 
@@ -74,6 +88,11 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
                                 <h2 className="card-title">{m.title}</h2>
                             </div>
 
+                            {/* medalha flutuante (só aparece quando completo) */}
+                            {(progress[m.id]?.completed || progress[m.id]?.everCompleted) && (
+                                <div className="medal-badge">{getMedalEmoji(m.id)}</div>
+                            )}
+
                             {/* descrição preservada exatamente como já estava */}
                             <p className="card-desc">{m.keyPoints?.[0] || m.description}</p>
 
@@ -89,14 +108,13 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
             <div style={{ marginTop: "1.6rem", display: "inline-flex", justifyContent: "center" }}>
                 <button
                     className="btn start"
-                    // Chama onStart (que leva para a Intro) em vez de onOpenModule(1)
                     onClick={() => onStart && onStart()}
-                    aria-label="Iniciar Jornada"
+                    aria-label="Iniciar - Começar pela Introdução"
                 >
                     <svg className="icon start-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                         <path d="M5 3v18l15-9L5 3z" />
                     </svg>
-                    Iniciar Jornada
+                    Iniciar
                 </button>
             </div>
         </div>

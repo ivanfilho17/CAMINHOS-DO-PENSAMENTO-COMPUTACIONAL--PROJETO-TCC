@@ -23,7 +23,6 @@
 
 .texto-explicativo h3 {
     margin-bottom: 2rem;
-
 }
 
 /* --- Estilos dos Flip Cards --- */
@@ -147,7 +146,7 @@
 .conclusao-intro-container p {
     font-size: 1.1rem;
     line-height: 1.6;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .conclusao-intro-botoes {

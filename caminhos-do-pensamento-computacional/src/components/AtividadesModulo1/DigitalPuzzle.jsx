@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { motion, AnimatePresence } from "framer-motion";
-import leaoImg from "../assets/leao.png";
+import leaoImg from "../../assets/leao.png";
 import "./DigitalPuzzle.css";
 
 const IMAGE = leaoImg;
@@ -94,7 +94,8 @@ export default function DigitalPuzzle({ onConcluido }) {
         <div className="atividade-container puzzle-container">
             <h3 className="puzzle-title">Atividade: Montando a imagem 🧩</h3>
             <p className="puzzle-instructions">
-                Arraste as peças para formar a figura completa do leão.
+                Objetivo: Compreender visualmente a decomposição (dividir) e a combinação de soluções (montar).
+                Arraste as peças para montar a imagem completa.
             </p>
 
             <DndContext key="digital-puzzle" onDragEnd={handleDragEnd}>
@@ -139,8 +140,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                         exit={{ opacity: 0, scale: 0.8 }}
                         className="feedback sucesso"
                     >
-                        ✨ <strong>Parabéns!</strong> Você montou o quebra-cabeça com
-                        sucesso!
+                        ✨ <strong>Parabéns!</strong> Você montou a imagem peça por peça com sucesso!
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -1,8 +1,10 @@
 /* --- Contêiner Geral da Atividade --- */
 .puzzle-container {
-    display: flex;/* Permite centralizar conteúdo */
+    display: flex;
+    /* Permite centralizar conteúdo */
     flex-direction: column;
-    align-items: center; /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza horizontalmente */
     margin-top: 2rem;
     padding: 1.5rem;
     /* Aumenta padding interno */
@@ -13,36 +15,39 @@
 }
 
 .puzzle-title {
-    font-size: 1.5rem; /* Tamanho ajustado */
+    font-size: 1.6rem;
     font-weight: 700;
-    font-weight: bold;
-    background-color: #fff566;
-    color: var(--black); /* Cor do título */
-    border-bottom: 2px solid var(--black);
-    padding-bottom: 1rem;
-    display: inline-block;
-    padding: 4px 10px;
+    background: #fff566;
+    padding: 3px 5px;
     border: 3px solid #000;
     box-shadow: 4px 4px 0 #000;
-    margin-bottom: 8px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+
 }
 
 .puzzle-instructions {
     color: var(--darkgray);
     text-align: center;
-    margin-top: 0.5rem;
-    margin-bottom: 2rem;/* Mais espaço antes do jogo */
+    margin-bottom: 1rem;
+    /* Mais espaço antes do jogo */
     max-width: 720px;
-    font-size: 1rem;
+    font-size: 15px;
+    line-height: 1.15;
+    padding: 6px 8px;
 }
 
 /* --- Área Principal do Jogo --- */
 .puzzle-content {
     display: flex;
-    flex-direction: column; /* Empilha a grade e as peças */
-    align-items: center; /* Centraliza a grade e a área de peças */
-    gap: 2rem; /* Espaço entre a grade e as peças */
-    width: 100%;/* Ocupa a largura do contêiner */
+    flex-direction: column;
+    /* Empilha a grade e as peças */
+    align-items: center;
+    /* Centraliza a grade e a área de peças */
+    gap: 2rem;
+    /* Espaço entre a grade e as peças */
+    width: 100%;
+    /* Ocupa a largura do contêiner */
 }
 
 /* --- Grade Alvo (Slots) --- */
@@ -69,7 +74,8 @@
     width: var(--piece-size, 120px);
     height: var(--piece-size, 120px);
     cursor: grab;
-    background-clip: padding-box; /* Imagem de fundo é definida via style no JSX */
+    background-clip: padding-box;
+    /* Imagem de fundo é definida via style no JSX */
 }
 
 .puzzle-piece:active {
@@ -86,7 +92,8 @@
 
 /* --- Área das Peças Embaralhadas (Abaixo e Horizontal) --- */
 .puzzle-shuffled {
-    display: flex; /* Organiza peças na HORIZONTAL */
+    display: flex;
+    /* Organiza peças na HORIZONTAL */
     background: var(--background);
     border: 3px solid var(--black);
     box-shadow: 3px 3px 0 var(--black);
@@ -94,10 +101,14 @@
     border-radius: 8px;
     min-width: 120px;
     min-height: 100px;
-    flex-wrap: wrap; /* Permite quebrar linha se não couber */
-    justify-content: center; /* Centraliza as peças */
-    align-items: center; /* Alinha verticalmente */
-    gap: 1rem;/* Espaço entre as peças */
+    flex-wrap: wrap;
+    /* Permite quebrar linha se não couber */
+    justify-content: center;
+    /* Centraliza as peças */
+    align-items: center;
+    /* Alinha verticalmente */
+    gap: 1rem;
+    /* Espaço entre as peças */
 }
 
 .shuffled-piece-wrapper {

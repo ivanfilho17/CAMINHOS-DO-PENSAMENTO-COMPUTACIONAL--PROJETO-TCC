@@ -2,9 +2,21 @@
   background-color: var(--background);
   border: 4px solid var(--black);
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 6px 6px 0 var(--black);
   text-align: center;
+}
+
+.quiz-container h3 {
+  display: inline-flex;
+  font-size: 1.3rem;
+  padding: 5px;
+  text-align: center;
+  margin-top: 0;
+  background-color: var(--yellow);
+  border: 2px var(--black) solid;
+  box-shadow: 4px 4px var(--black);
+
 }
 
 .quiz-container.finalizado {
@@ -13,7 +25,8 @@
 }
 
 .pergunta h4 {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  margin-top: 1rem;
   margin-bottom: 1.5rem;
 }
 

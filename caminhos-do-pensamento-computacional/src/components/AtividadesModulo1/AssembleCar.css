@@ -1,3 +1,5 @@
+/* src/components/AssembleCar.css */
+
 .assemble-car-container {
   max-width: 900px;
   margin: 1.5rem auto;
@@ -12,8 +14,8 @@
 .ac-title {
   font-size: 1.6rem;
   font-weight: 700;
-  background: var(--yellow);
-  padding: 4px 12px;
+  background: #fff566;
+  padding: 3px 5px;
   border: 3px solid #000;
   box-shadow: 4px 4px 0 #000;
   display: inline-block;
@@ -21,70 +23,94 @@
 }
 
 .ac-instructions {
-  margin-bottom: 2rem;
-  font-size: 1rem;
+  font-size: 15px;
+  line-height: 1.25;
+  padding: 6px 8px;
+  margin-bottom: 1rem;
+  
   color: var(--darkgray);
+  text-align: center; /* Centraliza instruções */
 }
 
 .ac-main {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  align-items: center; /* Alinha verticalmente */
-  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;
+  justify-content: center;
 }
 
 /* --- INVENTÁRIO DE PEÇAS (Direita) --- */
 .inventory {
   flex: 1 1 200px;
-  max-width: 250px; /* Largura máxima */
+  max-width: 250px;
   background: var(--background);
   border: 3px solid #000;
   border-radius: 12px;
   box-shadow: 5px 5px 0 #000;
   padding: 12px;
   order: 2;
+  align-self: stretch;
 }
 
 .inventory h4 {
   margin-bottom: 12px;
   font-weight: 700;
-  background-color: var(--primary);
+  background-color: var(--secondary);
   color: var(--white);
-  padding: 0.5rem;
+  padding: 0.2rem;
+  margin-bottom: 1rem;
   border-radius: 4px;
   border: 3px solid var(--black);
+  box-shadow: 2px 2px var(--black);
   text-align: center;
 }
 
 .inventory-grid {
   display: flex;
-  flex-direction: column; /* Peças empilhadas */
-  align-items: center; /* Peças centralizadas */
-  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-/* ESTILO BASE DAS PEÇAS (arrastáveis e encaixadas) */
+/* --- ESTILO DAS PEÇAS NO INVENTÁRIO --- */
 .car-part {
   border: 3px solid #000;
   cursor: grab;
   font-weight: 600;
+  font-size: 0.9rem;
   text-align: center;
-  color: transparent; /* Esconde o texto, mostra só a forma */
-  user-select: none;
+  color: #000; /* Mostra o texto */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 10px;
+  width: 150px;
+  border-radius: 4px;
 }
 .car-part:active { cursor: grabbing; }
 
-/* Formas e tamanhos das peças no inventário */
-.car-part.carroceria { width: 140px; height: 50px; border-radius: 4px; }
+/* 1. ADICIONADO: Formas das peças no inventário */
 .car-part.teto {
-    width: 90px; height: 40px;
-    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+  width: 100px;
+  height: 40px; /* Altura para o texto caber */
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
 }
-.car-part.roda { width: 50px; height: 50px; border-radius: 50%; }
-.car-part.farol { width: 20px; height: 15px; border-radius: 2px; }
-.car-part.lanterna { width: 20px; height: 15px; border-radius: 2px; }
-
+.car-part.roda {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white); /* Texto branco na roda preta */
+}
+.car-part.farol, .car-part.lanterna {
+  width: 70px;
+  height: 30px;
+  padding: 5px;
+  justify-items: center;
+  text-align: center;
+}
 
 .car-part.dragging {
   transform: scale(1.1);
@@ -94,7 +120,7 @@
 
 /* --- ÁREA DE MONTAGEM (Esquerda) --- */
 .assembly-area {
-  flex: 2 1 450px; /* Ocupa mais espaço */
+  flex: 2 1 450px;
   min-width: 400px;
   border: 4px dashed var(--black);
   border-radius: 12px;
@@ -135,17 +161,16 @@
   transform: scale(1.05);
 }
 
-/* POSICIONAMENTO E TAMANHO EXATO DOS SLOTS (ajustado para viewBox 400x200) */
-/* (Valores em percentagem para responsividade dentro do SVG) */
-#slot-carroceria { top: 46%; left: 15%; width: 70%; height: 34%; }
-#slot-teto       { top: 24.5%; left: 31%; width: 46.8%; height: 25%; }
-#slot-roda-e     { top: 67%; left: 22.8%; width: 12.5%; height: 26%; border-radius: 100%; }
-#slot-roda-d     { top: 67%; left: 64%; width: 13%; height: 26%; border-radius: 100%; }
-#slot-farol      { top: 50.2%; left: 14.8%; width: 5%; height: 12%; border-radius: 30%; }
-#slot-lanterna   { top: 52%; left: 79.3%; width: 6%; height: 8%; }
+/* 2. CORRIGIDO: Posição e tamanho dos slots */
+#slot-carroceria { top: 50%; left: 16%; width: 68.5%; height: 30%; }
+#slot-teto       { top: 26%; left: 31.5%; width: 46%; height: 24.2%; } /* Teto mais estreito */
+#slot-roda-e     { top: 66%; left: 24%; width: 13%; height: 27%; border-radius: 100%; }
+#slot-roda-d     { top: 66%; left: 64%; width: 13%; height: 27%; border-radius: 100%; }
+#slot-farol      { top: 54%; left: 15.6%; width: 5%; height: 10%; }
+#slot-lanterna   { top: 55%; left: 79.8%; width: 5%; height: 7%; }
 
 
-/* --- PEÇAS ENCAIXADAS --- */
+/* --- PEÇAS ENCAIXADAS (visual final) --- */
 .placed-part {
   width: 100%;
   height: 100%;
@@ -166,9 +191,10 @@
 }
 .shake {
   animation: shake 0.4s;
-  background-color: var(--primary) !important; /* Vermelho piscando ao errar */
+  background-color: var(--primary) !important;
 }
 
+/* Feedback */
 .feedback {
     margin-top: 1.5rem;
     font-weight: bold;

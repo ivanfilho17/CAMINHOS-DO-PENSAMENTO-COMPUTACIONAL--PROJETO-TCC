@@ -14,7 +14,6 @@
     /* Espaçamento entre as seções */
 }
 
-
 .module-header {
     text-align: center;
     border-bottom: 4px solid var(--black);
@@ -33,15 +32,14 @@
     box-shadow: 6px 6px 0 var(--black);
 }
 
-.module-header h4 {
+.module-header h2 {
     text-align: center;
     font-size: 1rem;
+    justify-content: center;
     background-color: var(--secondary);
     color: var(--white);
-    padding: 0.4rem;
+    padding: 0.3rem;
     margin-top: 1.5rem;
-    margin-left: 18.2rem;
-    margin-right: 18.2rem;
     border: 3px solid var(--black);
     box-shadow: 4px 4px 0 var(--black);
 }
@@ -239,18 +237,16 @@
     font-size: 1.5rem;
 }
 
-/* 1. Estilo Padrão (Centralizado) */
+/* Estilo Padrão (Centralizado) */
 .progress-container {
     position: relative;
     width: 100%;
     max-width: 800px;
     margin: 0 auto 1rem auto;
     height: 30px;
-    /* Removida a transição 'all' para evitar 'fantasmas' */
-    transition: opacity 0.4s ease-in-out;
 }
 
-/* 2. Estilo Quando Rolado (Canto Superior Direito) */
+/* Estilo Quando Rolado (Canto Superior Direito) */
 .progress-container.scrolled {
     position: fixed;
     top: 1rem;

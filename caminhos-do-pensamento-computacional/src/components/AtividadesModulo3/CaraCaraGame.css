@@ -1,0 +1,461 @@
+.cara-cara-container {
+    
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    margin-top: 2rem;
+    padding: 1.5rem; /* Aumenta padding interno */
+    background-color: var(--white);
+    border: 4px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black);
+}
+
+/* Header */
+.cara-cara-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.cara-cara-title {
+    font-size: 2.5em;
+    margin: 0 0 10px 0;
+}
+
+.cara-cara-subtitle {
+    font-size: 1.2em;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Grade de Personagens */
+.grade-personagens-container {
+    margin-bottom: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.section-title {
+    font-size: 1.3em;
+    color: #475569;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.grade-personagens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.personagem-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: default;
+}
+
+.personagem-card.eliminado {
+    opacity: 0.3;
+    background: #f1f5f9;
+}
+
+.personagem-card.pode-clicar {
+    border: 3px solid #10b981;
+    cursor: pointer;
+    animation: pulseGreen 1.5s infinite;
+}
+
+@keyframes pulseGreen {
+
+    0%,
+    100% {
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.8);
+    }
+}
+
+.personagem-card.pode-clicar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.5);
+}
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.personagem-nome {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.personagem-descricao {
+    font-size: 0.85em;
+    color: #64748b;
+    line-height: 1.3;
+}
+
+.eliminado-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60px;
+    pointer-events: none;
+}
+
+.clique-badge {
+    margin-top: 10px;
+    background: #10b981;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: bold;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+/* Pergunta */
+.pergunta-container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pergunta-select {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background: white;
+    font-family: inherit;
+}
+
+.pergunta-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.botoes-resposta {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-resposta {
+    padding: 15px 40px;
+    font-size: 1.2em;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-resposta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-resposta:active {
+    transform: translateY(0);
+}
+
+.btn-sim {
+    background: #10b981;
+}
+
+.btn-nao {
+    background: #ef4444;
+}
+
+/* Feedback */
+.feedback-box {
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid;
+    margin-bottom: 25px;
+    font-size: 1.1em;
+    text-align: center;
+    font-weight: 500;
+    background: white;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.feedback-box.sucesso {
+    background: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+.feedback-box.info {
+    background: #dbeafe;
+    border-color: #3b82f6;
+    color: #1e40af;
+}
+
+.feedback-box.erro {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+}
+
+.feedback-box.vitoria {
+    background: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+/* Histórico */
+.historico-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 25px;
+}
+
+.historico-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.historico-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.historico-numero {
+    background: #667eea;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.historico-pergunta {
+    flex: 1;
+    color: #475569;
+    font-size: 1em;
+}
+
+.historico-resposta {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.historico-resposta.correta {
+    color: #10b981;
+}
+
+.historico-resposta.incorreta {
+    color: #ef4444;
+}
+
+/* Vitória */
+.vitoria-container {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.vitoria-emoji {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.vitoria-title {
+    font-size: 2.5em;
+    color: #1e293b;
+    margin-bottom: 25px;
+}
+
+.vitoria-personagem {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 50px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.vitoria-personagem-nome {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+}
+
+.vitoria-personagem-desc {
+    font-size: 1.1em;
+    color: white;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+.vitoria-texto {
+    font-size: 1.3em;
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+.conceito-box {
+    background: #eef2ff;
+    border: 2px solid #667eea;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: left;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.conceito-box strong {
+    color: #4c1d95;
+    font-size: 1.1em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.conceito-box p {
+    color: #5b21b6;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.btn-jogar-novamente {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.2em;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-jogar-novamente:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+}
+
+.btn-jogar-novamente:active {
+    transform: translateY(0);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .cara-cara-container {
+        padding: 20px;
+    }
+
+    .cara-cara-title {
+        font-size: 2em;
+    }
+
+    .cara-cara-subtitle {
+        font-size: 1em;
+    }
+
+    .grade-personagens {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .personagem-card {
+        padding: 10px;
+    }
+
+    .botoes-resposta {
+        flex-direction: column;
+    }
+
+    .btn-resposta {
+        width: 100%;
+    }
+
+    .vitoria-personagem {
+        padding: 20px 30px;
+    }
+
+    .vitoria-title {
+        font-size: 2em;
+    }
+}

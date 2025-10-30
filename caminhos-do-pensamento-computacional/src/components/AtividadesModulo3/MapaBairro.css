@@ -1,0 +1,500 @@
+.mapa-bairro-container {
+    margin-top: 2rem;
+    padding: 1.5rem; /* Aumenta padding interno */
+    background-color: var(--white);
+    border: 4px solid var(--black);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 var(--black);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Layout Principal */
+.mapa-principal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* Bairro Realista (Esquerda) */
+.bairro-realista {
+    background: var(--background);
+    border: 4px solid var(--black);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 5px 5px 0 var(--black);
+}
+
+.bairro-header,
+.mapa-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--black);
+}
+
+.bairro-header h4,
+.mapa-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--secondary);
+}
+
+.bairro-ilustracao {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.bairro-background {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 40%, #90EE90 60%, #90EE90 80%);
+    position: relative;
+}
+
+/* Rua horizontal */
+.rua-horizontal {
+    position: absolute;
+    top: 48%;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #696969;
+    z-index: 1;
+}
+
+.linha-rua {
+    position: absolute;
+    top: 52%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: repeating-linear-gradient(
+        to right,
+        yellow 0px,
+        yellow 30px,
+        transparent 30px,
+        transparent 50px
+    );
+    z-index: 2;
+    transform: translateY(-50%);
+}
+
+/* Posições dos elementos fixos - Organizados ao longo da rua */
+.elemento-fixo {
+    position: absolute;
+    font-size: 3rem;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.3));
+    z-index: 3;
+}
+
+/* Escola - canto superior esquerdo */
+.escola-pos {
+    top: 38%;
+    left: 12%;
+    font-size: 2.5rem;
+}
+
+/* Hospital - canto superior direito */
+.hospital-pos {
+    top: 38%;
+    right: 12%;
+    font-size: 2.5rem;
+}
+
+/* Padaria - meio, acima da rua */
+.padaria-pos {
+    top: 40%;
+    left: 43%;
+    transform: translateX(-50%);
+    font-size: 2.1rem;
+}
+
+/* Parque - parte inferior, abaixo da rua */
+.parque-pos {
+    bottom: 12%;
+    left: 45%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+}
+
+/* Elementos decorativos */
+.elemento-decorativo {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.7;
+    animation: float 4s ease-in-out infinite;
+    z-index: 2;
+}
+
+.nuvem-pos {
+    top: 5%;
+    left: 50%;
+    font-size: 2.5rem;
+}
+
+.carro-pos {
+    top: 50%;
+    right: 25%;
+    font-size: 2rem;
+}
+
+.pessoa-pos {
+    top: 65%;
+    bottom: 15%;
+    right: 30%;
+    font-size: 1.8rem;
+}
+
+.arvore-pos {
+    top: 60%;
+    left: 18%;
+    font-size: 2.2rem;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Mapa Abstrato (Direita) */
+.mapa-abstrato {
+    background: var(--khaki);
+    border: 4px solid var(--black);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 5px 5px 0 var(--black);
+}
+
+.grade-mapa {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.5rem;
+    height: 400px;
+    padding: 0.5rem;
+    background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 40%, #90EE90 60%, #90EE90 80%);
+    border: 3px solid var(--black);
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Rua no mapa abstrato */
+.rua-mapa-horizontal {
+    position: absolute;
+    top: 55%;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #696969;
+    z-index: 0;
+    border-radius: 4px;
+}
+
+.linha-rua-mapa {
+    position: absolute;
+    top: 60.5%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: repeating-linear-gradient(
+        to right,
+        yellow 0px,
+        yellow 30px,
+        transparent 30px,
+        transparent 50px
+    );
+    z-index: 0;
+    transform: translateY(-50%);
+}
+
+.map-slot {
+    background: transparent;
+    border: 2px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.map-slot.over {
+    background: rgba(131, 56, 236, 0.2);
+    border-color: var(--secondary);
+    border-style: solid;
+    border-width: 3px;
+    transform: scale(1.05);
+}
+
+.elemento-no-mapa {
+    font-size: 3rem;
+    animation: place-element 0.5s ease;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes place-element {
+    from {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+/* Barra de Ícones */
+.barra-icones {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--white);
+    border: 4px solid var(--black);
+    border-radius: 12px;
+    box-shadow: 5px 5px 0 var(--black);
+}
+
+.barra-icones h5 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--accent);
+}
+
+.icones-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.icone-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.8rem;
+    background: var(--background);
+    border: 3px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 var(--black);
+    cursor: grab;
+    transition: all 0.2s ease;
+    user-select: none;
+    min-width: 80px;
+}
+
+.icone-item:hover:not(.usado) {
+    transform: translateY(-5px);
+    box-shadow: 5px 7px 0 var(--black);
+}
+
+.icone-item:active:not(.usado) {
+    cursor: grabbing;
+}
+
+.icone-item.dragging {
+    opacity: 0.8;
+    transform: scale(1.15);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+
+.icone-item.usado {
+    opacity: 0.4;
+    cursor: not-allowed;
+    filter: grayscale(80%);
+}
+
+.icone-emoji {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.icone-nome {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Feedback */
+.feedback-mapa {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border: 3px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 var(--black);
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    animation: slide-in 0.3s ease;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.feedback-mapa.sucesso {
+    background: #d4edda;
+    color: #155724;
+    border-color: var(--green);
+}
+
+.feedback-mapa.erro {
+    background: #f8d7da;
+    color: #721c24;
+    border-color: var(--primary);
+    animation: shake-feedback 0.4s ease;
+}
+
+@keyframes shake-feedback {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+.dica-box {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: #fff3cd;
+    border: 3px solid var(--yellow);
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 var(--black);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Progresso */
+.progresso-mapa {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 var(--black);
+}
+
+.progresso-texto {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--secondary);
+}
+
+.progresso-bar-container {
+    width: 100%;
+    height: 25px;
+    background: var(--lightgray);
+    border: 3px solid var(--black);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progresso-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--secondary) 100%);
+    transition: width 0.5s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Conclusão */
+.feedback.sucesso {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border: 4px solid var(--green);
+    border-radius: 12px;
+    box-shadow: 5px 5px 0 var(--black);
+    text-align: center;
+}
+
+.feedback.sucesso h3 {
+    color: #155724;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.feedback.sucesso p {
+    color: #155724;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Destaque de Conceito */
+.destaque-conceito {
+    background: var(--yellow);
+    border: 3px solid var(--black);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 3px 3px 0 var(--black);
+    font-size: 1.1rem;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .mapa-principal {
+        grid-template-columns: 1fr;
+    }
+
+    .bairro-ilustracao,
+    .grade-mapa {
+        height: 300px;
+    }
+
+    .icones-grid {
+        gap: 0.8rem;
+    }
+
+    .icone-item {
+        min-width: 70px;
+        padding: 0.6rem;
+    }
+
+    .icone-emoji {
+        font-size: 2rem;
+    }
+
+    .elemento-no-mapa {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .bairro-ilustracao,
+    .grade-mapa {
+        height: 250px;
+    }
+
+    .elemento-fixo {
+        font-size: 2.5rem;
+    }
+
+    .elemento-decorativo {
+        font-size: 1.5rem;
+    }
+}

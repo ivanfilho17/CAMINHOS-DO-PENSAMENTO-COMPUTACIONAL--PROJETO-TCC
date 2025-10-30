@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Quiz from '../components/Quiz';
-import './IntroPage.css'; // Certifique-se que este ficheiro existe
+import './IntroPage.css';
+import './Module.css';
+import YouTube from 'react-youtube';
 
 // Dados para os cards interativos
 const PILARES_CARDS = [
@@ -10,7 +12,7 @@ const PILARES_CARDS = [
     { id: 4, pilar: 'Algoritmos', icone: '👣', frenteIcone: '🗺️', versoTexto: 'É a sua receita de bolo! Um passo a passo que qualquer pessoa pode seguir para chegar ao mesmo resultado. É o passo final que junta todas as outras ideias.' },
 ];
 
-export default function IntroPage({ quizData, onBackHome, onCompleteIntro }) {
+export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpenModule }) {
     const [tela, setTela] = useState('teoria'); // 'teoria', 'quiz', 'conclusaoIntro'
     const [flippedCardId, setFlippedCardId] = useState(null);
 
@@ -18,8 +20,39 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro }) {
         window.scrollTo(0, 0);
     }, [tela]);
 
+    // Desbloquear automaticamente o módulo 1 apenas uma vez
+    useEffect(() => {
+        if (tela === "conclusaoIntro") {
+            // Chama a função apenas uma vez, se ainda não foi completado
+            const jaDesbloqueado = localStorage.getItem("introCompleta");
+            if (!jaDesbloqueado) {
+                onCompleteIntro && onCompleteIntro();
+                localStorage.setItem("introCompleta", "true");
+            }
+        } else {
+            // Quando voltar para teoria ou quiz, não faz nada
+            // (não reativa o desbloqueio nem altera o estado)
+        }
+    }, [tela, onCompleteIntro]);
+
     const handleIntroQuizComplete = () => {
         setTela('conclusaoIntro');
+    };
+
+    const [videoAssistido, setVideoAssistido] = useState(false);
+
+    // Função chamada quando o vídeo termina
+    const handleVideoEnd = () => {
+        setVideoAssistido(true);
+    };
+
+    // Configurações do player
+    const videoOptions = {
+        height: '400',
+        width: '100%',
+        playerVars: {
+            autoplay: 0, // não começar automaticamente
+        },
     };
 
     return (
@@ -64,16 +97,30 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro }) {
 
                     <div className="video-container">
                         <h4>Vídeo de Apoio</h4>
-                        {/* Vídeo sugerido: "O que é Pensamento Computacional?" do Programação para Crianças */}
-                        <iframe width="100%" height="400" src="https://www.youtube.com/embed/pRpjYrdb9UY?si=KBx1Haeeg-pXxE2a" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                        <YouTube
+                            videoId="pRpjYrdb9UY" // apenas o ID do vídeo
+                            opts={videoOptions}
+                            onEnd={handleVideoEnd} // detecta quando o vídeo termina
+                        />
                     </div>
 
                     <footer className="module-footer">
                         <button className="btn btn-icon" onClick={onBackHome} aria-label="Voltar ao Menu">
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
-                        <button className="btn" onClick={() => setTela('quiz')}>
-                            <svg className="icon-avancar" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
+                        <button
+                            className="btn"
+                            onClick={() => setTela('quiz')}
+                            disabled={!videoAssistido}
+                            style={{
+                                opacity: videoAssistido ? 1 : 0.5,
+                                cursor: videoAssistido ? 'pointer' : 'not-allowed',
+                            }}
+                        >
+                            <svg className="icon-avancar" viewBox="0 0 24 24">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path>
+                            </svg>
                         </button>
                     </footer>
                 </div>
@@ -89,7 +136,8 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro }) {
                     // onQuestionAnswered={...}
                     />
                     <footer className="module-footer quiz-footer">
-                        <button className="btn btn-icon" onClick={() => setTela('teoria')} aria-label="Voltar para Teoria">
+                        <button
+                            className="btn btn-icon" onClick={() => setTela('teoria')} aria-label="Voltar para Teoria">
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
                         </button>
                         {/* Pode adicionar um botão de Home aqui se quiser */}
@@ -102,15 +150,35 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro }) {
             {tela === 'conclusaoIntro' && (
                 <div className="tela-conteudo conclusao-intro-container">
                     <h2>Muito bem! 👏🏽😃</h2>
-                    <p>Agora que você já viu o que é o Pensamento Computacional, vamos entender melhor cada um dos seus pilares? Iremos começar pela <strong>Decomposição</strong>.</p>
-                    <p>Clique em <strong>AVANÇAR</strong> para prosseguir.</p>
+                    <p>Você completou a <strong>Introdução</strong> ao Pensamento Computacional!</p>
+                    <p>O <strong>Módulo 1: Decomposição</strong> foi desbloqueado.</p>
+                    <p>Clique em <strong>AVANÇAR</strong> para acessá-lo!</p>
+
                     <footer className="module-footer conclusao-intro-botoes">
-                        {/* Botão para voltar para a teoria da introdução */}
-                        <button className="btn btn-icon" onClick={() => setTela('teoria')} aria-label="Voltar para Introdução">
-                            <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
+                        <button
+                            className="btn btn-icon"
+                            onClick={onBackHome}
+                            aria-label="Voltar ao Menu"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+                            </svg>
                         </button>
+
+                        <button
+                            className="btn btn-icon"
+                            onClick={() => setTela('teoria')}
+                            aria-label="Rever Introdução"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"></path>
+                            </svg>
+                        </button>
+
                         {/* Botão para avançar para o Módulo 1 */}
-                        <button className="btn start" onClick={onCompleteIntro} aria-label="Ir para Módulo 1: Decomposição">
+                        <button className="btn start"
+                            onClick={() => onOpenModule && onOpenModule(1)}
+                            aria-label="Ir para Módulo 1: Decomposição">
                             Avançar
                             <svg className="icon-avancar" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
                         </button>

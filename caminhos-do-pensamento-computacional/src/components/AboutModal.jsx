@@ -19,7 +19,7 @@ export default function AboutModal({ isOpen, onClose }) {
               <h3>O QUE É?</h3>
               <p>
                 <strong>Caminhos do Pensamento Computacional</strong> é um Objeto de Aprendizagem (OA)
-                desenvolvido para apoiar o ensino de algoritmos e pensamento computacional, alinhado à BNCC.
+                desenvolvido para apoiar o ensino-aprendizagem do pensamento computacional, alinhado à BNCC.
                 Reúne teoria, exemplos práticos, vídeos e atividades interativas.
               </p>
             </div>
@@ -30,9 +30,8 @@ export default function AboutModal({ isOpen, onClose }) {
             <div className="about-body">
               <h3>OBJETIVOS</h3>
               <ul>
-                <li>Desenvolver o pensamento computacional em estudantes</li>
-                <li>Ensinar conceitos de algoritmos de forma interativa</li>
-                <li>Trabalhar sequências, seleções condicionais e repetições</li>
+                <li>Desenvolver ou estimular o Pensamento Computacional.</li>
+                <li>Apresentar e ensinar os pilares do Pensamento Computacional de forma simples, prática e interativa.</li>
                 <li>Fornecer feedback imediato por meio de quizzes</li>
               </ul>
             </div>
@@ -43,8 +42,8 @@ export default function AboutModal({ isOpen, onClose }) {
             <div className="about-body">
               <h3>BASE LEGAL (BNCC)</h3>
               <p>
-                Eixo: Pensamento Computacional. Objeto de Conhecimento: Algoritmos.
-                Habilidade EF15CO02: Construir e simular algoritmos que resolvam problemas do cotidiano.
+                Eixo: Pensamento Computacional. Objetos de Conhecimento: .
+                Habilidades: (EF15CT01), (EF15CT02), (EF15CT03), (EF15CT04), (EF15CT05), (EF15CT06), (EF15CT07), (EF15CT08).
               </p>
             </div>
           </section>

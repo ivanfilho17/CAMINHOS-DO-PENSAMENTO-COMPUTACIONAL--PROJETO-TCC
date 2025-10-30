@@ -1,0 +1,476 @@
+/* RoboCondicoes.css */
+
+.robo-condicoes-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.robo-title {
+    font-size: 2em;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.robo-subtitle {
+    font-size: 1.1em;
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* Seletor de Níveis */
+.nivel-selector {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.nivel-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nivel-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nivel-btn.ativo {
+    background: #8b5cf6;
+    color: white;
+    border-color: #8b5cf6;
+}
+
+.nivel-btn.completo {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+
+.nivel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.nivel-titulo {
+    font-size: 1.5em;
+    color: #8b5cf6;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Grade do Jogo */
+.grade-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.grade-svg {
+    border: 3px solid #0ea5e9;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.robo-animado {
+    transition: transform 0.6s ease;
+}
+
+/* Dica */
+.dica-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn-dica {
+    padding: 10px 25px;
+    font-size: 1em;
+    font-weight: 600;
+    background: #fbbf24;
+    color: #78350f;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-dica:hover {
+    background: #f59e0b;
+    transform: translateY(-2px);
+}
+
+.dica-box {
+    margin-top: 15px;
+    padding: 15px 20px;
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 10px;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dica-box strong {
+    color: #92400e;
+    font-size: 1.1em;
+}
+
+/* Comandos */
+.comandos-section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 1.2em;
+    color: #475569;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.comandos-grid {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.comando-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 140px;
+}
+
+.comando-btn.condicao {
+    border: 3px dashed white;
+}
+
+.comando-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.comando-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.comando-icone {
+    font-size: 2em;
+}
+
+.comando-nome {
+    font-size: 0.85em;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Algoritmo */
+.algoritmo-section {
+    margin-bottom: 25px;
+    background: white;
+    border: 3px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.algoritmo-lista {
+    min-height: 120px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.algoritmo-vazio {
+    text-align: center;
+    color: #94a3b8;
+    padding: 40px 20px;
+    font-size: 1.1em;
+}
+
+.algoritmo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+.algoritmo-item.condicao {
+    border: 2px dashed white;
+    font-weight: 700;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.algoritmo-numero {
+    background: rgba(0, 0, 0, 0.2);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    flex-shrink: 0;
+}
+
+.algoritmo-icone {
+    font-size: 1.4em;
+}
+
+.algoritmo-texto {
+    flex: 1;
+    font-size: 0.95em;
+}
+
+.remover-btn {
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+}
+
+.remover-btn:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.remover-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.algoritmo-info {
+    text-align: right;
+    color: #64748b;
+    font-size: 0.9em;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+/* Botões de Ação */
+.botoes-acao {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 30px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-executar {
+    background: #10b981;
+    color: white;
+}
+
+.btn-resetar {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-proximo {
+    background: #8b5cf6;
+    color: white;
+}
+
+/* Feedback */
+.feedback {
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 2px solid;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.feedback.sucesso {
+    background: #d1fae5;
+    color: #065f46;
+    border-color: #10b981;
+}
+
+.feedback.erro {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #ef4444;
+}
+
+/* Conclusão */
+.conclusao {
+    background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px solid #8b5cf6;
+    text-align: center;
+    margin-top: 30px;
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
+.conclusao-title {
+    font-size: 2em;
+    color: #5b21b6;
+    margin-bottom: 15px;
+}
+
+.conclusao-texto {
+    font-size: 1.1em;
+    color: #4c1d95;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.conceito-box {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.conceito-box strong {
+    color: #92400e;
+    font-size: 1.1em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.conceito-box p {
+    color: #78350f;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .robo-title {
+        font-size: 1.5em;
+    }
+
+    .robo-subtitle {
+        font-size: 1em;
+    }
+
+    .grade-svg {
+        width: 100%;
+        height: auto;
+    }
+
+    .comandos-grid {
+        gap: 10px;
+    }
+
+    .comando-btn {
+        padding: 12px 15px;
+        min-width: 120px;
+    }
+
+    .botoes-acao {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .dica-box {
+        font-size: 0.95em;
+    }
+}
