@@ -85,8 +85,8 @@
     backface-visibility: hidden;
     /* Esconde o verso enquanto está na frente */
     border: 4px solid var(--black);
-    border-radius: 10px;
-    box-shadow: 6px 6px 0 var(--black);
+    border-radius: 15px;
+    box-shadow: 4px 4px 0 var(--black);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -96,9 +96,9 @@
 
 /* Frente do Card */
 .flip-card-front {
-    background-color: var(--khaki);
+    background-color: var(--primary);
     /* Cor da frente */
-    color: var(--black);
+    color: var(--white);
 }
 
 .flip-card-front h4 {

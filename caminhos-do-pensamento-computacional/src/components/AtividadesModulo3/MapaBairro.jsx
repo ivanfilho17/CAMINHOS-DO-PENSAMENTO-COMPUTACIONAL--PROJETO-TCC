@@ -126,9 +126,9 @@ export default function MapaBairro({ onConcluido }) {
 
     return (
         <div className="atividade-container mapa-bairro-container">
-            <h3>🗺️ Atividade: O Mapa do Bairro</h3>
+            <h2>🗺️ Atividade: O Mapa do Bairro</h2>
             <p className="instrucoes">
-                Você é um cartógrafo! Crie um mapa para turistas arrastando apenas os
+                Crie um mapa para turistas arrastando apenas os
                 <strong> locais importantes</strong>. Ignore detalhes desnecessários!
             </p>
 
@@ -253,7 +253,7 @@ export default function MapaBairro({ onConcluido }) {
                         animate={{ opacity: 1, scale: 1 }}
                         className="feedback sucesso"
                     >
-                        <h3>🎉 Parabéns, Cartógrafo!</h3>
+                        <h3>🎉 Parabéns!</h3>
                         <p>
                             Você criou um mapa perfeito! Entendeu que um mapa é uma <strong>abstração</strong>
                             — ele ignora detalhes desnecessários e foca apenas nos locais importantes.

@@ -1,25 +1,39 @@
-/* RoboRepeticoes.css */
+/* RoboRepeticoes.css - Versão Compacta */
 
 .robo-repeticoes-container {
     max-width: 900px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 4px solid var(--black);
+    border-radius: 8px;
+    box-shadow: 6px 6px var(--black);
 }
 
 .robo-title {
-    font-size: 2em;
-    color: #1e293b;
+    font-size: 1.8em;
+    color: #0c4a6e;
+    margin: 0 0 10px 0;
     text-align: center;
-    margin-bottom: 10px;
 }
 
 .robo-subtitle {
-    font-size: 1.1em;
-    color: #64748b;
+    font-size: 1em;
+    color: #475569;
     text-align: center;
-    margin-bottom: 25px;
+    margin: 0 0 15px 0;
     line-height: 1.6;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    color: #1e293b;
+    text-align: center;
+    margin: 0 0 10px 0;
+    line-height: 1.6;
+    font-weight: 700;
 }
 
 /* Seletor de Níveis */
@@ -27,13 +41,12 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 
 .nivel-btn {
-    padding: 10px 20px;
-    font-size: 1em;
+    padding: 8px 16px;
+    font-size: 0.95em;
     font-weight: 600;
     border: 2px solid #cbd5e1;
     border-radius: 8px;
@@ -44,19 +57,19 @@
 
 .nivel-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .nivel-btn.ativo {
-    background: #ec4899;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     color: white;
-    border-color: #ec4899;
+    border-color: #7c3aed;
 }
 
 .nivel-btn.completo {
-    background: #10b981;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
-    border-color: #10b981;
+    border-color: #059669;
 }
 
 .nivel-btn:disabled {
@@ -64,77 +77,43 @@
     cursor: not-allowed;
 }
 
-.nivel-titulo {
-    font-size: 1.5em;
-    color: #ec4899;
-    text-align: center;
-    margin-bottom: 20px;
+/* Layout em Grade */
+.game-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
 }
 
-/* Grade do Jogo */
-.grade-container {
+/* Wrapper da Grade */
+.grade-wrapper {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 .grade-svg {
-    border: 3px solid #0ea5e9;
-    border-radius: 10px;
+    border: 3px solid var(--accent);
     background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 4px 4px var(--accent);
+    margin-bottom: 1rem;
     max-width: 100%;
     height: auto;
+    overflow: visible;
 }
 
 .robo-animado {
     transition: transform 0.35s ease;
-}
-
-/* Estatísticas */
-.stats-container {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    background: white;
-    border: 2px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 12px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.stat-label {
-    font-size: 0.85em;
-    color: #64748b;
-    font-weight: 600;
-}
-
-.stat-value {
-    font-size: 1.8em;
-    color: #ec4899;
-    font-weight: 700;
-}
-
-/* Dica */
-.dica-container {
-    text-align: center;
-    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
 }
 
 .btn-dica {
-    padding: 10px 25px;
-    font-size: 1em;
+    padding: 8px 20px;
+    font-size: 0.9em;
     font-weight: 600;
-    background: #fbbf24;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
     color: #78350f;
     border: 2px solid #f59e0b;
     border-radius: 8px;
@@ -143,20 +122,17 @@
 }
 
 .btn-dica:hover {
-    background: #f59e0b;
     transform: translateY(-2px);
 }
 
 .dica-box {
-    margin-top: 15px;
-    padding: 15px 20px;
-    background: #fef3c7;
+    padding: 12px 15px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     border: 2px solid #f59e0b;
-    border-radius: 10px;
-    text-align: left;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    border-radius: 8px;
+    font-size: 0.9em;
+    line-height: 1.5;
+    max-width: 320px;
     animation: slideDown 0.3s ease;
 }
 
@@ -174,126 +150,131 @@
 
 .dica-box strong {
     color: #92400e;
-    font-size: 1.1em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Painel de Controle */
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 /* Comandos */
 .comandos-section {
-    margin-bottom: 25px;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
 }
 
-.section-title {
-    font-size: 1.2em;
-    color: #475569;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: 700;
-}
-
-.comandos-grid {
+.comandos-mini {
     display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.comando-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     gap: 8px;
-    padding: 15px 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.cmd-mini {
+    width: 50px;
+    height: 50px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    min-width: 140px;
+    font-size: 1.4em;
+    font-weight: 700;
+    cursor: grab;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.comando-btn.repeticao {
-    border: 3px solid white;
-    animation: pulse 2s infinite;
+.cmd-mini.repita {
+    border: 4px solid rgba(255, 255, 255, 0.8);
+    font-weight: 800;
 }
 
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.02);
-    }
+.cmd-mini:active {
+    cursor: grabbing;
 }
 
-.comando-btn:hover:not(:disabled) {
-    transform: translateY(-3px);
+.cmd-mini:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.comando-btn:disabled {
-    opacity: 0.5;
+.cmd-mini:disabled {
+    opacity: 0.4;
     cursor: not-allowed;
-}
-
-.comando-icone {
-    font-size: 2em;
-}
-
-.comando-nome {
-    font-size: 0.85em;
-    text-align: center;
-    line-height: 1.2;
 }
 
 /* Algoritmo */
 .algoritmo-section {
-    margin-bottom: 25px;
     background: white;
-    border: 3px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    flex: 1;
 }
 
-.algoritmo-lista {
-    min-height: 120px;
+.algo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.btn-limpar-mini {
+    padding: 4px 10px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.btn-limpar-mini:hover:not(:disabled) {
+    background: #dc2626;
+}
+
+.algoritmo-mini {
+    min-height: 180px;
+    max-height: 280px;
+    overflow-y: auto;
     border: 2px dashed #cbd5e1;
     border-radius: 8px;
-    padding: 15px;
+    padding: 10px;
     background: #f8fafc;
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.algoritmo-vazio {
+.algo-vazio {
     text-align: center;
     color: #94a3b8;
-    padding: 40px 20px;
-    font-size: 1.1em;
+    padding: 30px 10px;
+    font-size: 0.95em;
 }
 
-.algoritmo-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 15px;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    position: relative;
+.algo-item {
     animation: slideIn 0.3s ease;
+    cursor: grab;
 }
 
-.algoritmo-item.repeticao {
-    border: 3px solid white;
-    font-weight: 700;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.algo-item:active {
+    cursor: grabbing;
+}
+
+.algo-item.drag-over {
+    border-top: 3px solid #8b5cf6;
+    padding-top: 8px;
 }
 
 @keyframes slideIn {
@@ -308,145 +289,229 @@
     }
 }
 
-.algoritmo-numero {
-    background: rgba(0, 0, 0, 0.2);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+.cmd-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 0.85em;
-    flex-shrink: 0;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.3em;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.algoritmo-icone {
-    font-size: 1.4em;
-}
-
-.algoritmo-texto {
-    flex: 1;
-    font-size: 0.95em;
-}
-
-.badge-repeticao {
-    background: rgba(255, 255, 255, 0.3);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.9em;
-    font-weight: 700;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.remover-btn {
+.btn-x {
     background: rgba(0, 0, 0, 0.2);
     border: none;
     color: white;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.7em;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-x:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* Bloco REPITA */
+.bloco-repita {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border: 4px dashed rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.repita-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.95em;
+    gap: 8px;
+}
+
+.vezes-control {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 20px;
+}
+
+.btn-vezes {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: white;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     cursor: pointer;
     font-size: 0.9em;
     font-weight: bold;
-    transition: background 0.2s ease;
-    flex-shrink: 0;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.remover-btn:hover:not(:disabled) {
-    background: rgba(0, 0, 0, 0.4);
+.btn-vezes:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.5);
 }
 
-.remover-btn:disabled {
-    opacity: 0.5;
+.btn-vezes:disabled {
+    opacity: 0.3;
     cursor: not-allowed;
 }
 
-.algoritmo-info {
-    text-align: right;
-    color: #64748b;
+.vezes-num {
     font-size: 0.9em;
-    margin-top: 10px;
-    font-weight: 600;
+    font-weight: 700;
+    min-width: 25px;
+    text-align: center;
+}
+
+.repita-body {
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.repita-vazio {
+    padding: 15px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+.repita-cmd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: white;
+    font-size: 1.1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.repita-add {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-top: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.mini-add {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-add:hover:not(:disabled) {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.mini-add:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 
 /* Botões de Ação */
 .botoes-acao {
     display: flex;
-    gap: 15px;
+    gap: 20px;  
     justify-content: center;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-}
-
-.btn {
-    padding: 12px 30px;
-    font-size: 1.1em;
-    font-weight: 600;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
 }
 
 .btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
 }
 
-.btn-executar {
-    background: #10b981;
+.btn-exec {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
+    max-width: 250px;
+    align-items: center;
 }
 
-.btn-resetar {
-    background: #f59e0b;
+.btn-reset {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white;
+    max-width: 250px;
+    align-items: center;
 }
 
-.btn-proximo {
-    background: #ec4899;
+.btn-prox {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     color: white;
+    max-width: 250px;
+    align-items: center;
 }
 
 /* Feedback */
 .feedback {
-    padding: 15px 20px;
-    border-radius: 10px;
+    padding: 12px 16px;
+    border-radius: 8px;
     border: 2px solid;
     text-align: center;
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: 600;
-    margin-bottom: 20px;
     animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: scale(0.95);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
     }
 }
 
 .feedback.sucesso {
-    background: #d1fae5;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
     color: #065f46;
     border-color: #10b981;
 }
 
 .feedback.erro {
-    background: #fee2e2;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
     color: #991b1b;
     border-color: #ef4444;
 }
@@ -454,41 +519,40 @@
 /* Conclusão */
 .conclusao {
     background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
-    padding: 30px;
-    border-radius: 15px;
+    padding: 25px;
+    border-radius: 12px;
     border: 3px solid #ec4899;
     text-align: center;
-    margin-top: 30px;
-    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+    margin-top: 15px;
 }
 
-.conclusao-title {
-    font-size: 2em;
+.conclusao h3 {
+    font-size: 1.6em;
     color: #9f1239;
-    margin-bottom: 15px;
+    margin: 0 0 10px 0;
 }
 
-.conclusao-texto {
-    font-size: 1.1em;
+.conclusao p {
+    font-size: 1.05em;
     color: #831843;
-    line-height: 1.7;
-    margin-bottom: 20px;
+    line-height: 1.6;
+    margin: 0 0 15px 0;
 }
 
 .conceito-box {
-    background: #fef3c7;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     border: 2px solid #f59e0b;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 15px;
+    border-radius: 8px;
     text-align: left;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .conceito-box strong {
     color: #92400e;
     font-size: 1.1em;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .conceito-box p {
@@ -501,75 +565,94 @@
 .conquista-final {
     background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
     border: 3px solid #3b82f6;
-    border-radius: 15px;
-    padding: 25px;
-    margin-top: 25px;
+    border-radius: 12px;
+    padding: 20px;
 }
 
 .conquista-final h4 {
-    font-size: 1.5em;
+    font-size: 1.3em;
     color: #1e40af;
-    margin-bottom: 20px;
+    margin: 0 0 15px 0;
 }
 
 .pilares-completos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
 }
 
 .pilar {
     background: white;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 12px;
+    border-radius: 8px;
     font-weight: 700;
     color: #1e40af;
     border: 2px solid #3b82f6;
-    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
-    font-size: 1.1em;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
+    font-size: 0.95em;
     transition: transform 0.3s ease;
 }
 
 .pilar:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+/* Animação da Bandeira */
+.bandeira-vitoria {
+    animation: bandeiraBalanco 0.6s ease-in-out 3;
+}
+
+@keyframes bandeiraBalanco {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-15deg) scale(1.1);
+    }
+
+    75% {
+        transform: rotate(15deg) scale(1.1);
+    }
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
+    .robo-repeticoes-container {
+        padding: 15px;
+    }
+
     .robo-title {
-        font-size: 1.5em;
+        font-size: 1.4em;
     }
 
     .robo-subtitle {
-        font-size: 1em;
+        font-size: 0.95em;
+    }
+
+    .game-area {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .grade-svg {
-        width: 100%;
-        height: auto;
+        max-width: 100%;
     }
 
-    .stats-container {
-        gap: 10px;
+    .nivel-selector {
+        gap: 8px;
     }
 
-    .stat-item {
-        padding: 10px 15px;
+    .nivel-btn {
+        padding: 6px 12px;
+        font-size: 0.85em;
     }
 
-    .stat-value {
-        font-size: 1.5em;
-    }
-
-    .comandos-grid {
-        gap: 10px;
-    }
-
-    .comando-btn {
-        padding: 12px 15px;
-        min-width: 120px;
+    .algoritmo-mini {
+        max-height: 200px;
     }
 
     .botoes-acao {
@@ -577,15 +660,14 @@
     }
 
     .btn {
-        width: 100%;
+        max-width: none;
     }
 
     .pilares-completos {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
 
-    .pilar {
-        font-size: 0.95em;
-        padding: 12px;
+    .dica-box {
+        font-size: 0.85em;
     }
 }

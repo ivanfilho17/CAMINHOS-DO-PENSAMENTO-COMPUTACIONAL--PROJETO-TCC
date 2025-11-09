@@ -25,7 +25,7 @@
     justify-content: center;
     text-align: center;
     font-size: 2.2rem;
-    background-color: var(--yellow);
+    background-color: var(--gold);
     color: var(--black);
     padding: 0.4rem;
     border: 4px solid var(--black);
@@ -45,7 +45,7 @@
 }
 
 .texto-explicativo h3 {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-size: 1.5rem;
     background-color: var(--secondary);
     color: var(--white);
@@ -65,6 +65,7 @@
 }
 
 .texto-explicativo p {
+    margin-top: 1rem;
     margin-bottom: 0.5rem;
 }
 
@@ -194,9 +195,9 @@
 
 /* Ícone de "Voltar ao Menu" (Casa) */
 .module-footer .btn .icon-voltar {
-    width: 24px;
+    width: 25px;
     /* Tamanho compatível com o texto */
-    height: 24px;
+    height: 25px;
     fill: currentColor;
     /* Herda a cor do texto do botão */
 }
@@ -204,10 +205,10 @@
 /* Botão "Voltar" que é APENAS um ícone */
 .btn-icon {
     justify-content: center;
-    padding: 0.4rem 1rem;
+    padding: 0.5rem;
     /* Remove padding para o ícone preencher o espaço */
-    flex-shrink: 0;
-    /* Impede que o botão encolha */
+    max-width: 70px;
+    min-width: 70px;
 }
 
 .btn-icon svg {
@@ -289,7 +290,7 @@
     border: 4px solid var(--black);
     border-radius: 10px;
     box-shadow: 8px 8px 0 var(--black);
-    max-width: 800px;
+    max-width: 900px;
     margin: 2rem auto;
     /* Centraliza o contêiner na tela */
 }
@@ -406,11 +407,12 @@
 .atividade-container {
     background-color: var(--white);
     border: 4px solid var(--black);
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 1.5rem;
     box-shadow: 6px 6px 0 var(--black);
     margin: 1.5rem 0;
     text-align: center;
+    font-family: 'Arial', sans-serif;
 }
 
 .atividade-container h3 {
@@ -445,4 +447,102 @@
 .conclusao-botoes .btn-avancar {
     background-color: var(--secondary);
     /* Lilás */
+}
+
+
+/* ----- ESTILOS EXCLUSIVOS DO MÓDULO 4 (alg-) ----- */
+
+.alg-section {
+    margin-top: 2rem;
+}
+
+.alg-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    /* Espaço após o texto explicativo */
+    margin-top: 2rem;
+}
+
+/* CARD BASE */
+.alg-card {
+    background-color: transparent;
+    width: auto;
+    height: 200px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.alg-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+/* Virar apenas quando clicado */
+.alg-card.flipped .alg-card-inner {
+    transform: rotateY(-180deg);
+}
+
+/* Faces */
+.alg-card-front,
+.alg-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border: 3px solid var(--black);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 1rem;
+    box-shadow: 5px 5px 0 var(--black);
+}
+
+.alg-card-front {
+    background-color: var(--primary);
+    color:var(--white);
+}
+
+.alg-card-front h4 {
+    font-size: 1.2rem;
+    color: var(--black);
+    background-color: var(--gold);
+    padding: 0rem 0.4rem;
+    border: 2px solid var(--black);
+    border-radius: 10px;
+}
+
+.alg-card-front p {
+    font-size: 0.95rem;
+}
+
+.alg-card-back {
+    background-color: var(--secondary);
+    transform: rotateY(180deg);
+    color:var(--white)
+}
+
+.alg-card-back h4 {
+    background-color: var(--primary);
+    padding: 0rem 0.4rem;
+    border: 2px solid var(--black);
+    border-radius: 10px;
+    font-size: 1.1rem;
+
+}
+
+.alg-card-back p {
+    font-size: 0.95rem;
+}
+
+.alg-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
 }

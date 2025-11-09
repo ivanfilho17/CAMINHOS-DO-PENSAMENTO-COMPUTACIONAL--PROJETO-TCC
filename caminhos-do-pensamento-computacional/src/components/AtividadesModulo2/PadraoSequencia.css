@@ -235,7 +235,7 @@
 }
 
 /* Botão de Dica */
-.btn-dica {
+.btn-dica1 {
     display: block;
     margin: 1.5rem auto;
     padding: 0.8rem 1.5rem;
@@ -250,7 +250,7 @@
     transition: all 0.2s ease;
 }
 
-.btn-dica:hover {
+.btn-dica1:hover {
     transform: translate(-2px, -2px);
     box-shadow: 5px 5px 0 var(--black);
 }

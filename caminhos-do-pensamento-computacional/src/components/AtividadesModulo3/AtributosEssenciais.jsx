@@ -127,7 +127,7 @@ export default function AtributosEssenciais({ onConcluido }) {
 
     return (
         <div className="atividade-container atributos-essenciais-container">
-            <h3>🎯 Atividade: O que define um...?</h3>
+            <h2>🎯 Atividade: O que define um...?</h2>
             <p className="instrucoes">
                 Identifique os atributos ESSENCIAIS! Marque apenas o que define o conceito,
                 não detalhes que podem variar.
@@ -136,9 +136,9 @@ export default function AtributosEssenciais({ onConcluido }) {
             {!concluido ? (
                 <>
                     <div className="desafio-header">
-                        <div className="conceito-box">
+                        <div className="conceito-box1">
                             <div className="conceito-emoji">{desafio.emoji}</div>
-                            <h4>O que é essencial para um<br /><strong>{desafio.conceito}</strong>?</h4>
+                            <h4>O que é essencial para um...<br /><strong>{desafio.conceito}</strong>?</h4>
                         </div>
                         <div className="contador-desafios">
                             Desafio {desafioAtual + 1} de {DESAFIOS.length}

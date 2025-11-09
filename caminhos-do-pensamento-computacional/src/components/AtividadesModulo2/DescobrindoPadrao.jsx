@@ -254,7 +254,7 @@ export default function PadraoSecreto({ onConcluido }) {
 
                     {/* Botão de Dica */}
                     {!mostrarDica && respostaSelecionada === null && tentativas > 0 && (
-                        <button className="btn-dica" onClick={() => setMostrarDica(true)}>
+                        <button className="btn-dica1" onClick={() => setMostrarDica(true)}>
                             💡 Precisa de uma dica?
                         </button>
                     )}

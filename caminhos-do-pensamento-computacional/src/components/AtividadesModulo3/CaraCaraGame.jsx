@@ -391,8 +391,8 @@ export default function JogoCaraACara({ onConcluido }) {
           <p className="vitoria-texto">
             Você usou <strong>{perguntasFeitas.length} perguntas</strong> para descobrir!
           </p>
-          <div className="conceito-box">
-            <strong>💡 Você aplicou Abstração!</strong>
+          <div className="conceito-box-end">
+            <h3><strong>💡 Você aplicou Abstração!</strong></h3><br></br>
             <p>
               Você usou ATRIBUTOS (óculos, cabelo, chapéu, barba) para FILTRAR informações
               e resolver o problema. Isso é abstração em ação!

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
-import './PadraoSequencia.css';
+import './PadraoSequencia.css'; 
 
 // Desafios com padrões diferentes
 const DESAFIOS = [
@@ -212,7 +212,7 @@ export default function CompleteSequencia({ onConcluido }) {
                     {/* Botão de dica */}
                     {!mostrarDica && feedback !== 'correct' && (
                         <button
-                            className="btn-dica"
+                            className="btn-dica1"
                             onClick={() => setMostrarDica(true)}
                         >
                             💡 Precisa de uma dica?

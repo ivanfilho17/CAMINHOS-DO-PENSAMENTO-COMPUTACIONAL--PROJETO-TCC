@@ -18,8 +18,15 @@
 }
 
 .cara-cara-title {
-    font-size: 2.5em;
-    margin: 0 0 10px 0;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--primary);
+    color: var(--white);
+    padding: 3px 5px;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    display: inline-block;
 }
 
 .cara-cara-subtitle {
@@ -373,27 +380,28 @@
     margin-bottom: 30px;
 }
 
-.conceito-box {
+.conceito-box-end {
     background: #eef2ff;
     border: 2px solid #667eea;
     padding: 25px;
     border-radius: 15px;
-    text-align: left;
+    text-align: center;
     margin-bottom: 30px;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+
 }
 
-.conceito-box strong {
+.conceito-box-end h3 strong {
     color: #4c1d95;
-    font-size: 1.1em;
+    font-size: 1.2em;
     display: block;
     margin-bottom: 10px;
 }
 
-.conceito-box p {
-    color: #5b21b6;
+.conceito-box-end p {
+    color: #000000;
     line-height: 1.6;
     margin: 0;
 }

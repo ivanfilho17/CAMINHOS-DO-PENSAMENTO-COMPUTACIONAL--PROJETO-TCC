@@ -12,34 +12,37 @@ const PILARES_CARDS = [
     { id: 4, pilar: 'Algoritmos', icone: '👣', frenteIcone: '🗺️', versoTexto: 'É a sua receita de bolo! Um passo a passo que qualquer pessoa pode seguir para chegar ao mesmo resultado. É o passo final que junta todas as outras ideias.' },
 ];
 
-export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpenModule }) {
-    const [tela, setTela] = useState('teoria'); // 'teoria', 'quiz', 'conclusaoIntro'
+export default function IntroPage({ 
+    quizData, 
+    currentSection = 'teoria',
+    onNavigateToSection,
+    onBackHome, 
+    onCompleteIntro, 
+    onOpenModule 
+}) {
     const [flippedCardId, setFlippedCardId] = useState(null);
+    const [videoAssistido, setVideoAssistido] = useState(false);
+
+    // Atualiza a tela com base na currentSection
+    const tela = currentSection === 'quiz' ? 'quiz' : 
+                 currentSection === 'conclusao' ? 'conclusaoIntro' : 
+                 'teoria';
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [tela]);
+    }, [currentSection]);
 
-    // Desbloquear automaticamente o módulo 1 apenas uma vez
+    // Desbloquear automaticamente o módulo 1 quando chegar na conclusão
     useEffect(() => {
         if (tela === "conclusaoIntro") {
-            // Chama a função apenas uma vez, se ainda não foi completado
-            const jaDesbloqueado = localStorage.getItem("introCompleta");
-            if (!jaDesbloqueado) {
-                onCompleteIntro && onCompleteIntro();
-                localStorage.setItem("introCompleta", "true");
-            }
-        } else {
-            // Quando voltar para teoria ou quiz, não faz nada
-            // (não reativa o desbloqueio nem altera o estado)
+            // Sempre chama onCompleteIntro quando entra na tela de conclusão
+            onCompleteIntro && onCompleteIntro();
         }
     }, [tela, onCompleteIntro]);
 
     const handleIntroQuizComplete = () => {
-        setTela('conclusaoIntro');
+        onNavigateToSection('conclusao');
     };
-
-    const [videoAssistido, setVideoAssistido] = useState(false);
 
     // Função chamada quando o vídeo termina
     const handleVideoEnd = () => {
@@ -51,12 +54,12 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpe
         height: '400',
         width: '100%',
         playerVars: {
-            autoplay: 0, // não começar automaticamente
+            autoplay: 0,
         },
     };
 
     return (
-        <div className="intro-container"> {/* Adiciona a classe .module para aproveitar espaçamentos */}
+        <div className="intro-container">
             {tela === 'teoria' && (
                 <div className="tela-conteudo">
                     <header className="module-header">
@@ -97,11 +100,10 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpe
 
                     <div className="video-container">
                         <h4>Vídeo de Apoio</h4>
-
                         <YouTube
-                            videoId="pRpjYrdb9UY" // apenas o ID do vídeo
+                            videoId="pRpjYrdb9UY"
                             opts={videoOptions}
-                            onEnd={handleVideoEnd} // detecta quando o vídeo termina
+                            onEnd={handleVideoEnd}
                         />
                     </div>
 
@@ -110,8 +112,8 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpe
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
                         <button
-                            className="btn"
-                            onClick={() => setTela('quiz')}
+                            className="btn btn-icon"
+                            onClick={() => onNavigateToSection('quiz')}
                             disabled={!videoAssistido}
                             style={{
                                 opacity: videoAssistido ? 1 : 0.5,
@@ -130,23 +132,20 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpe
                 <div className="tela-conteudo quiz-screen-wrapper">
                     <Quiz
                         quizData={quizData}
-
-                        // Chamar a nova função ao completar o quiz
                         onQuizComplete={handleIntroQuizComplete}
-                    // onQuestionAnswered={...}
                     />
                     <footer className="module-footer quiz-footer">
                         <button
-                            className="btn btn-icon" onClick={() => setTela('teoria')} aria-label="Voltar para Teoria">
+                            className="btn btn-icon" 
+                            onClick={() => onNavigateToSection('teoria')} 
+                            aria-label="Voltar para Teoria"
+                        >
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
                         </button>
-                        {/* Pode adicionar um botão de Home aqui se quiser */}
-                        {/* <button className="btn btn-icon" onClick={onBackHome} aria-label="Voltar ao Menu">...</button> */}
                     </footer>
                 </div>
             )}
 
-            {/* 4. NOVA TELA DE CONCLUSÃO DA INTRODUÇÃO */}
             {tela === 'conclusaoIntro' && (
                 <div className="tela-conteudo conclusao-intro-container">
                     <h2>Muito bem! 👏🏽😃</h2>
@@ -157,7 +156,10 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpe
                     <footer className="module-footer conclusao-intro-botoes">
                         <button
                             className="btn btn-icon"
-                            onClick={onBackHome}
+                            onClick={() => {
+                                // Força navegação completa
+                                window.location.href = '/home';
+                            }}
                             aria-label="Voltar ao Menu"
                         >
                             <svg viewBox="0 0 24 24">
@@ -167,7 +169,10 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpe
 
                         <button
                             className="btn btn-icon"
-                            onClick={() => setTela('teoria')}
+                            onClick={() => {
+                                // Força navegação completa
+                                window.location.href = '/introducao/teoria';
+                            }}
                             aria-label="Rever Introdução"
                         >
                             <svg viewBox="0 0 24 24">
@@ -175,17 +180,22 @@ export default function IntroPage({ quizData, onBackHome, onCompleteIntro, onOpe
                             </svg>
                         </button>
 
-                        {/* Botão para avançar para o Módulo 1 */}
-                        <button className="btn start"
-                            onClick={() => onOpenModule && onOpenModule(1)}
-                            aria-label="Ir para Módulo 1: Decomposição">
+                        <button 
+                            className="btn start"
+                            onClick={() => {
+                                // Força navegação completa
+                                window.location.href = '/modulo/1/teoria';
+                            }}
+                            aria-label="Ir para Módulo 1: Decomposição"
+                        >
                             Avançar
-                            <svg className="icon-avancar" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
+                            <svg className="icon-avancar" viewBox="0 0 24 24">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path>
+                            </svg>
                         </button>
                     </footer>
                 </div>
             )}
-
         </div>
     );
 }

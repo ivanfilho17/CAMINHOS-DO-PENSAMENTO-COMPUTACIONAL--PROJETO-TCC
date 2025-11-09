@@ -100,7 +100,7 @@
     padding: 0.5rem;
     border-radius: 8px;
     min-width: 120px;
-    min-height: 100px;
+    min-height: 120px;
     flex-wrap: wrap;
     /* Permite quebrar linha se não couber */
     justify-content: center;
