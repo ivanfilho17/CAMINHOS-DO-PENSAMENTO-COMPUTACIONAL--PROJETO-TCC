@@ -119,12 +119,12 @@ export default function Module({
     const renderAtividade = (atividadeId, key) => {
         switch (atividadeId) {
             // ATIVIDADES MODULO 1
-            case "puzzle":
-                return <DigitalPuzzle key={key} onConcluido={handleExercicioConcluido} />;
             case "mochila":
                 return <PlanBackpack key={key} onConcluido={handleExercicioConcluido} />;
             case "carro":
                 return <AssembleCar key={key} onConcluido={handleExercicioConcluido} />;
+            case "puzzle":
+                return <DigitalPuzzle key={key} onConcluido={handleExercicioConcluido} />;
 
             // ATIVIDADES MODULO 2
             case "completeSequencias":
@@ -258,8 +258,6 @@ export default function Module({
                     </section>
 
 
-
-
                     {moduleData.teoria.exemplosReais && (
                         <section className="exemplos-container">
                             <h3>{moduleData.teoria.exemplosReais.titulo}</h3>
@@ -274,18 +272,7 @@ export default function Module({
                         </section>
                     )}
 
-                    {/* <div className="video-container">
-                        <h4>Vídeo de Apoio</h4>
-                        <iframe
-                            width="100%"
-                            height="360"
-                            src={moduleData.video}
-                            title={`Vídeo - ${moduleData.title}`}
-                            allowFullScreen
-                        ></iframe>
-                    </div>*/}
-
-                    <footer className="module-footer">
+                    <footer className="module-footer module-footer-fixed">
                         <button className="btn btn-icon" onClick={() => navigate('/home')}>
                             <svg className="icon-voltar" viewBox="0 0 24 24">
                                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
@@ -312,7 +299,7 @@ export default function Module({
                         renderAtividade(atividadeId, index)
                     )}
 
-                    <footer className="module-footer">
+                    <footer className="module-footer module-footer-fixed">
                         <button
                             className="btn btn-icon"
                             onClick={() => onNavigateToSection('teoria')}
@@ -320,6 +307,15 @@ export default function Module({
                         >
                             <svg viewBox="0 0 24 24">
                                 <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path>
+                            </svg>
+                        </button>
+
+                        <button 
+                            className="btn btn-icon" 
+                            onClick={() => navigate('/home')} 
+                            aria-label="Voltar ao Menu">
+                            <svg className="icon-voltar" viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
                             </svg>
                         </button>
 
@@ -349,7 +345,7 @@ export default function Module({
                         onQuizComplete={handleQuizComplete}
                         onQuestionAnswered={handleQuestionAnswered}
                     />
-                    <footer className="module-footer quiz-footer">
+                    <footer className="module-footer quiz-footer module-footer-fixed">
                         <button
                             className="btn btn-icon"
                             onClick={() => onNavigateToSection('atividades-interativas')}
@@ -379,7 +375,7 @@ export default function Module({
                     <div className="conclusao-container">
                         <h1>PARABÉNS!</h1>
                         <p className="subtitulo">
-                            Você concluiu o {moduleData.title}. ✅
+                            Você concluiu: {moduleData.title}. ✅
                         </p>
                         <p className="final-message">
                             {moduleData.finalMessage || "Parabéns! Você concluiu o módulo com sucesso!"}

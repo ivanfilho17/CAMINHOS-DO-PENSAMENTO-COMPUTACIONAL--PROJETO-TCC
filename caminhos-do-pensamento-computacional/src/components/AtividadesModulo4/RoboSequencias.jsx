@@ -38,10 +38,10 @@ function BandeiraSVG({ animando }) {
 
 // Comandos - Movimentos em 2D
 const COMANDOS = [
-    { id: 'direita', nome: 'Avançar →', icone: '➡️', cor: '#3b82f6' },
-    { id: 'baixo', nome: 'Descer ↓', icone: '⬇️', cor: '#10b981' },
-    { id: 'cima', nome: 'Subir ↑', icone: '⬆️', cor: '#f59e0b' },
-    { id: 'esquerda', nome: 'Voltar ←', icone: '⬅️', cor: '#ec4899' },
+    { id: 'direita', nome: 'Avançar', icone: '➡️', cor: '#3b82f6' },
+    { id: 'baixo', nome: 'Descer', icone: '⬇️', cor: '#10b981' },
+    { id: 'cima', nome: 'Subir', icone: '⬆️', cor: '#ffa200ff' },
+    { id: 'esquerda', nome: 'Voltar', icone: '⬅️', cor: '#ec4899' },
 ];
 
 // Níveis do jogo
@@ -338,7 +338,10 @@ export default function RoboSequencias({ onConcluido }) {
                                         >
                                             <div className="cmd-item" style={{ background: cmd.cor }}>
                                                 <span className="cmd-numero">{i + 1}</span>
-                                                <span className="cmd-icone">{cmd.icone}</span>
+                                                <span className="cmd-content">
+                                                    <span className="cmd-icone-item">{cmd.icone}</span>
+                                                    <span className="cmd-nome">{cmd.nome}</span>
+                                                </span>
                                                 <button className="btn-x" onClick={() => removerComando(i)} disabled={executando}>✕</button>
                                             </div>
                                         </div>

@@ -158,7 +158,7 @@ export default function IntroPage({
                             className="btn btn-icon"
                             onClick={() => {
                                 // Força navegação completa
-                                window.location.href = '/home';
+                                window.location.href = '/#/home';
                             }}
                             aria-label="Voltar ao Menu"
                         >
@@ -171,7 +171,7 @@ export default function IntroPage({
                             className="btn btn-icon"
                             onClick={() => {
                                 // Força navegação completa
-                                window.location.href = '/introducao/teoria';
+                                window.location.href = '/#/introducao/teoria';
                             }}
                             aria-label="Rever Introdução"
                         >
@@ -184,7 +184,7 @@ export default function IntroPage({
                             className="btn start"
                             onClick={() => {
                                 // Força navegação completa
-                                window.location.href = '/modulo/1/teoria';
+                                window.location.href = '/#/modulo/1/teoria';
                             }}
                             aria-label="Ir para Módulo 1: Decomposição"
                         >

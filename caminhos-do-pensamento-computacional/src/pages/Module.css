@@ -264,7 +264,7 @@
     box-shadow: none;
 }
 
-/* 3. Anula o estilo "scrolled" na tela de conclusão */
+/* Anula o estilo "scrolled" na tela de conclusão */
 .progress-container.conclusion-screen,
 .progress-container.conclusion-screen.scrolled {
     position: relative !important;
@@ -507,7 +507,7 @@
 
 .alg-card-front {
     background-color: var(--primary);
-    color:var(--white);
+    color: var(--white);
 }
 
 .alg-card-front h4 {
@@ -526,7 +526,7 @@
 .alg-card-back {
     background-color: var(--secondary);
     transform: rotateY(180deg);
-    color:var(--white)
+    color: var(--white)
 }
 
 .alg-card-back h4 {
@@ -545,4 +545,48 @@
 .alg-icon {
     font-size: 1.8rem;
     margin-bottom: 1rem;
+}
+
+
+/* --- NOVO: Rodapé Fixo --- */
+
+.module-footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    /* Centraliza o rodapé */
+    transform: translateX(-50%);
+    /* Centraliza o rodapé */
+
+    /* Faz o rodapé ter a mesma largura do conteúdo */
+    width: 100%;
+    max-width: 870px;
+    /* Deve ser o mesmo max-width de .module */
+
+    border: 4px solid var(--black);
+    border-radius: 8px;
+    background-color: #fffffff1;
+    box-shadow: 4px 4px 0 var(--black);
+    z-index: 100;
+
+    /* Remove o margin-top e garante o padding */
+    margin-top: 0;
+    padding: 0.60rem 0.80rem;
+
+    /* Garante que a borda superior esteja visível */
+    border-top: 3px solid var(--black);
+}
+
+/* Adiciona espaço no final da página 
+  para que o rodapé fixo não cubra o último conteúdo.
+*/
+.tela-conteudo {
+    /* Ajuste esta altura se o rodapé ficar maior */
+    padding-bottom: 120px;
+}
+
+/* Garante que o rodapé do Quiz (Tela 3) mantenha o padding correto */
+.quiz-footer.module-footer-fixed {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
 }

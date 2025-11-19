@@ -1,13 +1,10 @@
 /* --- Contêiner Geral da Atividade --- */
 .puzzle-container {
     display: flex;
-    /* Permite centralizar conteúdo */
     flex-direction: column;
     align-items: center;
-    /* Centraliza horizontalmente */
     margin-top: 2rem;
     padding: 1.5rem;
-    /* Aumenta padding interno */
     background-color: var(--white);
     border: 4px solid var(--black);
     border-radius: 10px;
@@ -23,14 +20,12 @@
     box-shadow: 4px 4px 0 #000;
     display: inline-block;
     margin-bottom: 0.5rem;
-
 }
 
 .puzzle-instructions {
     color: var(--darkgray);
     text-align: center;
     margin-bottom: 1rem;
-    /* Mais espaço antes do jogo */
     max-width: 720px;
     font-size: 15px;
     line-height: 1.15;
@@ -41,23 +36,25 @@
 .puzzle-content {
     display: flex;
     flex-direction: column;
-    /* Empilha a grade e as peças */
     align-items: center;
-    /* Centraliza a grade e a área de peças */
     gap: 2rem;
-    /* Espaço entre a grade e as peças */
     width: 100%;
-    /* Ocupa a largura do contêiner */
 }
 
-/* --- Grade Alvo (Slots) --- */
+/* --- Grade Alvo (Slots de Montagem - Etapa 2) --- */
 .puzzle-grid {
     display: grid;
     gap: 1px;
     margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    /* Adiciona espaço acima da grade */
 }
 
 .puzzle-slot {
+    width: 100px;
+    /* Garante o tamanho do slot */
+    height: 100px;
+    /* Garante o tamanho do slot */
     border: 1px dashed #6b7280;
     border-radius: 8px;
     background-color: #f9fafb;
@@ -69,13 +66,14 @@
     border-color: var(--green);
 }
 
-/* --- Peça do Quebra-Cabeça (Estilo Unificado) --- */
+/* --- Peça do Quebra-Cabeça (Estilo Único) --- */
 .puzzle-piece {
-    width: var(--piece-size, 120px);
-    height: var(--piece-size, 120px);
+    width: 100px;
+    height: 100px;
     cursor: grab;
     background-clip: padding-box;
-    /* Imagem de fundo é definida via style no JSX */
+    border-radius: 8px;
+    /* background-image, background-position, e background-size são definidos via style no JSX */
 }
 
 .puzzle-piece:active {
@@ -90,65 +88,154 @@
 }
 
 
-/* --- Área das Peças Embaralhadas (Abaixo e Horizontal) --- */
+/* --- Esteira de Peças (Etapa 1) --- */
 .puzzle-shuffled {
     display: flex;
-    /* Organiza peças na HORIZONTAL */
     background: var(--background);
     border: 3px solid var(--black);
     box-shadow: 3px 3px 0 var(--black);
     padding: 0.5rem;
     border-radius: 8px;
     min-width: 120px;
-    min-height: 120px;
+    min-height: 60px;
     flex-wrap: wrap;
-    /* Permite quebrar linha se não couber */
     justify-content: center;
-    /* Centraliza as peças */
     align-items: center;
-    /* Alinha verticalmente */
     gap: 1rem;
-    /* Espaço entre as peças */
 }
 
-.shuffled-piece-wrapper {
-    /* Este wrapper agora só controla o espaço */
-    width: var(--piece-size, 100px);
-    height: var(--piece-size, 100px);
+.puzzle-shuffled p {
+    display: block;
+    font-weight: 600;
+    text-align: center;
+    padding: 4px;
+    margin: 0;
+}
+
+/* Wrapper para as peças (em qualquer lugar) */
+.shuffled-piece-wrapper,
+.pb-category-content .puzzle-piece-wrapper,
+.puzzle-slot .puzzle-piece-wrapper {
+    width: 100px;
+    height: 100px;
     display: flex;
-    /* Para garantir que a peça preencha */
     justify-content: center;
     align-items: center;
 }
 
-/* --- Feedback de Conclusão --- */
 
-
-.puzzle-feedback {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background-color: #b8f3d4;
-    border: 2px solid #10b981;
-    border-radius: 8px;
-    color: #065f46;
-    font-weight: 500;
-    text-align: center;
-    max-width: 500px;
+/* --- Caixas de Categoria (Etapa 1 e 2) --- */
+.puzzle-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 1.5rem 0;
 }
 
+.pb-category {
+    background: var(--white);
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 0 #000;
+    transition: 0.1s ease;
+}
+
+.pb-category.over {
+    background: #b2f2bb;
+    /* Verde claro ao pairar */
+    transform: translate(-2px, -2px);
+}
+
+.pb-category-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    padding: 4px;
+    background: var(--white);
+    border-bottom: 2px solid #000;
+    text-align: center;
+}
+
+.pb-category-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    min-height: 110px;
+    flex-grow: 1;
+}
+
+/* --- Animação de "Tremer" (Shake) --- */
+.shake {
+    animation: pb-shake 0.4s ease;
+}
+
+@keyframes pb-shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-6px);
+    }
+
+    40% {
+        transform: translateX(6px);
+    }
+
+    60% {
+        transform: translateX(-4px);
+    }
+
+    80% {
+        transform: translateX(4px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* --- Feedback de Status --- */
 .feedback {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    padding: 0rem;
     border-radius: 5px;
     border: 3px solid var(--black);
-    box-shadow: 4px 4px 0 var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    text-align: center;
+    /* Garantir centralização */
+    max-width: 800px;
+    justify-items: center;
 }
 
+/* Sucesso (Verde Claro) */
 .feedback.sucesso {
     color: #155724;
     background-color: #d4edda;
-    border-color: var(--black);
+    border-color: #c3e6cb;
+    /* Borda mais clara */
 }
 
-/* Você pode adicionar um estilo .feedback.erro se precisar de feedback para erros */
+/* Erro (Vermelho Claro) */
+.feedback.erro {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    /* Borda mais clara */
+}
+
+/* Aviso (Amarelo Claro) - NOVO */
+.feedback.aviso {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}

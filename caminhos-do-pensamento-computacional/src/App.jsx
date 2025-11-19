@@ -27,11 +27,11 @@ const MODULES = [
   {
     id: 1,
     nameModule: "Decomposição",
-    title: "Módulo 1: Decomposição",
+    title: "Decomposição",
     keyPoints: ["Aprenda a quebrar problemas grandes em partes menores."],
     character: { face: "🧩" },
     teoria: {
-      tituloPrincipal: "Módulo 1: Decomposição",
+      tituloPrincipal: "Decomposição",
       subtitulo: 'O Poder de "Quebrar" o Problema!',
       introducao:
         "Bem-vindo ao primeiro caminho! A Decomposição é a primeira e mais importante técnica para resolver problemas.",
@@ -68,7 +68,7 @@ const MODULES = [
       },
     },
     video: "https://www.youtube.com/embed/VIDEO_DECOMPOSICAO",
-    atividades: ["puzzle", "mochila", "carro"],
+    atividades: ["mochila", "carro", "puzzle"],
     quiz: [
       {
         q: 'O que significa "Decomposição"?',
@@ -112,11 +112,11 @@ const MODULES = [
   {
     id: 2,
     nameModule: "Reconhecimento de Padrões",
-    title: "Módulo 2: Padrões",
+    title: "Padrões",
     keyPoints: ["Descubra como encontrar semelhanças para resolver problemas."],
     character: { face: "🎨" },
     teoria: {
-      tituloPrincipal: "Módulo 2: Reconhecimento de Padrões",
+      tituloPrincipal: "Reconhecimento de Padrões",
       subtitulo: "Encontrando Semelhanças!",
       introducao:
         "Bem vindo, esse é o segundo caminho! Você já reparou que muitas coisas se repetem? Os dias da semana, as estações do ano, até mesmo a sua rotina! Tudo isso são Padrões.",
@@ -200,16 +200,16 @@ const MODULES = [
   {
     id: 3,
     nameModule: "Abstração",
-    title: "Módulo 3: Abstração",
+    title: "Abstração",
     keyPoints: [
       "Aprenda a focar no essencial e ignorar o que é desnecessário.",
     ],
     character: { face: "🎯" },
     teoria: {
-      tituloPrincipal: "Módulo 3: Abstração",
+      tituloPrincipal: "Abstração",
       subtitulo: "Entenda o que realmente importa, foque no essencial!",
       introducao:
-        'Bem vindo, agora estamos no terceiro caminho!A Abstração é a arte de "filtrar" os detalhes desnecessários e focar apenas no que é essencial para resolver o problema.',
+        'Bem vindo, agora estamos no terceiro caminho! A Abstração é a arte de "filtrar" os detalhes desnecessários e focar apenas no que é essencial para resolver o problema.',
       explicacao:
         "É criar um modelo ou uma representação simplificada. Imagine um mapa de metrô: ele ignora as ruas, prédios e árvores, mostrando apenas as estações e conexões — o essencial.",
       exemploPrincipal: {
@@ -295,13 +295,13 @@ const MODULES = [
   {
     id: 4,
     nameModule: "Algoritmos",
-    title: "Módulo 4: Algoritmos",
+    title: "Algoritmos",
     keyPoints: [
       "Aprenda a criar sequências de passos organizados para resolver problemas.",
     ],
     character: { face: "👣" },
     teoria: {
-      tituloPrincipal: "Módulo 4: Algoritmos",
+      tituloPrincipal: "Algoritmos",
       subtitulo: "O Poder de Criar o Plano!",
       introducao:
         "Bem vindo, chegamos ao último caminho! Agora que já quebramos o problema (Decomposição), achamos semelhanças (Padrões) e focamos no essencial (Abstração), estamos prontos para criar o Algoritmo.",

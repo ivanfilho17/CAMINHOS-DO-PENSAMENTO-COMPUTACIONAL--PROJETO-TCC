@@ -35,7 +35,7 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
         } else {
             // Mensagem personalizada para módulo 1
             if (m.id === 1) {
-                onShowAlert && onShowAlert("Complete a Introdução primeiro! Clique em 'Iniciar' abaixo.");
+                onShowAlert && onShowAlert("Complete a Introdução primeiro! Clique em 'Introdução' abaixo.");
             } else {
                 onShowAlert && onShowAlert("Módulo bloqueado. Complete o módulo anterior para desbloqueá-lo.");
             }
@@ -114,7 +114,7 @@ export default function Home({ modules = [], progress = {}, onStart, onOpenModul
                     <svg className="icon start-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                         <path d="M5 3v18l15-9L5 3z" />
                     </svg>
-                    Iniciar
+                    Introdução
                 </button>
             </div>
         </div>

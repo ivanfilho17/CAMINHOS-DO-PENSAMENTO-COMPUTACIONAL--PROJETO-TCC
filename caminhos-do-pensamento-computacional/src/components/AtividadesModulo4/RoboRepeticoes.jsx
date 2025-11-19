@@ -39,10 +39,10 @@ function BandeiraSVG({ animando }) {
 
 // Comandos - Movimentos em 2D + Repetições
 const COMANDOS = [
-    { id: 'direita', nome: 'Avançar →', icone: '➡️', cor: '#3b82f6', tipo: 'acao' },
-    { id: 'baixo', nome: 'Descer ↓', icone: '⬇️', cor: '#10b981', tipo: 'acao' },
-    { id: 'cima', nome: 'Subir ↑', icone: '⬆️', cor: '#f59e0b', tipo: 'acao' },
-    { id: 'esquerda', nome: 'Voltar ←', icone: '⬅️', cor: '#ec4899', tipo: 'acao' },
+    { id: 'direita', nome: 'Avançar', icone: '➡️', cor: '#3b82f6', tipo: 'acao' },
+    { id: 'baixo', nome: 'Descer', icone: '⬇️', cor: '#10b981', tipo: 'acao' },
+    { id: 'cima', nome: 'Subir', icone: '⬆️', cor: '#f59e0b', tipo: 'acao' },
+    { id: 'esquerda', nome: 'Voltar', icone: '⬅️', cor: '#ec4899', tipo: 'acao' },
     { id: 'repita', nome: 'REPITA', icone: '🔁', cor: '#8b5cf6', tipo: 'repeticao' }
 ];
 
@@ -86,6 +86,9 @@ export default function RoboRepeticoes({ onConcluido }) {
     const [bandeiraAnimando, setBandeiraAnimando] = useState(false);
     const [draggedItem, setDraggedItem] = useState(null);
     const [dragOverIndex, setDragOverIndex] = useState(null);
+    const [comandoAtivo, setComandoAtivo] = useState(null);
+    const [blocoRepitaAtivo, setBlocoRepitaAtivo] = useState(null);
+    const [comandoInternoAtivo, setComandoInternoAtivo] = useState(null);
 
     const nivel = NIVEIS[nivelAtual];
 
@@ -94,6 +97,9 @@ export default function RoboRepeticoes({ onConcluido }) {
         setVenceu(false);
         setFeedback('');
         setBandeiraAnimando(false);
+        setComandoAtivo(null);
+        setBlocoRepitaAtivo(null);
+        setComandoInternoAtivo(null);
     };
 
     const adicionarComando = (comandoId) => {
@@ -150,25 +156,40 @@ export default function RoboRepeticoes({ onConcluido }) {
     const executar = async () => {
         setExecutando(true);
         setFeedback('');
+        setComandoAtivo(null);
+        setBlocoRepitaAtivo(null);
+        setComandoInternoAtivo(null);
         let pos = nivel.roboInicio;
 
-        for (const item of algoritmo) {
-            await new Promise(r => setTimeout(r, 400));
+        for (let i = 0; i < algoritmo.length; i++) {
+            const item = algoritmo[i];
+            setComandoAtivo(i);
+            await new Promise(r => setTimeout(r, 800));
 
             if (item.tipo === 'repita') {
-                for (let i = 0; i < item.vezes; i++) {
-                    for (const cmdId of item.comandos) {
-                        await new Promise(r => setTimeout(r, 350));
+                setBlocoRepitaAtivo(i);
+                for (let rep = 0; rep < item.vezes; rep++) {
+                    for (let ci = 0; ci < item.comandos.length; ci++) {
+                        const cmdId = item.comandos[ci];
+                        setComandoInternoAtivo(ci);
+                        await new Promise(r => setTimeout(r, 700));
                         pos = mover(pos, cmdId);
                         setRoboPos(pos);
+                        await new Promise(r => setTimeout(r, 200));
                     }
                 }
+                setComandoInternoAtivo(null);
+                setBlocoRepitaAtivo(null);
             } else {
                 pos = mover(pos, item.id);
                 setRoboPos(pos);
+                await new Promise(r => setTimeout(r, 200));
             }
         }
 
+        setComandoAtivo(null);
+        setBlocoRepitaAtivo(null);
+        setComandoInternoAtivo(null);
         await new Promise(r => setTimeout(r, 300));
 
         if (pos.x === nivel.bandeiraPos.x && pos.y === nivel.bandeiraPos.y) {
@@ -359,7 +380,7 @@ export default function RoboRepeticoes({ onConcluido }) {
                                 algoritmo.map((item, i) => (
                                     <div
                                         key={i}
-                                        className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''}`}
+                                        className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                         draggable={!executando}
                                         onDragStart={(e) => handleDragStart(e, item, i)}
                                         onDragOver={(e) => handleDragOver(e, i)}
@@ -367,7 +388,7 @@ export default function RoboRepeticoes({ onConcluido }) {
                                         onDragEnd={handleDragEnd}
                                     >
                                         {item.tipo === 'repita' ? (
-                                            <div className="bloco-repita">
+                                            <div className={`bloco-repita ${blocoRepitaAtivo === i ? 'bloco-repita-ativo' : ''}`}>
                                                 <div className="repita-header">
                                                     <span>🔁 REPITA</span>
                                                     <div className="vezes-control">
@@ -391,13 +412,16 @@ export default function RoboRepeticoes({ onConcluido }) {
                                                 </div>
                                                 <div className="repita-body">
                                                     {item.comandos.length === 0 ? (
-                                                        <div className="repita-vazio">Adicione comandos ⬇️</div>
+                                                        <div className="repita-vazio">Adicione comandos...</div>
                                                     ) : (
                                                         item.comandos.map((cmdId, ci) => {
                                                             const cmd = COMANDOS.find(c => c.id === cmdId);
                                                             return (
-                                                                <div key={ci} className="repita-cmd" style={{ background: cmd.cor }}>
-                                                                    {cmd.icone}
+                                                                <div key={ci} className={`repita-cmd ${blocoRepitaAtivo === i && comandoInternoAtivo === ci ? 'repita-cmd-ativo' : ''}`} style={{ background: cmd.cor }}>
+                                                                    <span className="cmd-content">
+                                                                        <span className="cmd-icone-item">{cmd.icone}</span>
+                                                                        <span className="cmd-nome">{cmd.nome}</span>
+                                                                    </span>
                                                                     <button className="btn-x" onClick={() => removerDentroRepita(i, ci)} disabled={executando}>✕</button>
                                                                 </div>
                                                             );
@@ -420,7 +444,10 @@ export default function RoboRepeticoes({ onConcluido }) {
                                             </div>
                                         ) : (
                                             <div className="cmd-item" style={{ background: COMANDOS.find(c => c.id === item.id).cor }}>
-                                                {COMANDOS.find(c => c.id === item.id).icone}
+                                                <span className="cmd-content">
+                                                    <span className="cmd-icone-item">{COMANDOS.find(c => c.id === item.id).icone}</span>
+                                                    <span className="cmd-nome">{COMANDOS.find(c => c.id === item.id).nome}</span>
+                                                </span>
                                                 <button className="btn-x" onClick={() => removerItem(i)} disabled={executando}>✕</button>
                                             </div>
                                         )}
