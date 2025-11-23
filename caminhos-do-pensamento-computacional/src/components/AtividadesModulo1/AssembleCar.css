@@ -120,11 +120,12 @@
 
 /* --- ÁREA DE MONTAGEM (Esquerda) --- */
 .assembly-area {
-  flex: 2 1 450px;
-  min-width: 400px;
+  flex: 2 1 250px;
+  min-width: 300px;
   border: 4px dashed var(--black);
   border-radius: 12px;
   position: relative;
+  max-width: 450px;
   height: 250px;
   order: 1;
   display: flex;
@@ -162,12 +163,12 @@
 }
 
 /* 2. CORRIGIDO: Posição e tamanho dos slots */
-#slot-carroceria { top: 50%; left: 16%; width: 68.5%; height: 30%; }
-#slot-teto       { top: 26%; left: 31.5%; width: 46%; height: 24.2%; } /* Teto mais estreito */
-#slot-roda-e     { top: 66%; left: 24%; width: 13%; height: 27%; border-radius: 100%; }
-#slot-roda-d     { top: 66%; left: 64%; width: 13%; height: 27%; border-radius: 100%; }
-#slot-farol      { top: 54%; left: 15.6%; width: 5%; height: 10%; }
-#slot-lanterna   { top: 55%; left: 79.8%; width: 5%; height: 7%; }
+#slot-carroceria { top: 49%; left: 13%; width: 74.5%; height: 30%; }
+#slot-teto       { top: 26%; left: 30.5%; width: 49%; height: 23%; } /* Teto mais estreito */
+#slot-roda-e     { top: 65%; left: 21%; width: 13%; height: 25%; border-radius: 100%; }
+#slot-roda-d     { top: 65%; left: 66%; width: 13%; height: 25%; border-radius: 100%; }
+#slot-farol      { top: 54%; left: 12.5%; width: 5%; height: 10%; }
+#slot-lanterna   { top: 55%; left: 83%; width: 5%; height: 7%; }
 
 
 /* --- PEÇAS ENCAIXADAS (visual final) --- */
@@ -178,7 +179,7 @@
 }
 .placed-part.carroceria { background-color: #ff4d4d; border-radius: 5px; }
 .placed-part.teto       { background-color: #a9a9a9; clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%); border-bottom: none; }
-.placed-part.roda       { background-color: #333333; border-radius: 50%; }
+.placed-part.roda       { background-color: #333333; border-radius: 100%; }
 .placed-part.farol      { background-color: #ffd700; border-radius: 3px; }
 .placed-part.lanterna   { background-color: #d63031; border-radius: 3px; }
 

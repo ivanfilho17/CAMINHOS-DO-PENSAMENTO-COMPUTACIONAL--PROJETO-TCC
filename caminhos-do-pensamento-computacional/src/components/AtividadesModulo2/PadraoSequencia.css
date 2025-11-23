@@ -248,6 +248,8 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    justify-self: center;
+    align-items: center;
 }
 
 .btn-dica1:hover {
@@ -264,6 +266,7 @@
     margin: 1rem 0;
     text-align: center;
     box-shadow: 4px 4px 0 #ffd700;
+    justify-self: center;
 }
 
 .dica-box strong {

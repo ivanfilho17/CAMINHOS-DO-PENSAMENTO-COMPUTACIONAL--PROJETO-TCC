@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true }) {
+export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true, onResetProgress = null, showResetButton = false }) {
     const formUrl = "https://forms.gle/"; // substitua pelo link real
 
     return (
@@ -45,6 +45,23 @@ export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true
                     </>
                 )}
             </div>
+
+            {showResetButton && onResetProgress && (
+                <div className="right">
+                    <button
+                        type="button"
+                        className="btn btn-header btn-reset"
+                        onClick={onResetProgress}
+                        aria-label="Resetar Progresso"
+                    >
+                        {/* ícone refresh/reset */}
+                        <svg className="icon" viewBox="0 0 24 24" fill="none" aria-hidden>
+                            <path d="M4 12a8 8 0 0 1 15.07-3m0 6h-3v-3M4 12a8 8 0 0 0 15.07 3m0-6h3v3" stroke="currentColor" strokeWidth="2.0" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span>Resetar Progresso</span>
+                    </button>
+                </div>
+            )}
         </header>
     );
 }

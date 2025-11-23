@@ -112,6 +112,8 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    justify-content: center;
+    align-content: center;
 }
 
 .btn-dica:hover {

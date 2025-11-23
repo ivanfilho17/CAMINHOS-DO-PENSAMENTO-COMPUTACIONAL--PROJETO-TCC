@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
+import ModulesHomePage from "./pages/ModulesHomePage";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ProgressBar from "./components/ProgressBar";
 
@@ -437,17 +438,9 @@ function IntroPageWrapper({
     navigate(`/introducao/${newSection}`);
   };
 
-  // Log para debug (remova depois se quiser)
-  console.log(
-    "IntroPageWrapper - section:",
-    section,
-    "pathname:",
-    location.pathname
-  );
-
   return (
     <IntroPage
-      key={section} // Força re-render quando a seção muda
+      key={section}
       quizData={quizData}
       currentSection={section}
       onNavigateToSection={navigateToSection}
@@ -490,7 +483,7 @@ function ModuleWrapper({
 
   return (
     <Module
-      key={`${moduleId}-${section}`} // Força re-render quando o módulo ou seção muda
+      key={`${moduleId}-${section}`}
       moduleData={moduleData}
       currentSection={section}
       onNavigateToSection={navigateToSection}
@@ -535,7 +528,7 @@ export default function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const isHomePage = location.pathname === "/" || location.pathname === "/home";
+  const isHomePage = location.pathname === "/" || location.pathname === "/home" || location.pathname === "/home/modulos";
 
   // Redirecionar / para /home
   useEffect(() => {
@@ -546,6 +539,8 @@ export default function App() {
 
   const openModule = (moduleId) => navigate(`/modulo/${moduleId}/teoria`);
   const goHome = () => navigate("/home");
+  const goToModules = () => navigate("/home/modulos");
+  const goBackToModulesHome = () => navigate("/home/modulos");
   const startIntro = () => navigate("/introducao/teoria");
 
   const completeModule = (moduleId) => {
@@ -568,7 +563,7 @@ export default function App() {
       ...p,
       intro: {
         completed: true,
-        everCompleted: true, // Adiciona everCompleted para consistência
+        everCompleted: true,
       },
     }));
   };
@@ -596,12 +591,23 @@ export default function App() {
     }));
   };
 
+  // Determina se está na página de módulos
+  const isModulesPage = location.pathname === "/home/modulos";
+  
+  // Mostra reset button em Home e ModulesHomePage
+  const showResetButton = isHomePage;
+  
+  // Esconde Sobre/Avaliar em ModulesHomePage
+  const showAboutButtons = isHomePage && !isModulesPage;
+
   return (
     <div className="app-root">
       <Header
         onOpenAbout={() => setAboutOpen(true)}
         onOpenForm={() => window.open("https://forms.gle/", "_blank")}
-        showHomeButtons={isHomePage}
+        showHomeButtons={showAboutButtons}
+        onResetProgress={resetAllProgress}
+        showResetButton={showResetButton}
       />
 
       <main className={`container ${isHomePage ? "home-bg" : ""}`}>
@@ -611,11 +617,21 @@ export default function App() {
               path="/home"
               element={
                 <Home
-                  modules={MODULES}
-                  onStart={startIntro}
-                  onOpenModule={openModule}
                   progress={progress}
+                  onStart={startIntro}
+                  onNavigateToModules={goToModules}
+                />
+              }
+            />
+            <Route
+              path="/home/modulos"
+              element={
+                <ModulesHomePage
+                  modules={MODULES}
+                  progress={progress}
+                  onOpenModule={openModule}
                   onShowAlert={(message) => setAlert({ isOpen: true, message })}
+                  onBackToHome={goHome}
                 />
               }
             />
@@ -659,7 +675,7 @@ export default function App() {
                   modules={MODULES}
                   progress={progress}
                   onComplete={completeModule}
-                  onBackHome={goHome}
+                  onBackHome={goBackToModulesHome}
                   onAdvance={openModule}
                   onReset={resetModule}
                   onProgressUpdate={updateModuleProgress}
@@ -674,7 +690,7 @@ export default function App() {
                   modules={MODULES}
                   progress={progress}
                   onComplete={completeModule}
-                  onBackHome={goHome}
+                  onBackHome={goBackToModulesHome}
                   onAdvance={openModule}
                   onReset={resetModule}
                   onProgressUpdate={updateModuleProgress}
@@ -689,7 +705,7 @@ export default function App() {
                   modules={MODULES}
                   progress={progress}
                   onComplete={completeModule}
-                  onBackHome={goHome}
+                  onBackHome={goBackToModulesHome}
                   onAdvance={openModule}
                   onReset={resetModule}
                   onProgressUpdate={updateModuleProgress}
@@ -704,7 +720,7 @@ export default function App() {
                   modules={MODULES}
                   progress={progress}
                   onComplete={completeModule}
-                  onBackHome={goHome}
+                  onBackHome={goBackToModulesHome}
                   onAdvance={openModule}
                   onReset={resetModule}
                   onProgressUpdate={updateModuleProgress}
@@ -716,11 +732,9 @@ export default function App() {
               path="*"
               element={
                 <Home
-                  modules={MODULES}
-                  onStart={startIntro}
-                  onOpenModule={openModule}
                   progress={progress}
-                  onShowAlert={(message) => setAlert({ isOpen: true, message })}
+                  onStart={startIntro}
+                  onNavigateToModules={goToModules}
                 />
               }
             />
@@ -731,21 +745,6 @@ export default function App() {
       {isHomePage && (
         <footer className="footer">
           <div>© 2025 — Projeto TCC • Desenvolvido em React</div>
-          <button
-            onClick={resetAllProgress}
-            style={{
-              marginTop: "1rem",
-              marginLeft: "1rem",
-              padding: "5px 5px",
-              borderRadius: "6px",
-              background: "#ff4d4f",
-              color: "#fff",
-              border: "solid 2px #000000ff",
-              cursor: "pointer",
-            }}
-          >
-            Resetar progresso
-          </button>
         </footer>
       )}
 

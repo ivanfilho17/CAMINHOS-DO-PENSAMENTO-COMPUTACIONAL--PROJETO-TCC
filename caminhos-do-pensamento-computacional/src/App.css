@@ -50,6 +50,9 @@ a {
   padding: 0.7rem 2rem;
   border-bottom: 4px solid var(--black);
   background: var(--accent);
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
 }
 
 .header .btn {
@@ -70,16 +73,19 @@ a {
   text-transform: none;
   gap: 0.3rem;
   margin-bottom: 0.2rem;
-  max-width: 120px;
+  max-width: 300px;
   min-height: 30px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* aumenta distância entre os botões Sobre e Avaliar */
 .header .left {
   display: inline-flex;
   /* garante layout em linha */
-  gap: 1.2rem;
-  /* ajuste este valor para mais/menos espaço */
+  gap: 0.8rem;
+  /* reduzido de 1.2rem para caber melhor em telas pequenas */
+  flex-shrink: 0;
 }
 
 /* cor específica para "Sobre" */
@@ -161,6 +167,29 @@ a {
   /* leve movimento para indicar redirecionamento */
 }
 
+/* cor específica para "Resetar Progresso" */
+.header .right {
+  display: inline-flex;
+  margin-left: auto;
+  gap: 0.8rem;
+  flex-shrink: 0;
+}
+
+.header .btn-reset {
+  background: #ff6b6b;
+  color: var(--white);
+  border-color: var(--black);
+  padding: 0.7rem;
+  white-space: wrap;
+  flex-shrink: 0;
+}
+
+.header .btn-reset:hover .icon,
+.header .btn-reset:focus-visible .icon {
+  color: #fff;
+  transform: rotate(180deg);
+}
+
 /* ==============================
    BOTÕES
    ============================== */
@@ -234,6 +263,20 @@ a {
   color: var(--gold);
 }
 
+/* Botão "Acessar Módulos" - versão menor */
+.btn.start.modules-btn {
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  max-width: fit-content;
+  gap: 6px;
+  background-color: var(--accent);
+}
+
+.btn.start.modules-btn .start-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .footer {
   text-align: center;
   padding: 0.8rem;
@@ -246,14 +289,15 @@ a {
    HOME
    ============================== */
 .home {
-  padding: 2rem;
+  padding: 2rem; 
+  justify-self: center;
   text-align: center;
   align-items: center;
 }
 
 /* Intro text: largura compatível com o conteúdo e centralizada */
 .home .intro-text {
-  max-width: min(900px, 92%);
+  max-width: min(1000px, 100%);
   /* não fica muito largo em telas grandes, adapta em telas pequenas */
   margin: 0 auto 1.6rem;
   /* centraliza e dá espaçamento inferior */
@@ -859,8 +903,24 @@ a:focus-visible {
    ============================== */
 @media (max-width: 720px) {
   .header {
-    flex-direction: column;
-    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    height: auto;
+    flex-wrap: nowrap;
+  }
+
+  .header .btn-header {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    box-shadow: 2px 2px 0 var(--black);
+    max-width: 120px;
+  }
+
+  .header .left {
+    gap: 0.5rem;
+  }
+
+  .header .right {
+    gap: 0.5rem;
   }
 
   .nav-buttons {
@@ -1194,6 +1254,36 @@ a:focus-visible {
 
 /* Telas muito pequenas (< 400px) */
 @media (max-width: 400px) {
+  .header {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .header .btn-header {
+    font-size: 0.7rem;
+    padding: 0.4rem;
+    box-shadow: 1px 1px 0 var(--black);
+    border-width: 2px;
+    max-width: 100px;
+  }
+
+  .header .btn-header .icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .header .btn-header .ext-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .header .left {
+    gap: 0.3rem;
+  }
+
+  .header .right {
+    gap: 0.3rem;
+  }
+
   .home .intro-text h1 {
     font-size: 1.3rem;
   }

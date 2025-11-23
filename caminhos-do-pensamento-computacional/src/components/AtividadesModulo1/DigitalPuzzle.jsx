@@ -14,7 +14,7 @@ const PIECE_SIZE = 100; // Tamanho de cada peça
 const CATEGORIAS = [
     { id: 'ceu', title: 'Peças do Céu 🌤️' },
     { id: 'leao', title: 'Peças do Leão 🦁' },
-    { id: 'campo', title: 'Peças do Campo 🌿' }
+    { id: 'vegetacao', title: 'Peças da Vegetação 🌿' }
 ];
 
 // --- 2. MAPEAMENTO DAS PEÇAS ---
@@ -24,9 +24,9 @@ const PIECE_CATEGORIES = {
     // Linha 1
     '0-1': 'ceu', '1-1': 'leao', '2-1': 'leao', '3-1': 'ceu',
     // Linha 2
-    '0-2': 'campo', '1-2': 'leao', '2-2': 'leao', '3-2': 'campo',
+    '0-2': 'vegetacao', '1-2': 'leao', '2-2': 'leao', '3-2': 'vegetacao',
     // Linha 3
-    '0-3': 'campo', '1-3': 'leao', '2-3': 'leao', '3-3': 'campo',
+    '0-3': 'vegetacao', '1-3': 'leao', '2-3': 'leao', '3-3': 'vegetacao',
 };
 
 // --- COMPONENTE PEÇA ARRASTÁVEL ---
@@ -84,7 +84,7 @@ function DroppableCategoryBox({ id, title, children }) {
 // --- COMPONENTE PRINCIPAL MODIFICADO ---
 export default function DigitalPuzzle({ onConcluido }) {
     const [etapa, setEtapa] = useState(1);
-    const [pecasCategorizadas, setPecasCategorizadas] = useState({ ceu: [], leao: [], campo: [] });
+    const [pecasCategorizadas, setPecasCategorizadas] = useState({ ceu: [], leao: [], vegetacao: [] });
     const [pecaAgitando, setPecaAgitando] = useState(null);
     const [feedback, setFeedback] = useState('');
     const [feedbackType, setFeedbackType] = useState('');
@@ -112,7 +112,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                     id,
                     x,
                     y,
-                    correctCategory: PIECE_CATEGORIES[id] || 'campo'
+                    correctCategory: PIECE_CATEGORIES[id] || 'vegetacao'
                 });
             }
         }
@@ -128,7 +128,7 @@ export default function DigitalPuzzle({ onConcluido }) {
         const todasCategorizadas = [
             ...pecasCategorizadas.ceu,
             ...pecasCategorizadas.leao,
-            ...pecasCategorizadas.campo
+            ...pecasCategorizadas.vegetacao
         ];
         return shuffledPieces.filter(p => !todasCategorizadas.includes(p.id));
     }, [shuffledPieces, pecasCategorizadas]);
@@ -279,7 +279,7 @@ export default function DigitalPuzzle({ onConcluido }) {
 
     // 5. LÓGICA DE TRANSIÇÃO (Bug 1 corrigido)
     const totalPecas = pieces.length;
-    const totalCategorizado = pecasCategorizadas.ceu.length + pecasCategorizadas.leao.length + pecasCategorizadas.campo.length;
+    const totalCategorizado = pecasCategorizadas.ceu.length + pecasCategorizadas.leao.length + pecasCategorizadas.vegetacao.length;
 
     useEffect(() => {
         if (etapa === 1 && totalCategorizado === totalPecas) {
@@ -374,36 +374,49 @@ export default function DigitalPuzzle({ onConcluido }) {
                     </div>
                 )}
 
-                {/* === ETAPA 2: MONTAR === */}
+                {/* === ETAPA 2: MONTAR (COM REFERÊNCIA VISUAL) === */}
                 {etapa === 2 && (
-                    <div className="puzzle-content">
-                        {/* Grade de Montagem */}
-                        <div
-                            className="puzzle-grid"
-                            style={{
-                                gridTemplateColumns: `repeat(${GRID_COLS}, ${PIECE_SIZE}px)`,
-                                gridTemplateRows: `repeat(${GRID_ROWS}, ${PIECE_SIZE}px)`,
-                            }}
-                        >
-                            {pieces.map((piece) => (
-                                <DroppableSlot key={piece.id} id={piece.id}>
-                                    {slotsMontagem[piece.id] && (
-                                        <DraggablePiece
-                                            id={slotsMontagem[piece.id]}
-                                            piece={pieces.find((p) => p.id === slotsMontagem[piece.id])}
-                                        />
-                                    )}
-                                </DroppableSlot>
-                            ))}
+                    // 1. Container Principal Flex (Coluna)
+                    <div className="puzzle-content-horizontal"> 
+                        
+                        {/* Wrapper: Imagem + Grade lado a lado */}
+                        <div className="referencia-e-grade">
+                            {/* 1. Imagem de Referência Fixo (o "mini-mapa") */}
+                            <div className="referencia-mini">
+                                <h4>Imagem Completa</h4>
+                                <img src={IMAGE} alt="Imagem de Referência Completa" style={{ width: '150px', height: '150px', border: '1px solid black', borderRadius: '8px' }} />
+                            </div>
+                            
+                            {/* 2. Área de Montagem (Grade apenas) */}
+                            <div className="montagem-grade">
+                                {/* Grade de Montagem */}
+                                <div
+                                    className="puzzle-grid"
+                                    style={{
+                                        gridTemplateColumns: `repeat(${GRID_COLS}, ${PIECE_SIZE}px)`,
+                                        gridTemplateRows: `repeat(${GRID_ROWS}, ${PIECE_SIZE}px)`,
+                                    }}
+                                >
+                                    {pieces.map((piece) => (
+                                        <DroppableSlot key={piece.id} id={piece.id}>
+                                            {slotsMontagem[piece.id] && (
+                                                <DraggablePiece
+                                                    id={slotsMontagem[piece.id]}
+                                                    piece={pieces.find((p) => p.id === slotsMontagem[piece.id])}
+                                                />
+                                            )}
+                                        </DroppableSlot>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Caixas de Peças (Fonte) */}
-                        <div className="puzzle-categories">
+                        {/* 3. Caixas de Peças (Fonte) - Abaixo e Centralizadas */}
+                        <div className="puzzle-categories puzzle-categories-flex">
                             {CATEGORIAS.map(cat => (
                                 <div key={cat.id} className="pb-category">
                                     <div className="pb-category-title">{cat.title}</div>
-                                    <div className="pb-category-content">
-                                        {/* Peças aqui SÃO arrastáveis */}
+                                    <div className="pb-category-content"> 
                                         {pecasCategorizadas[cat.id].map(pieceId => {
                                             const piece = pieces.find(p => p.id === pieceId);
                                             return <DraggablePiece key={pieceId} id={pieceId} piece={piece} />

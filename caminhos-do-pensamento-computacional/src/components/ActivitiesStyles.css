@@ -1,0 +1,461 @@
+/* ==============================
+   ESTILO CONSOLIDADO PARA ATIVIDADES
+   Centraliza estilos comuns a todas as atividades
+   ============================== */
+
+/* --- CONTÊINERES GERAIS --- */
+.atividade-container,
+.puzzle-container,
+.assemble-car-container,
+.plan-backpack-container,
+.padrao-secreto-container,
+.descobrindo-padrao-container,
+.padrao-sequencia-container,
+.cara-cara-container,
+.mapa-bairro-container,
+.atributos-essenciais-container,
+.robo-sequencias-container,
+.robo-repeticoes-container,
+.robo-condicoes-container,
+.encontre-erro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background-color: var(--white);
+    border: 4px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 6px 6px 0 var(--black);
+}
+
+/* --- TÍTULOS --- */
+.atividade-title,
+.puzzle-title,
+.ac-title,
+.pb-title,
+h3:first-of-type {
+    display: inline-block;
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: #fff566;
+    padding: 3px 5px;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+/* --- INSTRUÇÕES --- */
+.puzzle-instructions,
+.ac-instructions,
+.pb-instructions,
+.atividade-instrucoes {
+    display: block;
+    color: var(--darkgray);
+    text-align: center;
+    margin-bottom: 1rem;
+    max-width: 720px;
+    font-size: 15px;
+    line-height: 1.15;
+    padding: 6px 8px;
+}
+
+/* ==============================
+   BOTÕES CENTRALIZADOS
+   ============================== */
+
+/* Contêiner de botões com centralização */
+.botoes-container,
+.botoes-acao,
+.button-group,
+.btn-group,
+.controles-botoes,
+.conclusao-botoes,
+.nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+/* Botões de ação padronizados */
+.btn,
+.btn-verificar,
+.btn-proximo,
+.btn-tentar,
+.btn-resposta,
+.btn-exec,
+.btn-reset,
+.btn-prox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 3px solid var(--black);
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 var(--black);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.btn:hover:not(:disabled),
+.btn-verificar:hover:not(:disabled),
+.btn-proximo:hover:not(:disabled),
+.btn-tentar:hover:not(:disabled),
+.btn-resposta:hover:not(:disabled),
+.btn-exec:hover:not(:disabled),
+.btn-reset:hover:not(:disabled),
+.btn-prox:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--black);
+}
+
+.btn:active:not(:disabled),
+.btn-verificar:active:not(:disabled),
+.btn-proximo:active:not(:disabled),
+.btn-tentar:active:not(:disabled),
+.btn-resposta:active:not(:disabled),
+.btn-exec:active:not(:disabled),
+.btn-reset:active:not(:disabled),
+.btn-prox:active:not(:disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 var(--black);
+}
+
+.btn:disabled,
+.btn-verificar:disabled,
+.btn-proximo:disabled,
+.btn-tentar:disabled,
+.btn-resposta:disabled,
+.btn-exec:disabled,
+.btn-reset:disabled,
+.btn-prox:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ==============================
+   BOTÕES DE DICA - CENTRALIZADOS
+   ============================== */
+
+.btn-dica,
+.btn-dica1 {
+    display: block;
+    margin: 1.5rem auto;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #78350f;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 var(--black);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: none;
+}
+
+.btn-dica:hover,
+.btn-dica1:hover {
+    transform: translateY(-2px);
+    box-shadow: 5px 5px 0 var(--black);
+}
+
+.btn-dica:active,
+.btn-dica1:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 0 var(--black);
+}
+
+/* ==============================
+   CAIXAS DE DICA - CENTRALIZADAS
+   ============================== */
+
+.dica-box,
+.dica-container,
+.hint-box {
+    display: block;
+    margin: 1rem auto;
+    padding: 1rem 1.5rem;
+    max-width: 320px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 var(--black);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: center;
+    animation: slideDown 0.3s ease;
+}
+
+.dica-box strong,
+.hint-box strong {
+    display: block;
+    color: #92400e;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==============================
+   FEEDBACK CENTRALIZADO
+   ============================== */
+
+.feedback,
+.feedback-box,
+.feedback-container {
+    display: block;
+    margin: 1.5rem auto;
+    padding: 1rem 1.5rem;
+    max-width: 600px;
+    text-align: center;
+    border: 3px solid var(--black);
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 var(--black);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.feedback.sucesso,
+.feedback-box.sucesso {
+    background: #d4edda;
+    color: #155724;
+    border-color: #28a745;
+}
+
+.feedback.erro,
+.feedback-box.erro {
+    background: #f8d7da;
+    color: #721c24;
+    border-color: #dc3545;
+}
+
+.feedback.aviso,
+.feedback-box.aviso {
+    background: #fff3cd;
+    color: #856404;
+    border-color: #ffc107;
+}
+
+/* ==============================
+   RESPONSIVIDADE
+   ============================== */
+
+@media (max-width: 900px) {
+    .atividade-container,
+    .puzzle-container,
+    .assemble-car-container,
+    .plan-backpack-container {
+        padding: 1rem;
+        border: 3px solid var(--black);
+    }
+
+    .atividade-title,
+    .puzzle-title,
+    .ac-title,
+    .pb-title {
+        font-size: 1.4rem;
+        padding: 2px 4px;
+        box-shadow: 3px 3px 0 #000;
+    }
+
+    .btn,
+    .btn-verificar,
+    .btn-proximo,
+    .btn-tentar {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .botoes-container,
+    .botoes-acao {
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 720px) {
+    .atividade-container,
+    .puzzle-container,
+    .assemble-car-container,
+    .plan-backpack-container {
+        padding: 0.8rem;
+        border: 2px solid var(--black);
+        border-radius: 8px;
+        box-shadow: 3px 3px 0 var(--black);
+    }
+
+    .atividade-title,
+    .puzzle-title,
+    .ac-title,
+    .pb-title {
+        font-size: 1.2rem;
+        padding: 2px 3px;
+        box-shadow: 2px 2px 0 #000;
+    }
+
+    .atividade-instrucoes,
+    .puzzle-instructions,
+    .ac-instructions,
+    .pb-instructions {
+        font-size: 14px;
+        margin-bottom: 0.8rem;
+        padding: 5px 6px;
+    }
+
+    .btn,
+    .btn-verificar,
+    .btn-proximo,
+    .btn-tentar,
+    .btn-resposta,
+    .btn-exec,
+    .btn-reset,
+    .btn-prox {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        border: 2px solid var(--black);
+        box-shadow: 2px 2px 0 var(--black);
+    }
+
+    .btn:hover:not(:disabled),
+    .btn-verificar:hover:not(:disabled),
+    .btn-proximo:hover:not(:disabled),
+    .btn-tentar:hover:not(:disabled) {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--black);
+    }
+
+    .botoes-container,
+    .botoes-acao,
+    .conclusao-botoes,
+    .nav-buttons {
+        gap: 0.6rem;
+        margin-top: 1rem;
+    }
+
+    .btn-dica,
+    .btn-dica1 {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+        margin: 1rem auto;
+    }
+
+    .dica-box,
+    .hint-box {
+        max-width: 100%;
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .feedback,
+    .feedback-box {
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .atividade-container,
+    .puzzle-container,
+    .assemble-car-container,
+    .plan-backpack-container {
+        padding: 0.6rem;
+        margin-top: 0.5rem;
+    }
+
+    .atividade-title,
+    .puzzle-title,
+    .ac-title,
+    .pb-title {
+        font-size: 1.1rem;
+        padding: 1px 2px;
+        box-shadow: 1px 1px 0 #000;
+    }
+
+    .atividade-instrucoes,
+    .puzzle-instructions,
+    .ac-instructions,
+    .pb-instructions {
+        font-size: 12px;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+    }
+
+    .btn,
+    .btn-verificar,
+    .btn-proximo,
+    .btn-tentar,
+    .btn-resposta,
+    .btn-exec,
+    .btn-reset,
+    .btn-prox {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+        border: 2px solid var(--black);
+        box-shadow: 1px 1px 0 var(--black);
+    }
+
+    .botoes-container,
+    .botoes-acao,
+    .conclusao-botoes,
+    .nav-buttons {
+        gap: 0.4rem;
+        margin-top: 0.8rem;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn,
+    .btn-verificar,
+    .btn-proximo,
+    .btn-tentar,
+    .btn-resposta,
+    .btn-exec,
+    .btn-reset,
+    .btn-prox {
+        width: 100%;
+    }
+
+    .btn-dica,
+    .btn-dica1 {
+        width: calc(100% - 1rem);
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        margin: 0.8rem auto;
+    }
+
+    .dica-box,
+    .hint-box {
+        width: calc(100% - 1rem);
+        max-width: 100%;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .feedback,
+    .feedback-box {
+        width: calc(100% - 1rem);
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+        border: 2px solid var(--black);
+    }
+}
