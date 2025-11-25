@@ -12,7 +12,7 @@ export default function Home({ progress = {}, onStart, onNavigateToModules }) {
         <div className="home">
             <div className="intro-text">
                 <h1>Caminhos do Pensamento Computacional</h1>
-                <p>Explore os pilares do Pensamento Computacional de forma prática, interativa e divertida!</p>
+                <p>Explore os pilares do Pensamento Computacional de forma prática e interativa!</p>
             </div>
 
             <div style={{ marginTop: "3rem", display: "flex", flexDirection: "column", gap: "1.5rem", alignItems: "center" }}>

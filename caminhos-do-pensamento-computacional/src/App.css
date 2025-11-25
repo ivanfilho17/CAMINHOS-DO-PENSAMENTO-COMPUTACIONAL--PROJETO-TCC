@@ -47,12 +47,13 @@ a {
   display: flex;
   width: 100%;
   height: 3.5rem;
-  padding: 0.7rem 2rem;
+  padding: 1rem;
   border-bottom: 4px solid var(--black);
   background: var(--accent);
   align-items: center;
   gap: 0.5rem;
   flex-wrap: nowrap;
+  justify-content: flex-start;
 }
 
 .header .btn {
@@ -81,11 +82,10 @@ a {
 
 /* aumenta distância entre os botões Sobre e Avaliar */
 .header .left {
-  display: inline-flex;
-  /* garante layout em linha */
+  display: flex;
   gap: 0.8rem;
-  /* reduzido de 1.2rem para caber melhor em telas pequenas */
-  flex-shrink: 0;
+  flex-wrap: wrap; /* Permite a quebra de linha em telas muito pequenas */
+  align-items: center;
 }
 
 /* cor específica para "Sobre" */
@@ -165,14 +165,6 @@ a {
   color: var(--gold);
   transform: translate(2px, -2px);
   /* leve movimento para indicar redirecionamento */
-}
-
-/* cor específica para "Resetar Progresso" */
-.header .right {
-  display: inline-flex;
-  margin-left: auto;
-  gap: 0.8rem;
-  flex-shrink: 0;
 }
 
 .header .btn-reset {
@@ -279,7 +271,8 @@ a {
 
 .footer {
   text-align: center;
-  padding: 0.8rem;
+  color: var(--black);
+  padding: 0.5rem;
   font-size: 0.9rem;
   background: var(--khaki);
   border-top: 4px solid var(--black);
@@ -522,10 +515,8 @@ a:focus-visible {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  /* empurra o conteúdo para baixo, antes do footer */
-  /*padding: 3rem 1rem;
-  ajuste opcional de espaçamento interno */
+  /* Altera para flex-start ou center, dependendo da tela */
+  justify-content: flex-start; /* MANTIDO: Base para o layout, mas será sobrescrito pelo .home-bg */
 }
 
 .container .cards,
@@ -537,15 +528,17 @@ a:focus-visible {
 
 /* Fundo only na Home (usa o arquivo em public/) */
 .container.home-bg {
-  background-image: url('assets/homeBG.png');
-  /* nome do arquivo conforme public/ */
+  background-image: url('assets/homeBG.png'); /* nome do arquivo conforme public/ */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
-  /* necessário para o overlay pseudo-element */
-  /* mantém o padding já utilizado na .home */
+  position: relative; /* necessário para o overlay pseudo-element */
   padding: 2rem;
+  
+  /*Centraliza verticalmente o conteúdo (o componente .home) */
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center;    /* Centraliza horizontalmente (se o item for menor que a largura) */
+  /*min-height: 100vh; /* Garante que o contêiner ocupe a altura total para a centralização */
 }
 
 /* overlay suave para melhorar legibilidade do conteúdo sobre a imagem */
@@ -1027,15 +1020,16 @@ a:focus-visible {
 
   .header {
     padding: 0.5rem 1rem;
-    flex-direction: row;
+    height: auto;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; /* Centraliza a linha de botões no header móvel */
     gap: 0.5rem;
   }
 
-  .header .left {
+ .header .left {
     width: 100%;
-    justify-content: center;
+    justify-content: center; /* Centraliza botões horizontalmente */
+    gap: 0.5rem; /* Ajusta espaçamento entre botões */
   }
 
   .header .btn-header {
@@ -1277,7 +1271,7 @@ a:focus-visible {
   }
 
   .header .left {
-    gap: 0.3rem;
+    gap: 0.3rem; /* Espaço mínimo em telas muito pequenas */
   }
 
   .header .right {

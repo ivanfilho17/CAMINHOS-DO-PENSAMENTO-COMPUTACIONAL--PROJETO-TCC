@@ -65,6 +65,10 @@ const MODULES = [
             titulo: "Trabalho da Escola📝",
             desc: "Decompor em: 1. Pesquisar o tema; 2. Escrever o texto; 3. Fazer os desenhos; 4. Criar a capa.",
           },
+          {
+            titulo: "Planejar um Jogo de Futebol⚽",
+            desc: "Decompor a atividade em: 1. Montar os times. 2. Definir as regras. 3. Marcar o campo. Assim, a organização fica mais fácil!",
+          },
         ],
       },
     },
@@ -148,6 +152,10 @@ const MODULES = [
           {
             titulo: "Natureza 🌿",
             desc: "As folhas de uma árvore têm formatos parecidos. As zebras têm listras. Tudo segue padrões!",
+          },
+          {
+            titulo: "Rotina Semanal 🗓️",
+            desc: "Perceber que a aula de Artes é sempre na quinta-feira após o recreio é um padrão que se repete, permitindo que você se prepare apenas para esse dia.",
           },
         ],
       },
@@ -239,6 +247,10 @@ const MODULES = [
           {
             titulo: "Agrupar veículos 🚗🚜",
             desc: 'Ao agrupar por "possuem motor", você abstrai cor, tamanho ou marca — foca apenas na característica essencial.',
+          },
+          {
+            titulo: "Mapa de Estradas 🛣️",
+            desc: "Um mapa rodoviário ignora detalhes como a cor das casas ou árvores e mostra apenas as cidades e as estradas, focando no caminho essencial.",
           },
         ],
       },
@@ -351,6 +363,10 @@ const MODULES = [
             titulo: "Repetição: Escovar os Dentes 🪥",
             desc: "REPITA 10 vezes: escove para cima e para baixo. Ou: ENQUANTO houver pasta, continue escovando.",
           },
+          {
+            titulo: "Instruções de Rota 🧭",
+            desc: "Dar um passo a passo para chegar a um destino, usando comandos como: 'Avance 3 casas', 'Vire à esquerda', 'SE houver um buraco, pule', tal como fazemos com um robô.",
+          },
         ],
       },
     },
@@ -426,7 +442,9 @@ function IntroPageWrapper({
   onBackHome,
   onCompleteIntro,
   onOpenModule,
+  introEverCompleted 
 }) {
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -447,6 +465,7 @@ function IntroPageWrapper({
       onBackHome={onBackHome}
       onCompleteIntro={onCompleteIntro}
       onOpenModule={onOpenModule}
+      introEverCompleted={introEverCompleted}
     />
   );
 }
@@ -591,6 +610,8 @@ export default function App() {
     }));
   };
 
+  const introEverCompleted = progress.intro?.everCompleted;
+
   // Determina se está na página de módulos
   const isModulesPage = location.pathname === "/home/modulos";
   
@@ -643,6 +664,7 @@ export default function App() {
                   onBackHome={goHome}
                   onCompleteIntro={completeIntro}
                   onOpenModule={openModule}
+                  introEverCompleted={introEverCompleted}
                 />
               }
             />
@@ -654,6 +676,7 @@ export default function App() {
                   onBackHome={goHome}
                   onCompleteIntro={completeIntro}
                   onOpenModule={openModule}
+                  introEverCompleted={introEverCompleted}
                 />
               }
             />
@@ -665,6 +688,7 @@ export default function App() {
                   onBackHome={goHome}
                   onCompleteIntro={completeIntro}
                   onOpenModule={openModule}
+                  introEverCompleted={introEverCompleted}
                 />
               }
             />
@@ -744,7 +768,7 @@ export default function App() {
 
       {isHomePage && (
         <footer className="footer">
-          <div>© 2025 — Projeto TCC • Desenvolvido em React</div>
+          <div>Copyright © 2025 — Projeto TCC — UFPB • Desenvolvido em React</div>
         </footer>
       )}
 

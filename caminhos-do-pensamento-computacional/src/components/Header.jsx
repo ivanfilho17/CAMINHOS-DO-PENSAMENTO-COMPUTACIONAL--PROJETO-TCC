@@ -44,10 +44,8 @@ export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true
                         </button>
                     </>
                 )}
-            </div>
 
-            {showResetButton && onResetProgress && (
-                <div className="right">
+                {showResetButton && onResetProgress && (
                     <button
                         type="button"
                         className="btn btn-header btn-reset"
@@ -60,8 +58,9 @@ export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true
                         </svg>
                         <span>Resetar Progresso</span>
                     </button>
-                </div>
-            )}
+                )}
+            </div>
+
         </header>
     );
 }

@@ -12,21 +12,22 @@ const PILARES_CARDS = [
     { id: 4, pilar: 'Algoritmos', icone: '👣', frenteIcone: '🗺️', versoTexto: 'É a sua receita de bolo! Um passo a passo que qualquer pessoa pode seguir para chegar ao mesmo resultado. É o passo final que junta todas as outras ideias.' },
 ];
 
-export default function IntroPage({ 
-    quizData, 
+export default function IntroPage({
+    quizData,
     currentSection = 'teoria',
     onNavigateToSection,
-    onBackHome, 
-    onCompleteIntro, 
-    onOpenModule 
+    onBackHome,
+    onCompleteIntro,
+    onOpenModule,
+    introEverCompleted = false
 }) {
     const [flippedCardId, setFlippedCardId] = useState(null);
     const [videoAssistido, setVideoAssistido] = useState(false);
 
     // Atualiza a tela com base na currentSection
-    const tela = currentSection === 'quiz' ? 'quiz' : 
-                 currentSection === 'conclusao' ? 'conclusaoIntro' : 
-                 'teoria';
+    const tela = currentSection === 'quiz' ? 'quiz' :
+        currentSection === 'conclusao' ? 'conclusaoIntro' :
+            'teoria';
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -55,8 +56,15 @@ export default function IntroPage({
         width: '100%',
         playerVars: {
             autoplay: 0,
+            rel: 0,
+            modestbranding: 1
         },
     };
+
+    const isButtonDisabled = !introEverCompleted && !videoAssistido;
+
+    const opacityValue = isButtonDisabled ? 0.5 : 1;
+    const cursorValue = isButtonDisabled ? 'not-allowed' : 'pointer';
 
     return (
         <div className="intro-container">
@@ -114,10 +122,10 @@ export default function IntroPage({
                         <button
                             className="btn btn-icon"
                             onClick={() => onNavigateToSection('quiz')}
-                            disabled={!videoAssistido}
+                            disabled={isButtonDisabled}
                             style={{
-                                opacity: videoAssistido ? 1 : 0.5,
-                                cursor: videoAssistido ? 'pointer' : 'not-allowed',
+                                opacity: opacityValue,
+                                cursor: cursorValue,
                             }}
                         >
                             <svg className="icon-avancar" viewBox="0 0 24 24">
@@ -136,8 +144,8 @@ export default function IntroPage({
                     />
                     <footer className="module-footer quiz-footer">
                         <button
-                            className="btn btn-icon" 
-                            onClick={() => onNavigateToSection('teoria')} 
+                            className="btn btn-icon"
+                            onClick={() => onNavigateToSection('teoria')}
                             aria-label="Voltar para Teoria"
                         >
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
@@ -180,7 +188,7 @@ export default function IntroPage({
                             </svg>
                         </button>
 
-                        <button 
+                        <button
                             className="btn start"
                             onClick={() => {
                                 // Força navegação completa

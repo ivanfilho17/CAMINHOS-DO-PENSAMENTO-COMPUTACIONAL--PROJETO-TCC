@@ -23,6 +23,7 @@ export default function Module({
     onNavigateToSection,
     onComplete,
     onAdvance,
+    onBackHome,
     onReset,
     progress = { percent: 0 },
     onProgressUpdate = () => { }
@@ -273,7 +274,7 @@ export default function Module({
                     )}
 
                     <footer className="module-footer module-footer-fixed">
-                        <button className="btn btn-icon" onClick={() => navigate('/home')}>
+                        <button className="btn btn-icon" onClick={() => navigate('/home/modulos')} aria-label="Voltar ao Menu de Módulos">
                             <svg className="icon-voltar" viewBox="0 0 24 24">
                                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
                             </svg>
@@ -312,8 +313,8 @@ export default function Module({
 
                         <button 
                             className="btn btn-icon" 
-                            onClick={() => navigate('/home')} 
-                            aria-label="Voltar ao Menu">
+                            onClick={() => navigate('/home/modulos')} 
+                            aria-label="Voltar ao Menu de Módulos">
                             <svg className="icon-voltar" viewBox="0 0 24 24">
                                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
                             </svg>
@@ -357,8 +358,8 @@ export default function Module({
                         </button>
                         <button
                             className="btn btn-icon"
-                            onClick={() => navigate('/home')}
-                            aria-label="Voltar ao Menu"
+                            onClick={() => navigate('/home/modulos')}
+                            aria-label="Voltar ao Menu de Módulos"
                         >
                             <svg viewBox="0 0 24 24">
                                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
@@ -384,8 +385,8 @@ export default function Module({
                         <footer className="module-footer conclusao-botoes">
                             <button
                                 className="btn btn-icon btn-home"
-                                onClick={() => navigate('/home')}
-                                aria-label="Voltar ao Menu"
+                                onClick={() => navigate('/home/modulos')}
+                                aria-label="Voltar ao Menu de Módulos"
                             >
                                 <svg viewBox="0 0 24 24">
                                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
