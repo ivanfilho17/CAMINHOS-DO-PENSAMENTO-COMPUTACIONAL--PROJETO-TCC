@@ -132,7 +132,7 @@
     box-shadow: 6px 6px 0 var(--black);
     max-width: 600px;
     /* Um pouco mais estreito que o módulo normal */
-    margin: 1rem auto;
+    margin: auto;
     /* Centraliza vertical e horizontalmente */
 }
 

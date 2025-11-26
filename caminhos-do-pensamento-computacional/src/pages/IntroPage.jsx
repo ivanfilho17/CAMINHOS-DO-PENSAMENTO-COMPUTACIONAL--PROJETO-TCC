@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Quiz from '../components/Quiz';
 import './IntroPage.css';
 import './Module.css';
@@ -16,11 +17,12 @@ export default function IntroPage({
     quizData,
     currentSection = 'teoria',
     onNavigateToSection,
-    onBackHome,
+    onBackHome, 
     onCompleteIntro,
     onOpenModule,
     introEverCompleted = false
 }) {
+    const navigate = useNavigate();
     const [flippedCardId, setFlippedCardId] = useState(null);
     const [videoAssistido, setVideoAssistido] = useState(false);
 
@@ -68,6 +70,7 @@ export default function IntroPage({
 
     return (
         <div className="intro-container">
+            {/* TELA 1: TEORIA */}
             {tela === 'teoria' && (
                 <div className="tela-conteudo">
                     <header className="module-header">
@@ -116,17 +119,14 @@ export default function IntroPage({
                     </div>
 
                     <footer className="module-footer">
-                        <button className="btn btn-icon" onClick={onBackHome} aria-label="Voltar ao Menu">
+                        <button className="btn btn-icon" onClick={() => navigate('/home')} aria-label="Voltar ao Menu">
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
                         <button
                             className="btn btn-icon"
                             onClick={() => onNavigateToSection('quiz')}
                             disabled={isButtonDisabled}
-                            style={{
-                                opacity: opacityValue,
-                                cursor: cursorValue,
-                            }}
+                            style={{ opacity: opacityValue, cursor: cursorValue }}
                         >
                             <svg className="icon-avancar" viewBox="0 0 24 24">
                                 <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path>
@@ -136,6 +136,7 @@ export default function IntroPage({
                 </div>
             )}
 
+            {/* TELA 2: QUIZ */}
             {tela === 'quiz' && (
                 <div className="tela-conteudo quiz-screen-wrapper">
                     <Quiz
@@ -150,10 +151,21 @@ export default function IntroPage({
                         >
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
                         </button>
+
+                        <button
+                            className="btn btn-icon"
+                            onClick={() => navigate('/home')} 
+                            aria-label="Voltar ao Menu"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+                            </svg>
+                        </button>
                     </footer>
                 </div>
             )}
 
+            {/* TELA 3: CONCLUSÃO */}
             {tela === 'conclusaoIntro' && (
                 <div className="tela-conteudo conclusao-intro-container">
                     <h2>Muito bem! 👏🏽😃</h2>
@@ -162,9 +174,10 @@ export default function IntroPage({
                     <p>Clique em <strong>AVANÇAR</strong> para acessá-lo!</p>
 
                     <footer className="module-footer conclusao-intro-botoes">
+                        {/* BOTÃO VOLTAR AO MENU */}
                         <button
                             className="btn btn-icon"
-                            onClick={onBackHome} 
+                            onClick={() => navigate('/home')} 
                             aria-label="Voltar ao Menu"
                         >
                             <svg viewBox="0 0 24 24">
@@ -172,9 +185,10 @@ export default function IntroPage({
                             </svg>
                         </button>
 
+                        {/* BOTÃO REVER INTRODUÇÃO */}
                         <button
                             className="btn btn-icon"
-                            onClick={() => onNavigateToSection('teoria')}
+                            onClick={() => navigate('/introducao/teoria')}
                             aria-label="Rever Introdução"
                         >
                             <svg viewBox="0 0 24 24">
@@ -182,9 +196,13 @@ export default function IntroPage({
                             </svg>
                         </button>
 
+                        {/* BOTÃO AVANÇAR (ABRIR MÓDULO 1) */}
                         <button
                             className="btn start"
-                            onClick={() => onOpenModule(1)}
+                            onClick={() => {
+                                if (onCompleteIntro) onCompleteIntro();
+                                navigate('/modulo/1/teoria');
+                            }}
                             aria-label="Ir para Módulo 1: Decomposição"
                         >
                             Avançar

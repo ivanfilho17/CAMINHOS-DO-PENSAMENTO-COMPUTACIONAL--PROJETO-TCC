@@ -10,8 +10,7 @@
 .tela-conteudo {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    /* Espaçamento entre as seções */
+    gap: 2rem; /* Espaçamento entre as seções */
 }
 
 .module-header {
