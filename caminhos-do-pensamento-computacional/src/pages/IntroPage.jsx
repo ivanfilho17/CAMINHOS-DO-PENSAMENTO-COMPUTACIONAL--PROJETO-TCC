@@ -164,10 +164,7 @@ export default function IntroPage({
                     <footer className="module-footer conclusao-intro-botoes">
                         <button
                             className="btn btn-icon"
-                            onClick={() => {
-                                // Força navegação completa
-                                window.location.href = '/#/home';
-                            }}
+                            onClick={onBackHome} 
                             aria-label="Voltar ao Menu"
                         >
                             <svg viewBox="0 0 24 24">
@@ -177,10 +174,7 @@ export default function IntroPage({
 
                         <button
                             className="btn btn-icon"
-                            onClick={() => {
-                                // Força navegação completa
-                                window.location.href = '/#/introducao/teoria';
-                            }}
+                            onClick={() => onNavigateToSection('teoria')}
                             aria-label="Rever Introdução"
                         >
                             <svg viewBox="0 0 24 24">
@@ -190,10 +184,7 @@ export default function IntroPage({
 
                         <button
                             className="btn start"
-                            onClick={() => {
-                                // Força navegação completa
-                                window.location.href = '/#/modulo/1/teoria';
-                            }}
+                            onClick={() => onOpenModule(1)}
                             aria-label="Ir para Módulo 1: Decomposição"
                         >
                             Avançar
