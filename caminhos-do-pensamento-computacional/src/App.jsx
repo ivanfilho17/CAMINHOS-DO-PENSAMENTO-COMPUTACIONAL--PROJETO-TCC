@@ -442,7 +442,8 @@ function IntroPageWrapper({
   onBackHome,
   onCompleteIntro,
   onOpenModule,
-  introEverCompleted 
+  introEverCompleted,
+  progress
 }) {
 
   const location = useLocation();
@@ -450,6 +451,7 @@ function IntroPageWrapper({
 
   // Extrair seção do pathname e forçar re-render quando mudar
   const pathParts = location.pathname.split("/");
+  // Garante que pega a última parte relevante
   const section = pathParts[2] || "teoria";
 
   const navigateToSection = (newSection) => {
@@ -458,6 +460,7 @@ function IntroPageWrapper({
 
   return (
     <IntroPage
+      // Usar 'section' na key força o componente a remontar quando a URL muda
       key={section}
       quizData={quizData}
       currentSection={section}
@@ -466,6 +469,7 @@ function IntroPageWrapper({
       onCompleteIntro={onCompleteIntro}
       onOpenModule={onOpenModule}
       introEverCompleted={introEverCompleted}
+      progress={progress}
     />
   );
 }
@@ -614,10 +618,10 @@ export default function App() {
 
   // Determina se está na página de módulos
   const isModulesPage = location.pathname === "/home/modulos";
-  
+
   // Mostra reset button em Home e ModulesHomePage
   const showResetButton = isHomePage;
-  
+
   // Esconde Sobre/Avaliar em ModulesHomePage
   const showAboutButtons = isHomePage && !isModulesPage;
 
@@ -665,6 +669,7 @@ export default function App() {
                   onCompleteIntro={completeIntro}
                   onOpenModule={openModule}
                   introEverCompleted={introEverCompleted}
+                  progress={progress}
                 />
               }
             />
@@ -677,6 +682,7 @@ export default function App() {
                   onCompleteIntro={completeIntro}
                   onOpenModule={openModule}
                   introEverCompleted={introEverCompleted}
+                  progress={progress}
                 />
               }
             />
@@ -689,6 +695,7 @@ export default function App() {
                   onCompleteIntro={completeIntro}
                   onOpenModule={openModule}
                   introEverCompleted={introEverCompleted}
+                  progress={progress}
                 />
               }
             />

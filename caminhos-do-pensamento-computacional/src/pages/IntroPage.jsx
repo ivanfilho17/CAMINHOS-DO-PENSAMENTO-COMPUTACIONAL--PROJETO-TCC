@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Quiz from '../components/Quiz';
 import './IntroPage.css';
 import './Module.css';
@@ -20,9 +19,9 @@ export default function IntroPage({
     onBackHome, 
     onCompleteIntro,
     onOpenModule,
-    introEverCompleted = false
+    introEverCompleted = false,
+    progress = {}
 }) {
-    const navigate = useNavigate();
     const [flippedCardId, setFlippedCardId] = useState(null);
     const [videoAssistido, setVideoAssistido] = useState(false);
 
@@ -35,13 +34,13 @@ export default function IntroPage({
         window.scrollTo(0, 0);
     }, [currentSection]);
 
-    // Desbloquear automaticamente o módulo 1 quando chegar na conclusão
+    // Desbloquear automaticamente o módulo 1 quando chegar na conclusão (apenas uma vez)
     useEffect(() => {
-        if (tela === "conclusaoIntro") {
-            // Sempre chama onCompleteIntro quando entra na tela de conclusão
+        if (tela === "conclusaoIntro" && !progress?.intro?.everCompleted) {
+            console.log('Desbloqueando módulo 1...');
             onCompleteIntro && onCompleteIntro();
         }
-    }, [tela, onCompleteIntro]);
+    }, [tela]);
 
     const handleIntroQuizComplete = () => {
         onNavigateToSection('conclusao');
@@ -64,7 +63,6 @@ export default function IntroPage({
     };
 
     const isButtonDisabled = !introEverCompleted && !videoAssistido;
-
     const opacityValue = isButtonDisabled ? 0.5 : 1;
     const cursorValue = isButtonDisabled ? 'not-allowed' : 'pointer';
 
@@ -119,12 +117,22 @@ export default function IntroPage({
                     </div>
 
                     <footer className="module-footer">
-                        <button className="btn btn-icon" onClick={() => navigate('/home')} aria-label="Voltar ao Menu">
+                        <button 
+                            className="btn btn-icon" 
+                            onClick={() => {
+                                console.log('Clicou Voltar (Teoria)');
+                                onBackHome && onBackHome();
+                            }} 
+                            aria-label="Voltar ao Menu"
+                        >
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
                         <button
                             className="btn btn-icon"
-                            onClick={() => onNavigateToSection('quiz')}
+                            onClick={() => {
+                                console.log('Clicou Próximo (Quiz)');
+                                onNavigateToSection && onNavigateToSection('quiz');
+                            }}
                             disabled={isButtonDisabled}
                             style={{ opacity: opacityValue, cursor: cursorValue }}
                         >
@@ -146,7 +154,10 @@ export default function IntroPage({
                     <footer className="module-footer quiz-footer">
                         <button
                             className="btn btn-icon"
-                            onClick={() => onNavigateToSection('teoria')}
+                            onClick={() => {
+                                console.log('Clicou Voltar para Teoria (Quiz)');
+                                onNavigateToSection && onNavigateToSection('teoria');
+                            }}
                             aria-label="Voltar para Teoria"
                         >
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
@@ -154,7 +165,10 @@ export default function IntroPage({
 
                         <button
                             className="btn btn-icon"
-                            onClick={() => navigate('/home')} 
+                            onClick={() => {
+                                console.log('Clicou Voltar ao Menu (Quiz)');
+                                onBackHome && onBackHome();
+                            }}
                             aria-label="Voltar ao Menu"
                         >
                             <svg viewBox="0 0 24 24">
@@ -177,7 +191,10 @@ export default function IntroPage({
                         {/* BOTÃO VOLTAR AO MENU */}
                         <button
                             className="btn btn-icon"
-                            onClick={() => navigate('/home')} 
+                            onClick={() => {
+                                console.log('Clicou Voltar ao Menu');
+                                onBackHome && onBackHome();
+                            }}
                             aria-label="Voltar ao Menu"
                         >
                             <svg viewBox="0 0 24 24">
@@ -188,7 +205,10 @@ export default function IntroPage({
                         {/* BOTÃO REVER INTRODUÇÃO */}
                         <button
                             className="btn btn-icon"
-                            onClick={() => navigate('/introducao/teoria')}
+                            onClick={() => {
+                                console.log('Clicou Rever Introdução');
+                                onNavigateToSection && onNavigateToSection('teoria');
+                            }}
                             aria-label="Rever Introdução"
                         >
                             <svg viewBox="0 0 24 24">
@@ -200,8 +220,11 @@ export default function IntroPage({
                         <button
                             className="btn start"
                             onClick={() => {
-                                if (onCompleteIntro) onCompleteIntro();
-                                navigate('/modulo/1/teoria');
+                                console.log('Clicou Avançar para Módulo 1');
+                                if (onOpenModule) {
+                                    console.log('Chamando onOpenModule(1)');
+                                    onOpenModule(1);
+                                }
                             }}
                             aria-label="Ir para Módulo 1: Decomposição"
                         >
