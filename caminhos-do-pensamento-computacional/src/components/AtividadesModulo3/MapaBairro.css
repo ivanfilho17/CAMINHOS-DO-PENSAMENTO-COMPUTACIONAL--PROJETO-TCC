@@ -1,7 +1,8 @@
 .mapa-bairro-container  {
+    max-width: 900px;
     font-family: 'Arial', sans-serif;
-    margin: 1.5rem auto;
-    padding: 1.5rem; /* Aumenta padding interno */
+    margin: 1rem auto;
+    padding: 20px; /* Aumenta padding interno */
     background-color: var(--white);
     border: 4px solid var(--black);
     border-radius: 20px;

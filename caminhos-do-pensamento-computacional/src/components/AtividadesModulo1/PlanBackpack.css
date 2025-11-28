@@ -1,10 +1,9 @@
 /* === ESTILO NEO-BRUTALISTA PARA A ATIVIDADE "PLANEJANDO A MOCHILA" === */
 
 .plan-backpack-container {
-    max-width: 960px;
-    margin: 1.5rem auto;
-    padding:1.5rem;
-    padding: 24px;
+    max-width: 900px;
+    margin: 1rem auto;
+    padding:20px;
     font-family: "Poppins", "Inter", system-ui, sans-serif;
     color: #111;
 }

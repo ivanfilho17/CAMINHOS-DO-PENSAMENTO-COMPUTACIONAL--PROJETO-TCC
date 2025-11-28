@@ -542,8 +542,10 @@ export default function App() {
   });
 
   const resetAllProgress = () => {
-    localStorage.removeItem("pc-progress");
-    window.location.reload();
+    if (window.confirm("Deseja realmente resetar todo o progresso?")) {
+      localStorage.removeItem("pc-progress");
+      window.location.reload();
+    }
   };
 
   const [aboutOpen, setAboutOpen] = useState(false);
