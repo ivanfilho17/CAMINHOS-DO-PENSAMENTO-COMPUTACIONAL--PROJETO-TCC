@@ -1,5 +1,5 @@
 .padrao-secreto-container {
-    margin-top: 2rem;
+    margin: 1.5rem auto;
     padding: 1.5rem; /* Aumenta padding interno */
     background-color: var(--white);
     border: 4px solid var(--black);

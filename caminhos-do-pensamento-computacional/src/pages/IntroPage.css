@@ -133,6 +133,7 @@
     max-width: 600px;
     /* Um pouco mais estreito que o módulo normal */
     margin: auto;
+    margin-bottom: 0;
     /* Centraliza vertical e horizontalmente */
 }
 
@@ -146,15 +147,15 @@
 .conclusao-intro-container p {
     font-size: 1.1rem;
     line-height: 1.6;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .conclusao-intro-botoes {
-    justify-content: space-between;
-    /* Botões nas extremidades */
+    justify-content: space-between; /* Botões nas extremidades */
     border-top: 3px solid var(--black);
     margin-top: 1.5rem;
     padding-top: 1.5rem;
+    margin-bottom: 0;
 }
 
 /* Garante que os botões tenham o estilo correto */
@@ -170,4 +171,17 @@
 .conclusao-intro-botoes .btn.start svg {
     margin-left: 0;
     /* Remove margem se houver */
+}
+
+.conclusao-intro-container.tela-conteudo {
+    /* O !important é necessário aqui para vencer os 120px do Module.css */
+    padding-bottom: 1.5rem !important; 
+    
+    /* Se quiser reduzir ainda mais o espaço interno geral */
+    padding-top: 1.5rem; 
+}
+
+/* Opcional: Ajuste também a margem externa do container principal se necessário */
+.intro-container {
+    margin-bottom: 1rem; /* Garante que não tenha margem excessiva fora */
 }

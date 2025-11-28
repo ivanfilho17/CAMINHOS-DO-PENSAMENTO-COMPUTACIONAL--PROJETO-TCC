@@ -1,7 +1,7 @@
 /* src/components/AssembleCar.css */
 
 .assemble-car-container {
-  max-width: 900px;
+  max-width: 960px;
   margin: 1.5rem auto;
   padding: 1.5rem;
   background-color: var(--white);
@@ -9,6 +9,7 @@
   border-radius: 10px;
   box-shadow: 6px 6px 0 var(--black);
   color: var(--black);
+  font-family: "Poppins", "Inter", system-ui, sans-serif;
 }
 
 .ac-title {

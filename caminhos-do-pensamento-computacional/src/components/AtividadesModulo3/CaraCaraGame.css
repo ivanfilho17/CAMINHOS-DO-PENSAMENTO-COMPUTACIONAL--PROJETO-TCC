@@ -1,9 +1,8 @@
 .cara-cara-container {
-    
+    margin: 1.5rem 0;
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 20px;
-    margin-top: 2rem;
     padding: 1.5rem; /* Aumenta padding interno */
     background-color: var(--white);
     border: 4px solid var(--black);

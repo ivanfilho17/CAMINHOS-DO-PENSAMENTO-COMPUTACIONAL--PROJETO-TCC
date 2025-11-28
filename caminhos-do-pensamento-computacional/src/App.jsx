@@ -775,7 +775,7 @@ export default function App() {
 
       {isHomePage && (
         <footer className="footer">
-          <div>Copyright © 2025 — Projeto TCC — UFPB • Desenvolvido em React</div>
+          <div>© 2025 — Projeto TCC — UFPB • Desenvolvido em React</div>
         </footer>
       )}
 

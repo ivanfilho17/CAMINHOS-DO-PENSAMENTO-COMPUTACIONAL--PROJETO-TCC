@@ -29,6 +29,7 @@
     padding: 0.4rem;
     border: 4px solid var(--black);
     box-shadow: 6px 6px 0 var(--black);
+    margin-bottom: 1rem;
 }
 
 .module-header h2 {
@@ -347,7 +348,7 @@
 .conclusao-botoes .btn {
     width: 60px;
     height: 60px;
-    padding: 0.5rem;
+    padding: 0.3rem;
 }
 
 
@@ -412,6 +413,7 @@
     margin: 1.5rem 0;
     text-align: center;
     font-family: 'Arial', sans-serif;
+    margin-bottom: 1rem;
 }
 
 .atividade-container h3 {
@@ -565,7 +567,7 @@
     border: 4px solid var(--black);
     border-radius: 8px;
     background-color: #fffffff1;
-    box-shadow: 4px 4px 0 var(--black);
+    box-shadow: 6px 6px 0 var(--black);
     z-index: 100;
 
     /* Remove o margin-top e garante o padding */
@@ -573,7 +575,7 @@
     padding: 0.60rem 0.80rem;
 
     /* Garante que a borda superior esteja visível */
-    border-top: 3px solid var(--black);
+    border-top: 4px solid var(--black);
 }
 
 /* Adiciona espaço no final da página 
@@ -581,7 +583,7 @@
 */
 .tela-conteudo {
     /* Ajuste esta altura se o rodapé ficar maior */
-    padding-bottom: 120px;
+    padding-bottom: 4rem;
 }
 
 /* Garante que o rodapé do Quiz (Tela 3) mantenha o padding correto */
