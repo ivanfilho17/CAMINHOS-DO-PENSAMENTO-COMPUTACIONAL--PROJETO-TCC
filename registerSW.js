@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/sw.js', { scope: '/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/' })})}
