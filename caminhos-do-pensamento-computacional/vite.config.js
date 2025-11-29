@@ -12,7 +12,7 @@ export default defineConfig({
   [react(),
   VitePWA({
     registerType: 'autoUpdate', // Atualiza o app automaticamente quando você fizer novo deploy
-    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'], // Arquivos estáticos
+    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'iconApp.png'], 
     manifest: {
       name: 'Caminhos do Pensamento Computacional',
       short_name: 'Pensamento Computacional',
