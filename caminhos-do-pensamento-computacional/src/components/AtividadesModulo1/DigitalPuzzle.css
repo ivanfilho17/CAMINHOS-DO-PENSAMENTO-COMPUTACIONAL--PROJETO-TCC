@@ -3,12 +3,13 @@
     max-width: 900px;
     display: flex;
     flex-direction: column;
+    width: 100%;
     margin: 1rem auto;
     padding: 20px;
     align-items: center;
     background-color: var(--white);
     border: 4px solid var(--black);
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 6px 6px 0 var(--black);
 }
 

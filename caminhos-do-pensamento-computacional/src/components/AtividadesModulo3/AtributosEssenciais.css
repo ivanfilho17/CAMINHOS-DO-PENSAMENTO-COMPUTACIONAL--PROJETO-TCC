@@ -1,5 +1,6 @@
 .atributos-essenciais-container {
     max-width: 900px;
+    width: 100%;
     margin: 1rem auto;
     padding: 20px; /* Aumenta padding interno */
     background-color: var(--white);
