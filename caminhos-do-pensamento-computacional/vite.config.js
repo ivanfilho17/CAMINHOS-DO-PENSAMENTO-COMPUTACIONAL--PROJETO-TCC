@@ -12,7 +12,15 @@ export default defineConfig({
     [react(),
     VitePWA({
       registerType: 'autoUpdate', // Atualiza o app automaticamente quando você fizer novo deploy
-      includeAssets: ['faviconApp.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'screenshot-mobile.png', 'screenshot-desktop.png'],
+      includeAssets: [
+        'faviconApp.ico', 
+        'apple-touch-icon.png', 
+        'mask-icon.svg', 
+        'android-chrome-192x192.png', 
+        'android-chrome-512x512.png', 
+        'screenshot-mobile.png', 
+        'screenshot-desktop.png'
+      ],
 
       manifest: {
         name: 'Caminhos do Pensamento Computacional',
@@ -29,27 +37,25 @@ export default defineConfig({
           {
             src: 'android-chrome-192x192.png',
             sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any maskable'
+            type: 'image/png'
           },
           {
             src: 'android-chrome-512x512.png', // O ideal é ter uma versão maior (512x512), mas usaremos a mesma por enquanto
             sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable'
+            type: 'image/png'
           }
         ],
         screenshots: [
           {
             src: 'screenshot-mobile.png',
-            sizes: '360x800', // Coloque o tamanho aproximado (largura x altura) do seu print
+            sizes: '219x488', // Coloque o tamanho aproximado (largura x altura) do seu print
             type: 'image/png',
             form_factor: 'narrow',
             label: 'Tela Inicial no Celular'
           },
           {
             src: 'screenshot-desktop.png',
-            sizes: '1280x800', // Coloque o tamanho aproximado do seu print
+            sizes: '704x440', // Coloque o tamanho aproximado do seu print
             type: 'image/png',
             form_factor: 'wide',
             label: 'Tela Inicial no Computador'
