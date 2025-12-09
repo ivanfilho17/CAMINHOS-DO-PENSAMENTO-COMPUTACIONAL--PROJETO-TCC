@@ -37,7 +37,7 @@ const MODULES = [
       introducao:
         "Bem-vindo ao primeiro caminho! A Decomposição é a primeira e mais importante técnica para resolver problemas.",
       explicacao:
-        'É bem simples: se um problema parece muito grande ou complexo, "quebre-o" em partes menores e mais fáceis de gerir. São os "subproblemas".',
+        'É bem simples: se um problema parece muito grande ou complexo, "quebre-o" em partes menores e mais fáceis de resolver. São os "subproblemas".',
       exemploPrincipal: {
         titulo: "Pense em arrumar o seu quarto:",
         tarefa:
@@ -78,14 +78,14 @@ const MODULES = [
       {
         q: 'O que significa "Decomposição"?',
         options: [
-          "Juntar partes de um problema",
-          "Quebrar um problema em partes menores",
+          "Juntar uma parte de um problema",
+          "Quebrar um problema em partes menores para ficar mais fácil de resolver",
           "Ignorar o problema",
         ],
         answer: 1,
       },
       {
-        q: 'Qual destes NÃO é um subproblema da tarefa "Fazer um bolo"?',
+        q: 'Qual destes NÃO é uma parte (subproblema) da tarefa "Fazer um bolo"?',
         options: ["Misturar os ingredientes", "Assar a massa", "Comer o bolo"],
         answer: 2,
       },
@@ -104,13 +104,13 @@ const MODULES = [
         answer: 0,
       },
       {
-        q: "Organizar os brinquedos é um subproblema de qual tarefa maior?",
+        q: "Organizar os brinquedos é uma parte (subproblema) de qual tarefa maior?",
         options: ["Jogar futebol", "Arrumar o quarto", "Fazer a lição de casa"],
         answer: 1,
       },
     ],
     finalMessage:
-      "Você dominou a habilidade de quebrar problemas maiores em partes menores para resolver problemas ou realizar tarefas!",
+      "Incrível! Agora você sabe dividir problemas maiores em partes menores e fáceis de resolver!"
   },
 
   // MÓDULO 2: PADRÕES
@@ -202,7 +202,7 @@ const MODULES = [
       },
     ],
     finalMessage:
-      "Você aprendeu a identificar semelhanças e padrões entre problemas para encontrar soluções mais eficientes!",
+      "Muito bem! Você aprendeu a encontrar semelhanças e padrões para resolver desafios mais rápido!"
   },
 
   // MÓDULO 3: ABSTRAÇÃO
@@ -242,7 +242,7 @@ const MODULES = [
           },
           {
             titulo: "Ficha de Cadastro 🧾",
-            desc: "Mostra apenas o essencial sobre uma pessoa: nome, data de nascimento, matrícula. Ignora preferências pessoais.",
+            desc: "Mostra apenas o essencial sobre uma pessoa: nome, data de nascimento, idade. Ignora preferências pessoais.",
           },
           {
             titulo: "Agrupar veículos 🚗🚜",
@@ -285,7 +285,7 @@ const MODULES = [
         q: 'Qual destas é a MELHOR abstração para "aluno" em um sistema de biblioteca?',
         options: [
           "Nome, comida favorita, time que torce.",
-          "Nome, número da matrícula, livros que pegou.",
+          "Nome, turma/série, livros que pegou.",
           "Altura, cor dos olhos, nome do cachorro.",
         ],
         answer: 1,
@@ -301,7 +301,7 @@ const MODULES = [
       },
     ],
     finalMessage:
-      "Você desenvolveu a capacidade de focar apenas nos detalhes mais importantes, ignorando o que não é essencial!",
+      "Fantástico! Você desenvolveu a capacidade de focar no que realmente importa e deixar os detalhes que não são essenciais de lado."
   },
 
   // MÓDULO 4: ALGORITMOS
@@ -374,9 +374,9 @@ const MODULES = [
     atividades: ["roboSequencias", "roboCondicoes", "roboRepeticoes"],
     quiz: [
       {
-        q: "Qual habilidade da BNCC define os 3 blocos de construção dos algoritmos?",
+        q: "Quais são as 3 peças principais para construir um Algoritmo?",
         options: [
-          "Sequências, Seleções Condicionais e Repetições.",
+          "Sequências, Condições e Repetições.",
           "Decomposição, Padrões e Abstração.",
           "Hardware, Software e Internet.",
         ],
@@ -389,7 +389,7 @@ const MODULES = [
       },
       {
         q: 'O bloco "SE... ENTÃO... SENÃO" é usado para qual parte do algoritmo?',
-        options: ["Sequência.", "Seleção Condicional.", "Repetição."],
+        options: ["Sequência.", "Condição (Escolha).", "Repetição."],
         answer: 1,
       },
       {
@@ -408,7 +408,7 @@ const MODULES = [
       },
     ],
     finalMessage:
-      "Você agora entende como criar instruções passo a passo para resolver problemas e automatizar tarefas!",
+      "Parabéns! Você agora aprendeu e entende como criar um passo a passo para resolver problemas ou vencer qualquer desafio!"
   },
 ];
 

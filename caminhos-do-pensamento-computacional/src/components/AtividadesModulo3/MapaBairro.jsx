@@ -17,14 +17,6 @@ const ELEMENTOS = [
     { id: 'pessoa', emoji: '🚶', nome: 'Pessoa', essencial: false },
 ];
 
-// Posições corretas no mapa (grade 3x3)
-const POSICOES_CORRETAS = {
-    escola: { row: 0, col: 0 },
-    hospital: { row: 0, col: 2 },
-    padaria: { row: 1, col: 1 },
-    parque: { row: 2, col: 1 }
-};
-
 // Elemento arrastável
 function DraggableIcon({ elemento, isUsed }) {
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -88,7 +80,7 @@ export default function MapaBairro({ onConcluido }) {
         if (!elemento.essencial) {
             // Elemento não essencial - feedback de erro
             setShake(elementoId);
-            setFeedback(`${elemento.nome} não é essencial para o mapa! Pense: um turista precisa saber disso?`);
+            setFeedback(`Opa! ${elemento.nome} é só um detalhe. Um mapa precisa ser simples!`);
             setTentativasErradas(prev => prev + 1);
 
             setTimeout(() => {
@@ -109,7 +101,7 @@ export default function MapaBairro({ onConcluido }) {
             [elementoId]: { row, col }
         }));
 
-        setFeedback(`Ótimo! ${elemento.nome} é importante para o mapa! ✅`);
+        setFeedback(`Isso aí! ${elemento.nome} é um lugar importante! ✅`);
         setTimeout(() => setFeedback(''), 2000);
     };
 
@@ -126,10 +118,9 @@ export default function MapaBairro({ onConcluido }) {
 
     return (
         <div className="atividade-container mapa-bairro-container">
-            <h2>🗺️ Atividade: O Mapa do Bairro</h2>
+            <h2>🗺️ Criando o Mapa do Bairro</h2>
             <p className="instrucoes">
-                Crie um mapa para turistas arrastando apenas os
-                <strong> locais importantes</strong>. Ignore detalhes desnecessários!
+                Ajude o turista! Arraste para o mapa apenas os <strong>lugares importantes</strong> que ele precisa encontrar.
             </p>
 
             <DndContext onDragEnd={handleDragEnd}>
@@ -163,7 +154,7 @@ export default function MapaBairro({ onConcluido }) {
                     {/* Lado Direito: Mapa Abstrato */}
                     <div className="mapa-abstrato">
                         <div className="mapa-header">
-                            <h4>🗺️ Seu Mapa (apenas o essencial)</h4>
+                            <h4>🗺️ Seu Mapa (apenas o importante)</h4>
                         </div>
                         <div className="grade-mapa">
                             {/* Rua no mapa abstrato também */}
@@ -196,7 +187,7 @@ export default function MapaBairro({ onConcluido }) {
 
                 {/* Barra de Ícones */}
                 <div className="barra-icones">
-                    <h5>📦 Arraste os elementos para o mapa:</h5>
+                    <h5>📦 Arraste apenas o que deve ir para o mapa:</h5>
                     <div className="icones-grid">
                         {ELEMENTOS.map(elemento => (
                             <DraggableIcon
@@ -214,7 +205,7 @@ export default function MapaBairro({ onConcluido }) {
                 <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`feedback-mapa ${feedback.includes('não é essencial') ? 'erro' : 'sucesso'}`}
+                    className={`feedback-mapa ${feedback.includes('detalhe') ? 'erro' : 'sucesso'}`}
                 >
                     {feedback}
                 </motion.div>
@@ -227,15 +218,14 @@ export default function MapaBairro({ onConcluido }) {
                     animate={{ opacity: 1 }}
                     className="dica-box"
                 >
-                    <strong>💡 Dica:</strong> Pense: o que um turista PRECISA encontrar?
-                    Escola, Padaria, Hospital e Parque são locais. Nuvens, carros e árvores são apenas decoração!
+                    <strong>💡 Dica:</strong> O que ajuda a encontrar o caminho? Prédios e lugares fixos! Carros, pessoas e nuvens mudam de lugar, então não servem para o mapa.
                 </motion.div>
             )}
 
             {/* Progresso */}
             <div className="progresso-mapa">
                 <div className="progresso-texto">
-                    Locais essenciais no mapa: {Object.keys(elementosColocados).length} / {elementosEssenciais.length}
+                    Locais importantes no mapa: {Object.keys(elementosColocados).length} / {elementosEssenciais.length}
                 </div>
                 <div className="progresso-bar-container">
                     <div
@@ -255,11 +245,11 @@ export default function MapaBairro({ onConcluido }) {
                     >
                         <h3>🎉 Parabéns!</h3>
                         <p>
-                            Você criou um mapa perfeito! Entendeu que um mapa é uma <strong>abstração</strong>
+                            Você criou um mapa perfeito! Entendeu que um mapa é uma <strong>abstração </strong>
                             — ele ignora detalhes desnecessários e foca apenas nos locais importantes.
                         </p>
                         <p className="destaque-conceito">
-                            💡 <strong>Abstração é filtrar o que não importa e focar no essencial!</strong>
+                            💡 <strong>Abstração é filtrar o que não importa e focar no essencial!</strong> <br></br> Você ignorou os detalhes e focou só no que era importante!
                         </p>
                     </motion.div>
                 </AnimatePresence>

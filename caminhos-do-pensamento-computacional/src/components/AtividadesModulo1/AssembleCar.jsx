@@ -3,7 +3,7 @@ import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { motion, AnimatePresence } from "framer-motion";
 import "./AssembleCar.css";
 
-// 1. PEÇAS ATUALIZADAS (adicionado 'type' em cada peça)
+//  PEÇAS
 const PARTS = [
   { id: "carroceria", label: "Carroceria", correct: "slot-carroceria", color: "#ff4d4d", type: "carroceria" },
   { id: "teto", label: "Teto", correct: "slot-teto", color: "#a9a9a9", type: "teto" },
@@ -21,7 +21,6 @@ function DraggablePart({ part, shaking }) {
   const style = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
     backgroundColor: part.color,
-    // Remove o estilo inline de borderRadius, será feito por CSS
   };
 
   return (
@@ -29,7 +28,6 @@ function DraggablePart({ part, shaking }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      // 2. CLASSE CORRIGIDA: Adiciona part.type (ex: "roda", "teto")
       className={`car-part ${part.type} ${isDragging ? "dragging" : ""} ${shaking ? "shake" : ""}`}
       style={style}
     >
@@ -80,17 +78,20 @@ export default function AssembleCar({ onConcluido }) {
 
   return (
     <div className="assemble-car-container atividade-container">
-      <h3 className="ac-title">Atividade: Montando o Carro 🚗</h3>
+      <h3 className="ac-title">🚗 Montando o Carro</h3>
+      
+      {/* TEXTO AJUSTADO: Linguagem mais simples e focada na ação */}
       <p className="ac-instructions">
-        Objetivo: Focar na parte da habilidade de "combinar as soluções".
-        Combine as partes corretas para formar o carro, arrastando as peças para o local correto.
+        Objetivo: Agora vamos fazer o contrário, <strong>juntar as partes (peças)</strong> para construir o todo!
+        <br />
+        Arraste cada peça para o lugar certo e monte um carro.
       </p>
 
       <DndContext onDragEnd={handleDragEnd}>
         <div className="ac-main">
           {/* Inventário de Peças */}
           <div className="inventory">
-            <h4>Peças</h4>
+            <h4>Peças Separadas:</h4>
             <div className="inventory-grid">
               {PARTS.map(
                 (part) =>
@@ -153,7 +154,7 @@ export default function AssembleCar({ onConcluido }) {
             animate={{ opacity: 1, scale: 1 }}
             className="feedback sucesso"
           >
-            ✨ Parabéns! Você montou o carro com sucesso!
+            ✨ <strong>Parabéns!</strong> Você juntou todas as partes e o carro está pronto! 🚗💨
           </motion.div>
         )}
       </AnimatePresence>

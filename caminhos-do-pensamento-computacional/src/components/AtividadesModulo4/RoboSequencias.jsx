@@ -1,17 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './RoboSequencias.css';
 
-// Componente do Robô em SVG - SEM ROTAÇÃO
-function RoboSVG() {
+// Componente do Robô em SVG - COM EXPRESSÕES
+function RoboSVG({ expressao = 'feliz' }) {
     return (
         <g>
+            {/* Corpo e Cabeça */}
             <rect x="-18" y="-22" width="36" height="44" fill="#2563eb" rx="6" />
             <rect x="-16" y="-20" width="32" height="40" fill="#3b82f6" rx="5" />
             <ellipse cx="0" cy="-32" rx="15" ry="12" fill="#60a5fa" />
-            <circle cx="-6" cy="-32" r="4" fill="white" />
-            <circle cx="6" cy="-32" r="4" fill="white" />
-            <circle cx="-6" cy="-32" r="2" fill="#1e293b" />
-            <circle cx="6" cy="-32" r="2" fill="#1e293b" />
+            
+            {/* Olhos e Boca baseados na expressão */}
+            {expressao === 'triste' ? (
+                <>
+                    {/* Olhos em X */}
+                    <line x1="-8" y1="-34" x2="-4" y2="-30" stroke="#1e293b" strokeWidth="1.5" />
+                    <line x1="-8" y1="-30" x2="-4" y2="-34" stroke="#1e293b" strokeWidth="1.5" />
+                    <line x1="4" y1="-34" x2="8" y2="-30" stroke="#1e293b" strokeWidth="1.5" />
+                    <line x1="4" y1="-30" x2="8" y2="-34" stroke="#1e293b" strokeWidth="1.5" />
+                    {/* Boca Triste */}
+                    <path d="M -6 -24 Q 0 -30 6 -24" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+                </>
+            ) : (
+                <>
+                    {/* Olhos Normais */}
+                    <circle cx="-6" cy="-32" r="4" fill="white" />
+                    <circle cx="6" cy="-32" r="4" fill="white" />
+                    <circle cx="-6" cy="-32" r="2" fill="#1e293b" />
+                    <circle cx="6" cy="-32" r="2" fill="#1e293b" />
+                    {/* Boca Feliz */}
+                    <path d="M -6 -26 Q 0 -22 6 -26" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+                </>
+            )}
+
+            {/* Antena e Detalhes */}
             <line x1="0" y1="-40" x2="0" y2="-48" stroke="#1e293b" strokeWidth="2" />
             <circle cx="0" cy="-48" r="3" fill="#ef4444" />
             <rect x="-22" y="-12" width="4" height="18" fill="#3b82f6" rx="2" />
@@ -38,37 +60,37 @@ function BandeiraSVG({ animando }) {
 
 // Comandos - Movimentos em 2D
 const COMANDOS = [
-    { id: 'direita', nome: 'Avançar', icone: '➡️', cor: '#3b82f6' },
-    { id: 'baixo', nome: 'Descer', icone: '⬇️', cor: '#10b981' },
-    { id: 'cima', nome: 'Subir', icone: '⬆️', cor: '#ffa200ff' },
-    { id: 'esquerda', nome: 'Voltar', icone: '⬅️', cor: '#ec4899' },
+    { id: 'direita', nome: 'Direita', icone: '➡️', cor: '#3b82f6' },
+    { id: 'baixo', nome: 'Baixo', icone: '⬇️', cor: '#10b981' },
+    { id: 'cima', nome: 'Cima', icone: '⬆️', cor: '#ffa200ff' },
+    { id: 'esquerda', nome: 'Esquerda', icone: '⬅️', cor: '#ec4899' },
 ];
 
 // Níveis do jogo
 const NIVEIS = [
     {
         id: 1,
-        titulo: 'Nível 1: Caminho Reto',
+        titulo: 'Desafio 1: Caminho Reto',
         grade: 5,
         roboInicio: { x: 0, y: 2 },
         bandeiraPos: { x: 4, y: 2 },
-        dica: 'Use 4x Avançar à Direita ➡️'
+        dica: 'O caminho é uma linha reta! Use o comando de Direita quantas vezes for preciso.'
     },
     {
         id: 2,
-        titulo: 'Nível 2: Uma Curva',
+        titulo: 'Desafio 2: Uma Curva',
         grade: 5,
         roboInicio: { x: 0, y: 4 },
         bandeiraPos: { x: 4, y: 0 },
-        dica: 'Avance à Direita ➡️ 4x, depois Avance para Cima ⬆️ 4x'
+        dica: 'Primeiro ande tudo para a Direita, depois suba tudo para Cima.'
     },
     {
         id: 3,
-        titulo: 'Nível 3: Zigue-Zague',
+        titulo: 'Desafio 3: Zigue-Zague',
         grade: 5,
         roboInicio: { x: 0, y: 2 },
         bandeiraPos: { x: 4, y: 4 },
-        dica: 'Combine Avançar à Direita ➡️, Avançar para Baixo ⬇️!'
+        dica: 'Você vai precisar descer e ir para a direita, como uma escada!'
     }
 ];
 
@@ -85,6 +107,12 @@ export default function RoboSequencias({ onConcluido }) {
     const [draggedItem, setDraggedItem] = useState(null);
     const [dragOverIndex, setDragOverIndex] = useState(null);
     const [comandoAtivo, setComandoAtivo] = useState(null);
+    
+    // Estado para expressão facial
+    const [expressaoRobo, setExpressaoRobo] = useState('feliz');
+
+    // Referência direta para o elemento do robô (Substitui document.querySelector)
+    const roboRef = useRef(null);
 
     const nivel = NIVEIS[nivelAtual];
 
@@ -94,6 +122,12 @@ export default function RoboSequencias({ onConcluido }) {
         setFeedback('');
         setBandeiraAnimando(false);
         setComandoAtivo(null);
+        setExpressaoRobo('feliz');
+        
+        // Remove classe de tremor se existir (usando ref)
+        if (roboRef.current) {
+            roboRef.current.classList.remove('tremendo');
+        }
     };
 
     const adicionarComando = (comandoId) => {
@@ -111,41 +145,92 @@ export default function RoboSequencias({ onConcluido }) {
         resetar();
     };
 
-    const mover = (pos, cmd) => {
+    // Calcula posição sem mover (para validação)
+    const calcularNovaPosicao = (pos, cmd) => {
         const { x, y } = pos;
         let nx = x, ny = y;
 
-        if (cmd === 'direita') nx = Math.min(x + 1, nivel.grade - 1);
-        else if (cmd === 'esquerda') nx = Math.max(x - 1, 0);
-        else if (cmd === 'baixo') ny = Math.min(y + 1, nivel.grade - 1);
-        else if (cmd === 'cima') ny = Math.max(y - 1, 0);
+        if (cmd === 'direita') nx = x + 1;
+        else if (cmd === 'esquerda') nx = x - 1;
+        else if (cmd === 'baixo') ny = y + 1;
+        else if (cmd === 'cima') ny = y - 1;
 
         return { x: nx, y: ny };
     };
 
+    // Verifica se saiu dos limites
+    const isForaDoMapa = (p) => {
+        return p.x < 0 || p.x >= nivel.grade || p.y < 0 || p.y >= nivel.grade;
+    };
+
+    // Função para tratar a colisão (animação)
+    const tratarSaidaTabuleiro = async () => {
+        setExpressaoRobo('triste');
+        setFeedback('💥 Ops! O robô saiu do tabuleiro!');
+        
+        if (roboRef.current) {
+            // Pequeno delay para garantir renderização da expressão
+            await new Promise(r => setTimeout(r, 50));
+            roboRef.current.classList.add('tremendo');
+            await new Promise(r => setTimeout(r, 600));
+            if (roboRef.current) roboRef.current.classList.remove('tremendo');
+        }
+    };
+
     const executar = async () => {
+        // Reset inicial visual obrigatório
+        resetar();
+        await new Promise(r => setTimeout(r, 400)); 
+        
         setExecutando(true);
         setFeedback('');
         setComandoAtivo(null);
+        setExpressaoRobo('feliz');
         let pos = { x: nivel.roboInicio.x, y: nivel.roboInicio.y };
 
         for (let i = 0; i < algoritmo.length; i++) {
             const cmd = algoritmo[i];
             setComandoAtivo(i);
-            await new Promise(r => setTimeout(r, 800));
-            pos = mover(pos, cmd);
+            
+            // Pausa inicial para destacar o comando
+            await new Promise(r => setTimeout(r, 600));
+            
+            const novaPos = calcularNovaPosicao(pos, cmd);
+            
+            // Verifica se saiu do mapa
+            if (isForaDoMapa(novaPos)) {
+                // 1. Move visualmente para fora
+                setRoboPos(novaPos);
+                
+                // 2. Aguarda o tempo da transição do movimento
+                await new Promise(r => setTimeout(r, 600));
+                
+                // 3. Executa o tremor e o feedback
+                await tratarSaidaTabuleiro();
+                
+                setExecutando(false);
+                setComandoAtivo(null);
+                return;
+            }
+            
+            // Move visualmente (dentro do tabuleiro)
+            pos = novaPos;
             setRoboPos(pos);
-            await new Promise(r => setTimeout(r, 200));
+            
+            // Tempo do movimento
+            await new Promise(r => setTimeout(r, 600));
+            
+            // Pausa entre comandos
+            await new Promise(r => setTimeout(r, 300));
         }
 
         setComandoAtivo(null);
-        await new Promise(r => setTimeout(r, 300));
-
+        
         if (pos.x === nivel.bandeiraPos.x && pos.y === nivel.bandeiraPos.y) {
             setBandeiraAnimando(true);
             await new Promise(r => setTimeout(r, 1500));
             setVenceu(true);
-            setFeedback('🎉 Parabéns! Você completou o nível!');
+            setFeedback('🎉 Aê, Muito bem! Você fez a sequência de passos (algoritmo) correta e o robô chegou na bandeira!');
             if (!niveisCompletos.includes(nivelAtual)) {
                 setNiveisCompletos([...niveisCompletos, nivelAtual]);
             }
@@ -153,7 +238,8 @@ export default function RoboSequencias({ onConcluido }) {
                 setTimeout(() => onConcluido && onConcluido(), 2000);
             }
         } else {
-            setFeedback('❌ O robô não chegou na bandeira. Tente de novo!');
+            setExpressaoRobo('triste');
+            setFeedback('❌ Ops! O robô não chegou na bandeira. Tente arrumar os passos!');
         }
 
         setExecutando(false);
@@ -169,6 +255,7 @@ export default function RoboSequencias({ onConcluido }) {
             setFeedback('');
             setMostrarDica(false);
             setBandeiraAnimando(false);
+            setExpressaoRobo('feliz');
         }
     };
 
@@ -222,8 +309,8 @@ export default function RoboSequencias({ onConcluido }) {
         <div className="robo-sequencias-container">
             <h2 className="robo-title">🤖 Robô com Sequências</h2>
             <p className="robo-subtitle">
-                Monte a sequência de comandos para o robô chegar na bandeira!
-                <strong> A ordem dos passos é muito importante!</strong>
+                Ajude o robô a pegar a bandeira! Crie uma <strong>sequência</strong> de comandos para ele seguir.
+                <br /><strong>Lembre-se:</strong> A ordem dos passos é muito importante!
             </p>
 
             {/* Níveis */}
@@ -240,11 +327,12 @@ export default function RoboSequencias({ onConcluido }) {
                             setFeedback('');
                             setMostrarDica(false);
                             setBandeiraAnimando(false);
+                            setExpressaoRobo('feliz');
                         }}
                         disabled={executando}
                     >
                         {niveisCompletos.includes(i) && '✓ '}
-                        Nível {n.id}
+                        Desafio {n.id}
                     </button>
                 ))}
             </div>
@@ -266,8 +354,14 @@ export default function RoboSequencias({ onConcluido }) {
                             ))
                         )}
 
-                        <g transform={`translate(${roboPos.x * 80 + 40}, ${roboPos.y * 80 + 40})`} className="robo-animado">
-                            <RoboSVG />
+                        {/* Grupo Pai move, Grupo Filho anima com REF */}
+                        <g 
+                            transform={`translate(${roboPos.x * 80 + 40}, ${roboPos.y * 80 + 40})`} 
+                            className="robo-movimento"
+                        >
+                            <g ref={roboRef} className="robo-animado">
+                                <RoboSVG expressao={expressaoRobo} />
+                            </g>
                         </g>
 
                         <g transform={`translate(${nivel.bandeiraPos.x * 80 + 40}, ${nivel.bandeiraPos.y * 80 + 40})`} style={{ zIndex: bandeiraAnimando ? 10 : 1 }}>
@@ -283,6 +377,13 @@ export default function RoboSequencias({ onConcluido }) {
                     <button className="btn-dica" onClick={() => setMostrarDica(!mostrarDica)}>
                         {mostrarDica ? '🙈 Esconder' : '💡 Ver Dica'}
                     </button>
+
+                    {/* Feedback ajustado para priorizar erro se houver texto de erro */}
+                    {feedback && (
+                        <div className={`feedback ${venceu ? 'sucesso' : (feedback.includes('saiu do tabuleiro') || feedback.includes('não chegou') ? 'erro' : '')}`}>
+                            {feedback}
+                        </div>
+                    )}
                 </div>
 
                 {/* Painel de Controle */}
@@ -309,7 +410,7 @@ export default function RoboSequencias({ onConcluido }) {
 
                     <div className="algoritmo-section">
                         <div className="algo-header">
-                            <h4 className="subtitle">Algoritmo ({algoritmo.length}/15):</h4>
+                            <h4 className="subtitle">Seu Algoritmo ({algoritmo.length}/15):</h4>
                             {algoritmo.length > 0 && (
                                 <button className="btn-limpar-mini" onClick={limpar} disabled={executando}>
                                     🗑️
@@ -322,7 +423,7 @@ export default function RoboSequencias({ onConcluido }) {
                             onDrop={(e) => handleDrop(e, null)}
                         >
                             {algoritmo.length === 0 ? (
-                                <div className="algo-vazio">Arraste ou clique nos comandos...</div>
+                                <div className="algo-vazio">Arraste os comandos para cá...</div>
                             ) : (
                                 algoritmo.map((cmdId, i) => {
                                     const cmd = COMANDOS.find(c => c.id === cmdId);
@@ -364,27 +465,21 @@ export default function RoboSequencias({ onConcluido }) {
                             </button>
                         )}
                     </div>
-
-                    {feedback && (
-                        <div className={`feedback ${venceu ? 'sucesso' : 'erro'}`}>
-                            {feedback}
-                        </div>
-                    )}
                 </div>
             </div>
 
             {niveisCompletos.length === NIVEIS.length && (
                 <div className="conclusao">
-                    <h3>🏆 Parabéns! Todos os níveis completos!</h3>
+                    <h3>🏆 Parabéns! Você completou todos os desafios!</h3>
                     <p>
-                        Você dominou as <strong>SEQUÊNCIAS</strong>! Aprendeu que a ordem dos comandos
-                        é fundamental em um algoritmo.
+                        Você dominou as <strong>SEQUÊNCIAS</strong>! Você aprendeu que a ordem dos comandos
+                        muda tudo o que o robô faz.
                     </p>
                     <div className="conceito-box">
-                        <strong>💡 Conceito Aprendido:</strong>
+                        <strong>💡 O que aprendemos:</strong>
                         <p>
-                            Uma SEQUÊNCIA é uma lista ordenada de passos. Em um algoritmo,
-                            cada instrução é executada uma após a outra, na ordem exata!
+                            <br></br>Uma <strong>SEQUÊNCIA</strong> é como uma fila de instruções. 
+                            O computador (ou o robô) segue um passo de cada vez, na ordem certinha!
                         </p>
                     </div>
                 </div>

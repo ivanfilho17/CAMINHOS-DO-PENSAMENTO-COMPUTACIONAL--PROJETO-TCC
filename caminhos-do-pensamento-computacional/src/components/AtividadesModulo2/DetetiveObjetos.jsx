@@ -104,7 +104,7 @@ function DropZone({ id, titulo, children, isOver, count }) {
 
 export default function DetetiveObjetos({ onConcluido }) {
     const [desafioAtual, setDesafioAtual] = useState(0);
-    const [objetosColocados, setObjetosColocados] = useState({ garagem: [], descarte: [] });
+    const [objetosColocados, setObjetosColocados] = useState({ zonaCerta: [], zonaErrada: [] });
     const [feedback, setFeedback] = useState(null);
     const [shake, setShake] = useState(null);
     const [concluido, setConcluido] = useState(false);
@@ -119,7 +119,7 @@ export default function DetetiveObjetos({ onConcluido }) {
         if (!over || !active) return;
 
         const objetoId = active.id;
-        const zona = over.id; // 'garagem' ou 'descarte'
+        const zona = over.id; // 'zonaCerta' ou 'zonaErrada'
         const objeto = desafio.objetos.find(obj => obj.id === objetoId);
 
         if (!objeto) return;
@@ -131,8 +131,9 @@ export default function DetetiveObjetos({ onConcluido }) {
         }));
 
         // Verifica se a classificação está correta
-        const correto = (zona === 'garagem' && objeto.correto) ||
-            (zona === 'descarte' && !objeto.correto);
+        // zonaCerta = deve ser 'correto' | zonaErrada = deve ser 'falso'
+        const correto = (zona === 'zonaCerta' && objeto.correto) ||
+            (zona === 'zonaErrada' && !objeto.correto);
 
         if (!correto) {
             setShake(objetoId);
@@ -142,13 +143,13 @@ export default function DetetiveObjetos({ onConcluido }) {
 
     // Verifica se o desafio foi completado
     useEffect(() => {
-        const totalColocados = objetosColocados.garagem.length + objetosColocados.descarte.length;
+        const totalColocados = objetosColocados.zonaCerta.length + objetosColocados.zonaErrada.length;
 
         if (totalColocados === desafio.objetos.length) {
             // Verifica se todos estão corretos
             const todosCorretos =
-                objetosColocados.garagem.every(obj => obj.correto) &&
-                objetosColocados.descarte.every(obj => !obj.correto);
+                objetosColocados.zonaCerta.every(obj => obj.correto) &&
+                objetosColocados.zonaErrada.every(obj => !obj.correto);
 
             if (todosCorretos) {
                 setFeedback('sucesso');
@@ -165,26 +166,27 @@ export default function DetetiveObjetos({ onConcluido }) {
             onConcluido && onConcluido();
         } else {
             setDesafioAtual(prev => prev + 1);
-            setObjetosColocados({ garagem: [], descarte: [] });
+            setObjetosColocados({ zonaCerta: [], zonaErrada: [] });
             setFeedback(null);
         }
     };
 
     const reiniciarDesafio = () => {
-        setObjetosColocados({ garagem: [], descarte: [] });
+        setObjetosColocados({ zonaCerta: [], zonaErrada: [] });
         setFeedback(null);
     };
 
     const objetosDisponiveis = desafio.objetos.filter(
-        obj => !objetosColocados.garagem.includes(obj) &&
-            !objetosColocados.descarte.includes(obj)
+        obj => !objetosColocados.zonaCerta.includes(obj) &&
+            !objetosColocados.zonaErrada.includes(obj)
     );
 
     return (
         <div className="atividade-container detetive-objetos-container">
-            <h3>🔎 Atividade: O Detetive dos Objetos</h3>
+            <h3>🔎 O Detetive dos Objetos</h3>
+            {/* Instrução simplificada */}
             <p className="instrucoes">
-                Classifique os objetos seguindo a regra! Arraste para a garagem ou para o descarte.
+                Separe os objetos! Coloque o que segue a regra na caixa certa e o que não segue na outra.
             </p>
 
             {!concluido ? (
@@ -200,14 +202,14 @@ export default function DetetiveObjetos({ onConcluido }) {
                     <div className="regra-box">
                         <div className="regra-icon">📋</div>
                         <div className="regra-texto">
-                            <strong>Regra:</strong> {desafio.regra}
+                            <strong>A Regra é:</strong> {desafio.regra}
                         </div>
                     </div>
 
                     <DndContext onDragEnd={handleDragEnd}>
                         {/* Área de objetos disponíveis */}
                         <div className="area-objetos">
-                            <h5>Objetos para classificar:</h5>
+                            <h5>Objetos misturados:</h5>
                             <div className="objetos-grid">
                                 {objetosDisponiveis.map(objeto => (
                                     <DraggableObject
@@ -218,18 +220,18 @@ export default function DetetiveObjetos({ onConcluido }) {
                                 ))}
                             </div>
                             {objetosDisponiveis.length === 0 && !feedback && (
-                                <p className="texto-vazio">Todos os objetos foram classificados!</p>
+                                <p className="texto-vazio">Tudo separado!</p>
                             )}
                         </div>
 
-                        {/* Zonas de classificação */}
+                        {/* Zonas de classificação com nomes genéricos */}
                         <div className="zonas-classificacao">
                             <DropZone
-                                id="garagem"
-                                titulo="✅ Garagem (Segue a regra)"
-                                count={objetosColocados.garagem.length}
+                                id="zonaCerta"
+                                titulo="✅ Segue a Regra"
+                                count={objetosColocados.zonaCerta.length}
                             >
-                                {objetosColocados.garagem.map(objeto => (
+                                {objetosColocados.zonaCerta.map(objeto => (
                                     <div
                                         key={objeto.id}
                                         className={`objeto-colocado ${shake === objeto.id ? 'shake' : ''}`}
@@ -241,11 +243,11 @@ export default function DetetiveObjetos({ onConcluido }) {
                             </DropZone>
 
                             <DropZone
-                                id="descarte"
-                                titulo="❌ Descarte (Não segue a regra)"
-                                count={objetosColocados.descarte.length}
+                                id="zonaErrada"
+                                titulo="❌ Não Segue"
+                                count={objetosColocados.zonaErrada.length}
                             >
-                                {objetosColocados.descarte.map(objeto => (
+                                {objetosColocados.zonaErrada.map(objeto => (
                                     <div
                                         key={objeto.id}
                                         className={`objeto-colocado ${shake === objeto.id ? 'shake' : ''}`}
@@ -266,8 +268,8 @@ export default function DetetiveObjetos({ onConcluido }) {
                             className="feedback-box sucesso"
                         >
                             <div className="feedback-icon">🎉</div>
-                            <h4>Perfeito, Detetive!</h4>
-                            <p>Você classificou todos os objetos corretamente!</p>
+                            <h4>Muito bem, Detetive!</h4>
+                            <p>Você separou tudo corretamente seguindo a regra!</p>
                             <button className="btn" onClick={proximoDesafio}>
                                 {ultimoDesafio ? 'Finalizar' : 'Próximo Desafio'}
                             </button>
@@ -281,8 +283,8 @@ export default function DetetiveObjetos({ onConcluido }) {
                             className="feedback-box erro"
                         >
                             <div className="feedback-icon">😕</div>
-                            <h4>Ops! Alguns objetos estão no lugar errado.</h4>
-                            <p>Revise a regra e tente novamente!</p>
+                            <h4>Ops! Algo ficou no lugar errado.</h4>
+                            <p>Olhe a regra novamente e tente de novo!</p>
                             <button className="btn" onClick={reiniciarDesafio}>
                                 Tentar Novamente
                             </button>
@@ -295,12 +297,12 @@ export default function DetetiveObjetos({ onConcluido }) {
                             <div
                                 className="progresso-bar-fill"
                                 style={{
-                                    width: `${(objetosColocados.garagem.length + objetosColocados.descarte.length) / desafio.objetos.length * 100}%`
+                                    width: `${(objetosColocados.zonaCerta.length + objetosColocados.zonaErrada.length) / desafio.objetos.length * 100}%`
                                 }}
                             />
                         </div>
                         <p className="progresso-texto">
-                            {objetosColocados.garagem.length + objetosColocados.descarte.length} / {desafio.objetos.length} classificados
+                            {objetosColocados.zonaCerta.length + objetosColocados.zonaErrada.length} / {desafio.objetos.length} classificados
                         </p>
                     </div>
                 </>
@@ -313,13 +315,13 @@ export default function DetetiveObjetos({ onConcluido }) {
                     >
                         <h3>🏆 Detetive Expert!</h3>
                         <p>
-                            Você completou todos os desafios de classificação!
+                            Você completou todos os desafios!
                         </p>
                         <p>
-                            <strong>Desempenho:</strong> {acertos} de {DESAFIOS.length} perfeitos
+                            <strong>Desempenho:</strong> {acertos} de {DESAFIOS.length} perfeitos!
                         </p>
                         <p>
-                            Você demonstrou excelente habilidade em identificar padrões e classificar objetos! 🌟
+                            Você é muito bom e demonstrou excelente habilidade em identificar padrões e regras! 🌟
                         </p>
                     </motion.div>
                 </AnimatePresence>

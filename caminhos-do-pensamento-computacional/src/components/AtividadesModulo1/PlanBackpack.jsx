@@ -6,7 +6,7 @@ import "./PlanBackPack.css";
 const CATEGORIES = [
     { id: "school", label: "Materiais da Escola" },
     { id: "snack", label: "Lanche" },
-    { id: "home", label: "Itens que Ficam em Casa" },
+    { id: "home", label: "Fica em Casa" },
 ];
 
 const INITIAL_ITEMS = [
@@ -15,9 +15,11 @@ const INITIAL_ITEMS = [
     { id: "livro", label: "Livro", emoji: "📚", correct: "school" },
     { id: "lancheira", label: "Lancheira", emoji: "🍱", correct: "snack" },
     { id: "maca", label: "Maçã", emoji: "🍎", correct: "snack" },
+    { id: "suco", label: "Suco", emoji: "🧃", correct: "snack" },
+    { id: "sanduiche", label: "Sanduíche", emoji: "🥪", correct: "snack" },
     { id: "bola", label: "Bola", emoji: "⚽", correct: "home" },
-    { id: "pijama", label: "Pijama", emoji: "🛌", correct: "home" },
-    { id: "brinquedo", label: "Brinquedo", emoji: "🧸", correct: "home" },
+    { id: "pijama", label: "Pijama", emoji: "👘", correct: "home" },
+    { id: "ursinho", label: "Ursinho", emoji: "🧸", correct: "home" },
 ];
 
 // === Função utilitária para embaralhar ===
@@ -78,7 +80,7 @@ function DroppableCategory({ category, slots, items, shaking }) {
         <div ref={setNodeRef} className="pb-category-wrapper">
             <CategoryBox category={category} isOver={isOver}>
                 {itemsInCategory.length === 0 ? (
-                    <div className="pb-placeholder">Arraste os itens aqui</div>
+                    <div className="pb-placeholder">Solte aqui</div>
                 ) : (
                     itemsInCategory.map((itemId) => {
                         const item = items.find((it) => it.id === itemId);
@@ -162,16 +164,17 @@ export default function PlanBackPack({ onConcluido }) {
 
     return (
         <div className="plan-backpack-container atividade-container">
-            <h3 className="pb-title">Atividade: Planejando a Mochila 🎒</h3>
+            <h3 className="pb-title">🎒 Planejando a Mochila</h3>
             <p className="pb-instructions">
-                Objetivo: use a <strong>decomposição</strong> para organizar a tarefa:{" "}
-                <em>“Vamos arrumar a mochila para a aula!”</em>
+                Vamos arrumar a mochila para a aula!
+                <br />
+                Para resolver essa tarefa grande, vamos <strong>dividir em partes menores (subproblemas)</strong>.
             </p>
 
             <DndContext key="plan-backpack" onDragEnd={handleDragEnd}>
                 <div className="pb-main">
                     <div className="pb-esteira">
-                        <h4>Esteira de Itens</h4>
+                        <h4>Seus Itens:</h4>
                         <div className="pb-esteira-content">
                             {items.map((item) => {
                                 if (isPlaced(item.id)) return null;
@@ -186,12 +189,12 @@ export default function PlanBackPack({ onConcluido }) {
                             })}
                         </div>
                         <div className="pb-esteira-note">
-                            Arraste cada item para a caixa correta.
+                            Arraste cada item para a caixa certa.
                         </div>
                     </div>
 
                     <div className="pb-categories">
-                        <h4>Caixas (subproblemas)</h4>
+                        <h4>Separe nas Caixas:</h4>
                         <div className="pb-categories-grid">
                             {CATEGORIES.map((cat) => (
                                 <DroppableCategory
@@ -215,8 +218,8 @@ export default function PlanBackPack({ onConcluido }) {
                         exit={{ opacity: 0, scale: 0.8 }}
                         className="pb-feedback-success"
                     >
-                        ✨ <strong>Parabéns!</strong> Você decompos a tarefa corretamente — todos os
-                        itens foram categorizados!
+                        ✨ <strong>Muito bem!</strong> Você dividiu o problema em partes menores e organizou tudo!
+                        <br/>Isso é <strong>Decomposição</strong>!
                     </motion.div>
                 )}
             </AnimatePresence>

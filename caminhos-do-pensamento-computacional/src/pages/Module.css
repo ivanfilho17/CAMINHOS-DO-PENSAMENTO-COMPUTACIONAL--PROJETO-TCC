@@ -1,8 +1,9 @@
+/* Module.css */
+
 .module {
     color: var(--black);
     width: 100%;
     max-width: 900px;
-    /* Aumentar a largura máxima para o conteúdo */
     margin: 1rem auto;
     padding: 1rem;
 }
@@ -10,7 +11,8 @@
 .tela-conteudo {
     display: flex;
     flex-direction: column;
-    gap: 2rem; /* Espaçamento entre as seções */
+    gap: 2rem;
+    padding-bottom: 5rem;
 }
 
 .module-header {
@@ -30,6 +32,7 @@
     border: 4px solid var(--black);
     box-shadow: 6px 6px 0 var(--black);
     margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
 .module-header h2 {
@@ -38,10 +41,11 @@
     justify-content: center;
     background-color: var(--secondary);
     color: var(--white);
-    padding: 0.3rem;
+    padding: 0.3rem 0.8rem;
     margin-top: 1.5rem;
     border: 3px solid var(--black);
     box-shadow: 4px 4px 0 var(--black);
+    display: inline-block;
 }
 
 .texto-explicativo h3 {
@@ -52,6 +56,7 @@
     border: 4px solid var(--black);
     box-shadow: 5px 5px 0 var(--black);
     text-align: center;
+    padding: 5px;
 }
 
 .texto-explicativo {
@@ -75,6 +80,24 @@
 
 .texto-explicativo li {
     padding-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.exemplo-principal {
+    background-color: #e0f2fe;
+    border: 3px solid var(--black);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    box-shadow: 4px 4px 0 var(--black);
+}
+
+.exemplo-principal h4 {
+    font-size: 1.2rem;
+    color: #0c4a6e;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #0c4a6e;
+    padding-bottom: 0.5rem;
 }
 
 .video-container {
@@ -84,11 +107,11 @@
 .video-container h4 {
     margin-bottom: 0.6rem;
     font-size: 1.2rem;
-    padding: 3px;
+    padding: 3px 10px;
     color: var(--black);
     background-color: var(--white);
     border: 3px solid var(--black);
-    box-shadow: 5px 5px 0 var(--black);
+    box-shadow: 5px 5px 0 var(--black)
 }
 
 .video-container iframe {
@@ -96,6 +119,8 @@
     border-radius: 8px;
     box-shadow: 6px 6px 0 var(--black);
     max-width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
 }
 
 .cards-exemplo {
@@ -110,6 +135,12 @@
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 4px 4px 0 var(--black);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-exemplo:hover {
+    transform: translateY(-3px);
+    box-shadow: 8px 8px 0 var(--black);
 }
 
 .card-exemplo h4 {
@@ -141,79 +172,42 @@
     fill: currentColor;
 }
 
-.card-exemplo {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-exemplo:hover {
-    transform: translateY(-3px);
-    box-shadow: 8px 8px 0 var(--black);
-}
-
 /* Animações de brilho */
 @keyframes glow-yellow {
-
-    0%,
-    100% {
-        box-shadow: 6px 6px 0 var(--black);
-    }
-
-    50% {
-        box-shadow: 6px 6px 20px #ffd900;
-    }
+    0%, 100% { box-shadow: 6px 6px 0 var(--black); }
+    50% { box-shadow: 6px 6px 20px #ffd900; }
 }
 
 @keyframes glow-blue {
-
-    0%,
-    100% {
-        box-shadow: 6px 6px 0 var(--black);
-    }
-
-    50% {
-        box-shadow: 6px 6px 20px var(--secondary);
-    }
+    0%, 100% { box-shadow: 6px 6px 0 var(--black); }
+    50% { box-shadow: 6px 6px 20px var(--secondary); }
 }
 
-.anim-glow-yellow {
-    animation: glow-yellow 5s infinite;
-}
+.anim-glow-yellow { animation: glow-yellow 5s infinite; }
+.anim-glow-blue { animation: glow-blue 5s infinite; }
 
-.anim-glow-blue {
-    animation: glow-blue 5s infinite;
-}
-
-/* Ajuste geral para botões que contêm ícones */
 .module-footer .btn {
     display: inline-flex;
-    /* Garante o alinhamento de ícone e texto */
     justify-content: center;
     align-items: center;
     gap: 8px;
-    /* Espaço padrão entre ícone e texto */
 }
 
-/* Ícone de "Voltar ao Menu" (Casa) */
 .module-footer .btn .icon-voltar {
     width: 25px;
-    /* Tamanho compatível com o texto */
     height: 25px;
     fill: currentColor;
-    /* Herda a cor do texto do botão */
 }
 
-/* Botão "Voltar" que é APENAS um ícone */
 .btn-icon {
     justify-content: center;
     padding: 0.5rem;
-    /* Remove padding para o ícone preencher o espaço */
     max-width: 70px;
     min-width: 70px;
 }
 
 .btn-icon svg {
     width: 25px;
-    /* Garante que o ícone DENTRO do botão seja visível */
     height: 25px;
     fill: currentColor;
 }
@@ -238,7 +232,6 @@
     font-size: 1.5rem;
 }
 
-/* Estilo Padrão (Centralizado) */
 .progress-container {
     position: relative;
     width: 100%;
@@ -247,24 +240,20 @@
     height: 30px;
 }
 
-/* Estilo Quando Rolado (Canto Superior Direito) */
 .progress-container.scrolled {
     position: fixed;
     top: 1rem;
     right: 1rem;
     width: 180px;
-    /* <<< TAMANHO FINAL REDUZIDO */
     max-width: 180px;
     margin: 0;
     z-index: 100;
-    /* <<< REMOÇÃO DO ESTILO DE FUNDO PARA MOSTRAR SÓ A BARRA */
     background-color: transparent;
     padding: 0;
     border: none;
     box-shadow: none;
 }
 
-/* Anula o estilo "scrolled" na tela de conclusão */
 .progress-container.conclusion-screen,
 .progress-container.conclusion-screen.scrolled {
     position: relative !important;
@@ -278,21 +267,18 @@
     border: none !important;
     box-shadow: none !important;
     opacity: 1 !important;
-    /* Garante que seja visível na tela final */
 }
 
 .conclusao-container {
     position: relative;
     text-align: center;
     background: var(--white);
-    /* <<< COR DE FUNDO AJUSTADA */
     padding: 2rem;
     border: 4px solid var(--black);
     border-radius: 10px;
     box-shadow: 8px 8px 0 var(--black);
     max-width: 900px;
     margin: 2rem auto;
-    /* Centraliza o contêiner na tela */
 }
 
 .conclusao-container h1 {
@@ -301,11 +287,14 @@
     background-color: var(--yellow);
     border: 4px solid var(--black);
     box-shadow: 4px 4px;
+    display: inline-block;
+    padding: 0.5rem 1rem;
 }
 
 .conclusao-container .subtitulo {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
+    color: var(--darkgray);
 }
 
 .conclusao-container p {
@@ -314,30 +303,35 @@
     line-height: 1.5;
 }
 
+/* --- ÁREA DE PRÊMIOS ATUALIZADA --- */
 .premios-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
-    /* Aumenta um pouco o espaço entre os ícones */
     margin-top: 1rem;
     margin-bottom: 1.5rem;
 }
 
+/* Estilo do Emoji do prêmio */
 .premio-img {
-    width: 80px;
-    /* <<< TAMANHO DOS ÍCONES REDUZIDO */
-    height: 80px;
+    /* Uso !important para garantir que sobrescreva o style inline do JSX caso ele ainda esteja lá,
+       mas o ideal é remover o style inline do JSX para controle total aqui */
+    font-size: 5rem !important; 
     filter: drop-shadow(4px 4px 0 var(--black));
+    display: block;
+    width: auto;
+    height: auto;
 }
 
 .conclusao-botoes {
     justify-content: center;
     gap: 2rem;
     border-top: 3px solid var(--black);
-    /* Adiciona uma linha de separação */
     margin-top: 2rem;
     padding-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .conclusao-botoes .btn,
@@ -351,53 +345,49 @@
     padding: 0.3rem;
 }
 
-
-/* Animações (permanecem as mesmas) */
+/* --- ANIMAÇÕES ATUALIZADAS (Aparecer + Balanço) --- */
 .premio-wrapper {
-    animation: appear 1s ease-out;
+    /* 1. Aparece (1s) | 2. Balança infinitamente (começa após 1s de delay) */
+    animation: appear 1s ease-out forwards, balanco 3s ease-in-out infinite 1s;
+    display: inline-block; /* Necessário para o transform funcionar */
+    transform-origin: bottom center; /* Balança a partir da base */
 }
 
 .premio-wrapper.trophy {
-    animation-delay: 0.2s;
+    /* O troféu tem um pequeno delay extra na animação de entrada se desejar */
+    animation-delay: 0.2s, 1.2s; /* Delay entrada, Delay balanço */
 }
 
+/* Animação de Entrada (Zoom e Rotação) */
 @keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(0.3) rotate(-20deg);
-    }
+    from { opacity: 0; transform: scale(0.3) rotate(-20deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
 
-    to {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
+/* Animação de Balanço Suave */
+@keyframes balanco {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-6deg); }
+    75% { transform: rotate(6deg); }
 }
 
 .quiz-screen-wrapper {
     justify-content: flex-start;
-    /* Alinha o quiz ao topo */
     padding-top: 1rem;
-    /* Garante que o wrapper ocupe espaço para o footer */
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 120px);
-    /* Ajuste a altura conforme necessário */
 }
 
-/* Estilo para o footer específico do quiz */
 .quiz-footer {
     margin-top: auto;
-    /* Empurra o footer para baixo */
     padding-top: 1rem;
     border-top: 3px solid var(--black);
     justify-content: space-between;
-    /* Botões nas extremidades */
 }
 
-/* Garante que os botões de ícone no quiz-footer tenham a cor correta */
 .quiz-footer .btn-icon {
     background-color: var(--primary);
-    /* Ou outra cor se preferir */
 }
 
 .quiz-footer .btn-icon svg {
@@ -426,48 +416,26 @@
     color: var(--darkgray);
 }
 
-
-/* REGRA-CHAVE PARA O TAMANHO DOS ÍCONES */
 .conclusao-botoes .btn svg {
     width: 30px;
     height: 30px;
     fill: var(--white);
-    /* Garante a cor branca */
 }
 
-/* Cores específicas para os botões da tela de conclusão */
-.conclusao-botoes .btn-home {
-    background-color: var(--primary);
-    /* Rosa */
-}
+.conclusao-botoes .btn-home { background-color: var(--primary); }
+.conclusao-botoes .btn-refazer { background-color: var(--accent); }
+.conclusao-botoes .btn-avancar { background-color: var(--secondary); }
 
-.conclusao-botoes .btn-refazer {
-    background-color: var(--accent);
-    /* Azul */
-}
-
-.conclusao-botoes .btn-avancar {
-    background-color: var(--secondary);
-    /* Lilás */
-}
-
-
-/* ----- ESTILOS EXCLUSIVOS DO MÓDULO 4 (alg-) ----- */
-
-.alg-section {
-    margin-top: 2rem;
-}
+.alg-section { margin-top: 2rem; }
 
 .alg-cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1.5rem;
     margin-bottom: 1rem;
-    /* Espaço após o texto explicativo */
     margin-top: 2rem;
 }
 
-/* CARD BASE */
 .alg-card {
     background-color: transparent;
     width: auto;
@@ -485,14 +453,9 @@
     transform-style: preserve-3d;
 }
 
-/* Virar apenas quando clicado */
-.alg-card.flipped .alg-card-inner {
-    transform: rotateY(-180deg);
-}
+.alg-card.flipped .alg-card-inner { transform: rotateY(-180deg); }
 
-/* Faces */
-.alg-card-front,
-.alg-card-back {
+.alg-card-front, .alg-card-back {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -507,11 +470,7 @@
     box-shadow: 5px 5px 0 var(--black);
 }
 
-.alg-card-front {
-    background-color: var(--primary);
-    color: var(--white);
-}
-
+.alg-card-front { background-color: var(--primary); color: var(--white); }
 .alg-card-front h4 {
     font-size: 1.2rem;
     color: var(--black);
@@ -520,75 +479,87 @@
     border: 2px solid var(--black);
     border-radius: 10px;
 }
-
-.alg-card-front p {
-    font-size: 0.95rem;
-}
+.alg-card-front p { font-size: 0.95rem; }
 
 .alg-card-back {
     background-color: var(--secondary);
     transform: rotateY(180deg);
-    color: var(--white)
+    color: var(--white);
 }
-
 .alg-card-back h4 {
     background-color: var(--primary);
     padding: 0rem 0.4rem;
     border: 2px solid var(--black);
     border-radius: 10px;
     font-size: 1.1rem;
-
 }
+.alg-card-back p { font-size: 0.95rem; }
 
-.alg-card-back p {
-    font-size: 0.95rem;
-}
-
-.alg-icon {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-}
-
-
-/* --- NOVO: Rodapé Fixo --- */
+.alg-icon { font-size: 1.8rem; margin-bottom: 1rem; }
 
 .module-footer-fixed {
     position: fixed;
     bottom: 0;
     left: 50%;
-    /* Centraliza o rodapé */
     transform: translateX(-50%);
-    /* Centraliza o rodapé */
-
-    /* Faz o rodapé ter a mesma largura do conteúdo */
     width: 100%;
     max-width: 870px;
-    /* Deve ser o mesmo max-width de .module */
-
     border: 4px solid var(--black);
     border-radius: 8px;
     background-color: #fffffff1;
     box-shadow: 6px 6px 0 var(--black);
     z-index: 100;
-
-    /* Remove o margin-top e garante o padding */
     margin-top: 0;
     padding: 0.60rem 0.80rem;
-
-    /* Garante que a borda superior esteja visível */
     border-top: 4px solid var(--black);
 }
 
-/* Adiciona espaço no final da página 
-  para que o rodapé fixo não cubra o último conteúdo.
-*/
-.tela-conteudo {
-    /* Ajuste esta altura se o rodapé ficar maior */
-    padding-bottom: 4rem;
-}
-
-/* Garante que o rodapé do Quiz (Tela 3) mantenha o padding correto */
 .quiz-footer.module-footer-fixed {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
+}
+
+/* ------------------------------------------- */
+/* --- RESPONSIVIDADE (Tablets e Mobile) --- */
+/* ------------------------------------------- */
+
+@media (max-width: 768px) {
+    .module { padding: 0.5rem; }
+    .module-header h1 { font-size: 1.6rem; padding: 0.3rem 0.6rem; }
+    .module-header h2 { font-size: 0.9rem; margin-top: 0.8rem; }
+
+    .texto-explicativo { padding: 1rem; font-size: 1rem; }
+    .texto-explicativo h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+    .exemplo-principal { padding: 1rem; margin: 1.5rem 0; }
+
+    .cards-exemplo { grid-template-columns: 1fr; gap: 1rem; }
+    .alg-cards-container { grid-template-columns: 1fr; }
+    .alg-card { height: 180px; }
+
+    .conclusao-container { padding: 1.5rem; }
+    .conclusao-container h1 { font-size: 2rem; }
+    .conclusao-botoes { gap: 1rem; }
+
+    /* Ajuste dos Prêmios em Tablet */
+    .premio-img { font-size: 4rem !important; }
+}
+
+@media (max-width: 480px) {
+    .module-header h1 { font-size: 1.4rem; }
+    .texto-explicativo p { font-size: 0.95rem; }
+    
+    .module-footer-fixed { padding: 0.5rem; border-radius: 0; width: 100%; }
+    .btn.start { font-size: 1rem; padding: 0.4rem 0.8rem; }
+
+    .conclusao-container h1 { font-size: 1.6rem; }
+    .conclusao-container .subtitulo { font-size: 1.1rem; }
+    
+    .conclusao-botoes .btn { width: 50px; height: 50px; }
+    .conclusao-botoes .btn svg { width: 24px; height: 24px; }
+
+    .progress-container.scrolled { width: 140px; right: 0.5rem; top: 0.5rem; }
+
+    /* Ajuste dos Prêmios em Mobile */
+    .premio-img { font-size: 3rem !important; }
+    .premios-container { gap: 1rem; }
 }

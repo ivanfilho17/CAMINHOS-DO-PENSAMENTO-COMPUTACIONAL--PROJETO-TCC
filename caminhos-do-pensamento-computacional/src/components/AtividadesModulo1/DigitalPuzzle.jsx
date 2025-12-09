@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react"; // 1. Adicionado 'useRef'
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { motion, AnimatePresence } from "framer-motion";
 // Certifique-se que o caminho para sua imagem está correto
@@ -12,9 +12,9 @@ const PIECE_SIZE = 100; // Tamanho de cada peça
 
 // --- 1. DEFINIÇÃO DAS CATEGORIAS ---
 const CATEGORIAS = [
-    { id: 'ceu', title: 'Peças do Céu 🌤️' },
-    { id: 'leao', title: 'Peças do Leão 🦁' },
-    { id: 'vegetacao', title: 'Peças da Vegetação 🌿' }
+    { id: 'ceu', title: 'Céu 🌤️' }, 
+    { id: 'leao', title: 'Leão 🦁' },
+    { id: 'vegetacao', title: 'Vegetação 🌿' } 
 ];
 
 // --- 2. MAPEAMENTO DAS PEÇAS ---
@@ -167,7 +167,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                 ...prev,
                 [categoryId]: [...prev[categoryId], pieceId]
             }));
-            setFeedback('Boa! Peça categorizada corretamente.');
+            setFeedback('Isso! Peça guardada na caixa certa. ✅');
             setFeedbackType('sucesso');
             feedbackTimer.current = setTimeout(() => {
                 setFeedback('');
@@ -176,7 +176,7 @@ export default function DigitalPuzzle({ onConcluido }) {
         } else {
             setPecaAgitando(pieceId);
             const catTitle = CATEGORIAS.find(c => c.id === categoryId)?.title || "esta caixa";
-            setFeedback(`Ops! Essa peça não parece ser do grupo "${catTitle}". Tente de novo.`);
+            setFeedback(`Ops! Essa peça não parece ser do grupo "${catTitle}". Tente outra!`);
             setFeedbackType('erro');
             setTimeout(() => setPecaAgitando(null), 500);
             feedbackTimer.current = setTimeout(() => {
@@ -277,7 +277,7 @@ export default function DigitalPuzzle({ onConcluido }) {
         }
     };
 
-    // 5. LÓGICA DE TRANSIÇÃO (Bug 1 corrigido)
+    // 5. LÓGICA DE TRANSIÇÃO
     const totalPecas = pieces.length;
     const totalCategorizado = pecasCategorizadas.ceu.length + pecasCategorizadas.leao.length + pecasCategorizadas.vegetacao.length;
 
@@ -289,7 +289,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                 feedbackTimer.current = null;
             }
             // Define o feedback persistente de transição
-            setFeedback('Ótimo! Você decompôs o problema. Agora, combine as soluções!');
+            setFeedback('Muito bem! Separar as peças ajuda a organizar. Agora vamos montar!');
             setFeedbackType('sucesso');
             setSlotsMontagem({});
         }
@@ -318,11 +318,11 @@ export default function DigitalPuzzle({ onConcluido }) {
     // --- RENDERIZAÇÃO ---
     return (
         <div className="atividade-container puzzle-container">
-            <h3 className="puzzle-title">Atividade: Montando a imagem 🧩</h3>
+            <h3 className="puzzle-title">🧩 Quebra-Cabeça do Leão</h3>     
             <p className="puzzle-instructions">
                 {etapa === 1
-                    ? "Etapa 1 (Decomposição): Arraste as peças da esteira para as caixas corretas."
-                    : "Etapa 2 (Combinação): Agora, arraste as peças das caixas para montar o quebra-cabeça!"
+                    ? "Montar um quebra-cabeça pode ser uma tarefa muito grande! Vamos separar as peças por grupos para ficar mais fácil."
+                    : "Agora que separamos, ficou mais fácil! Arraste as peças das caixas para montar o desenho."
                 }
             </p>
 
@@ -354,7 +354,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                         {/* Esteira de Peças */}
                         <div className="puzzle-shuffled">
                             {pecasDisponiveis.length === 0
-                                ? <p>Todas as peças categorizadas!</p>
+                                ? <p>Todas as peças separadas!</p>
                                 : pecasDisponiveis.map((piece) => (
                                     <div key={piece.id} className={`shuffled-piece-wrapper ${pecaAgitando === piece.id ? 'shake' : ''}`}>
                                         <DraggablePiece id={piece.id} piece={piece} />
@@ -368,7 +368,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                                 setFeedback(''); // Limpa o feedback de transição ao clicar
                                 setFeedbackType('');
                             }} style={{ marginTop: '1rem' }}>
-                                Continuar para Montagem
+                                Vamos Montar!
                             </button>
                         )}
                     </div>
@@ -438,7 +438,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                         exit={{ opacity: 0, scale: 0.8 }}
                         className="feedback sucesso"
                     >
-                        ✨ <strong>Parabéns!</strong> Você decompôs E montou a imagem com sucesso!
+                        ✨ <strong>Incrível!</strong> Você resolveu um problema grande dividindo-o em partes menores!
                     </motion.div>
                 )}
             </AnimatePresence>

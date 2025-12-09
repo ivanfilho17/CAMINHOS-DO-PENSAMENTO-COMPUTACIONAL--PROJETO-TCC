@@ -18,12 +18,12 @@
     color: white;
 }
 
-.cara-cara-title {
+.cara-cara-header .cara-cara-title {
     font-family: 'Arial', sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
-    background: var(--primary);
-    color: var(--white);
+    background: #fff566;
+    color: var(--black);
     padding: 3px 5px;
     border: 3px solid var(--black);
     box-shadow: 4px 4px 0 var(--black);
@@ -31,9 +31,10 @@
 }
 
 .cara-cara-subtitle {
-    font-size: 1.2em;
+    font-size: 1rem;
     margin: 0;
     opacity: 0.9;
+    margin-bottom: 1rem;
 }
 
 /* Grade de Personagens */
@@ -42,6 +43,8 @@
     background: white;
     padding: 25px;
     border-radius: 15px;
+    border: 2px solid #36485f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.945);
 }
 
 .section-title {
@@ -61,9 +64,9 @@
 
 .personagem-card {
     background: white;
-    border: 2px solid #e5e7eb;
+    border: 2px solid #b2c0ce;
     border-radius: 12px;
-    padding: 15px;
+    padding: 5px;
     text-align: center;
     position: relative;
     transition: all 0.3s ease;
@@ -83,12 +86,9 @@
 }
 
 @keyframes pulseGreen {
-
-    0%,
-    100% {
+    0%, 100% {
         box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
     }
-
     50% {
         box-shadow: 0 4px 16px rgba(16, 185, 129, 0.8);
     }
@@ -102,14 +102,14 @@
 .avatar-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .personagem-nome {
     font-size: 1.1em;
     font-weight: 700;
     color: #1e293b;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .personagem-descricao {
@@ -139,26 +139,18 @@
 }
 
 @keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 0.8;
-        transform: scale(1.05);
-    }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
 }
 
 /* Pergunta */
 .pergunta-container {
     background: white;
-    padding: 25px;
+    padding: 15px;
+    border: 2px solid #36485f;
     border-radius: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgb(0, 0, 0);
 }
 
 .pergunta-select {
@@ -166,7 +158,7 @@
     padding: 15px;
     font-size: 1.1em;
     border-radius: 10px;
-    border: 2px solid #e5e7eb;
+    border: 2px solid #bebfc2;
     margin-bottom: 20px;
     cursor: pointer;
     background: white;
@@ -228,15 +220,8 @@
 }
 
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .feedback-box.sucesso {
@@ -335,15 +320,8 @@
 }
 
 @keyframes bounce {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-15px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
 .vitoria-title {
@@ -391,7 +369,6 @@
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 .conceito-box-end h3 strong {
@@ -430,41 +407,108 @@
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+    .grade-personagens {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
     .cara-cara-container {
-        padding: 20px;
+        padding: 15px;
     }
 
-    .cara-cara-title {
-        font-size: 2em;
+    .cara-cara-header .cara-cara-title {
+        font-size: 1.5rem;
     }
 
     .cara-cara-subtitle {
-        font-size: 1em;
+        font-size: 1rem;
     }
 
+    /* Grade mais compacta no mobile */
     .grade-personagens {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 15px;
+    }
+    
+    .grade-personagens-container {
+        padding: 20px;
     }
 
     .personagem-card {
+        padding: 5px;
+    }
+
+    /* Reduz o SVG do avatar */
+    .avatar-container svg {
+        width: 70px;
+        height: 70px;
+    }
+
+    .personagem-nome {
+        font-size: 0.9em;
+    }
+
+    .personagem-descricao {
+        font-size: 0.75em;
+        line-height: 1.1;
+    }
+    
+    .clique-badge {
+        font-size: 0.7rem;
+        padding: 4px;
+        margin-top: 5px;
+    }
+    
+    /* Pergunta */
+    .pergunta-container {
+        padding: 15px;
+    }
+
+    .pergunta-select {
         padding: 10px;
+        font-size: 1rem;
+    }
+
+    .pergunta-select option {
+        font-size: 0.7rem;
+        width: 100%; 
     }
 
     .botoes-resposta {
-        flex-direction: column;
+        flex-direction: row; /* Mantém lado a lado se possível */
+        gap: 10px;
     }
 
     .btn-resposta {
-        width: 100%;
+        flex: 1; /* Distribui largura igualmente */
+        padding: 12px;
+        font-size: 1rem;
+        min-width: auto;
     }
 
-    .vitoria-personagem {
-        padding: 20px 30px;
+    /* Vitória */
+    .vitoria-emoji {
+        font-size: 4rem;
     }
 
     .vitoria-title {
-        font-size: 2em;
+        font-size: 1.8rem;
+    }
+    
+    .vitoria-personagem {
+        padding: 20px;
+        width: 100%;
+    }
+    
+    .vitoria-personagem-nome {
+        font-size: 1.4rem;
+    }
+    
+    .btn-jogar-novamente {
+        width: fit-content;
+        padding: 12px;
+        font-size: 1rem;
     }
 }

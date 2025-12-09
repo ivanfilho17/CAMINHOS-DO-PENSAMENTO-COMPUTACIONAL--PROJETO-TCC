@@ -28,44 +28,52 @@
   font-size: 15px;
   line-height: 1.25;
   padding: 6px 8px;
-  margin-bottom: 1rem;
-  
+  /* Espaço menor entre instrução e jogo */
+  margin-bottom: 2rem;
   color: var(--darkgray);
-  text-align: center; /* Centraliza instruções */
+  text-align: center;
 }
 
 .ac-main {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  align-items: center;
+  gap: 3rem;
+  align-items: flex-start;
   justify-content: center;
+  padding-bottom: 1rem;
 }
 
 /* --- INVENTÁRIO DE PEÇAS (Direita) --- */
 .inventory {
-  flex: 1 1 200px;
-  max-width: 250px;
+  flex: 0 1 250px;
   background: var(--background);
   border: 3px solid #000;
   border-radius: 12px;
   box-shadow: 5px 5px 0 #000;
   padding: 12px;
+  margin-top: 0.5rem;
   order: 2;
-  align-self: stretch;
+  /* Altura mínima igual à do carro no desktop (250px) */
+  min-height: 250px;
+  height: fit-content;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Se estiver vazio, o título fica no topo */
 }
 
 .inventory h4 {
-  margin-bottom: 12px;
   font-weight: 700;
   background-color: var(--secondary);
   color: var(--white);
   padding: 0.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   border-radius: 4px;
   border: 3px solid var(--black);
   box-shadow: 2px 2px var(--black);
   text-align: center;
+  width: 100%;
 }
 
 .inventory-grid {
@@ -73,6 +81,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 /* --- ESTILO DAS PEÇAS NO INVENTÁRIO --- */
@@ -82,20 +91,25 @@
   font-weight: 600;
   font-size: 0.9rem;
   text-align: center;
-  color: #000; /* Mostra o texto */
+  color: #000;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   padding: 10px;
   width: 150px;
   border-radius: 4px;
+  touch-action: none;
 }
-.car-part:active { cursor: grabbing; }
 
-/* 1. ADICIONADO: Formas das peças no inventário */
+.car-part:active {
+  cursor: grabbing;
+}
+
+/* Formas das peças */
 .car-part.teto {
   width: 100px;
-  height: 40px; /* Altura para o texto caber */
+  height: 40px;
   clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
 }
+
 .car-part.roda {
   width: 50px;
   height: 50px;
@@ -104,9 +118,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--white); /* Texto branco na roda preta */
+  color: var(--white);
 }
-.car-part.farol, .car-part.lanterna {
+
+.car-part.farol,
+.car-part.lanterna {
   width: 70px;
   height: 30px;
   padding: 5px;
@@ -116,23 +132,26 @@
 
 .car-part.dragging {
   transform: scale(1.1);
-  box-shadow: 6px 6px 10px rgba(0,0,0,0.3);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 }
 
 /* --- ÁREA DE MONTAGEM (Esquerda) --- */
 .assembly-area {
-  flex: 2 1 250px;
-  min-width: 300px;
+  flex: 2 1 300px;
   border: 4px dashed var(--black);
   border-radius: 12px;
   position: relative;
   max-width: 450px;
   height: 250px;
+  /* Altura fixa base */
+  margin-top: 0.5rem;
   order: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f8f9fa;
+  overflow: hidden;
 }
 
 .car-silhouette {
@@ -157,41 +176,115 @@
   position: absolute;
   z-index: 2;
   transition: transform 0.2s ease, background-color 0.2s ease;
-  /* border: 1px solid red; */ /* Para debug */
+  box-sizing: border-box;
 }
+
 .slot.over {
   background-color: rgba(40, 167, 69, 0.3);
   transform: scale(1.05);
+  border: 2px dashed var(--green);
+  border-radius: 4px;
 }
 
-/* 2. CORRIGIDO: Posição e tamanho dos slots */
-#slot-carroceria { top: 49%; left: 13%; width: 74.5%; height: 30%; }
-#slot-teto       { top: 26%; left: 30.5%; width: 49%; height: 23%; } /* Teto mais estreito */
-#slot-roda-e     { top: 65%; left: 21%; width: 13%; height: 25%; border-radius: 100%; }
-#slot-roda-d     { top: 65%; left: 66%; width: 13%; height: 25%; border-radius: 100%; }
-#slot-farol      { top: 54%; left: 12.5%; width: 5%; height: 10%; }
-#slot-lanterna   { top: 55%; left: 83%; width: 5%; height: 7%; }
+/* Posição e tamanho dos slots */
+#slot-carroceria {
+  top: 49%;
+  left: 13%;
+  width: 74.5%;
+  height: 30%;
+}
 
+#slot-teto {
+  top: 26%;
+  left: 30.5%;
+  width: 49%;
+  height: 23%;
+}
 
-/* --- PEÇAS ENCAIXADAS (visual final) --- */
+#slot-roda-e {
+  top: 65%;
+  left: 21%;
+  width: 13%;
+  height: 25%;
+  border-radius: 100%;
+}
+
+#slot-roda-d {
+  top: 65%;
+  left: 66%;
+  width: 13%;
+  height: 25%;
+  border-radius: 100%;
+}
+
+#slot-farol {
+  top: 54%;
+  left: 12.5%;
+  width: 5%;
+  height: 10%;
+}
+
+#slot-lanterna {
+  top: 55%;
+  left: 83%;
+  width: 5%;
+  height: 7%;
+}
+
+/* --- PEÇAS ENCAIXADAS --- */
 .placed-part {
   width: 100%;
   height: 100%;
   border: 3px solid #000;
+  box-sizing: border-box;
+  display: block;
 }
-.placed-part.carroceria { background-color: #ff4d4d; border-radius: 5px; }
-.placed-part.teto       { background-color: #a9a9a9; clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%); border-bottom: none; }
-.placed-part.roda       { background-color: #333333; border-radius: 100%; }
-.placed-part.farol      { background-color: #ffd700; border-radius: 3px; }
-.placed-part.lanterna   { background-color: #d63031; border-radius: 3px; }
 
+.placed-part.carroceria {
+  background-color: #ff4d4d;
+  border-radius: 5px;
+}
+
+.placed-part.teto {
+  background-color: #a9a9a9;
+  clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
+  border-bottom: none;
+}
+
+.placed-part.roda {
+  background-color: #333333;
+  border-radius: 100%;
+}
+
+.placed-part.farol {
+  background-color: #ffd700;
+  border-radius: 3px;
+}
+
+.placed-part.lanterna {
+  background-color: #d63031;
+  border-radius: 3px;
+}
 
 /* --- ANIMAÇÕES --- */
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
 }
+
 .shake {
   animation: shake 0.4s;
   background-color: var(--primary) !important;
@@ -199,12 +292,101 @@
 
 /* Feedback */
 .feedback {
-    margin-top: 1.5rem;
-    font-weight: bold;
-    padding: 0.8rem;
-    border-radius: 5px;
-    border: 3px solid var(--black);
-    box-shadow: 4px 4px 0 var(--black);
-    text-align: center;
+  font-weight: bold;
+  padding: 0.8rem;
+  border-radius: 5px;
+  border: 3px solid var(--black);
+  box-shadow: 4px 4px 0 var(--black);
+  text-align: center;
 }
-.feedback.sucesso { color: #155724; background-color: #d4edda; border-color: var(--green);}
+
+.feedback.sucesso {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: var(--green);
+}
+
+/* ------------------------------------------- */
+/* --- RESPONSIVIDADE (Tablets e Mobile) --- */
+/* ------------------------------------------- */
+
+@media (max-width: 850px) {
+  .ac-main {
+    flex-direction: column;
+    /* Empilha verticalmente */
+    /* Centraliza vertical e horizontalmente */
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Área de Montagem (Carro) */
+  .assembly-area {
+    order: 1;
+    /* Carro em cima */
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 2 / 1;
+  }
+
+  /* Inventário de Peças */
+  .inventory {
+    order: 2;
+    /* Peças embaixo */
+    width: 100%;
+    max-width: 100%;
+    flex: 0 1 auto;
+    padding: 10px;
+  }
+
+  .inventory h4 {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .inventory-grid {
+    flex-direction: row;
+    /* Peças lado a lado */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .car-part {
+    margin: 2px;
+  }
+}
+
+/* SMARTPHONES PEQUENOS (< 480px) */
+@media (max-width: 480px) {
+  .assemble-car-container .atividade-container {
+    padding: 10px;
+  }
+
+  .ac-title {
+    font-size: 1.3rem;
+  }
+
+  .ac-instructions {
+    font-size: 0.9rem;
+  }
+
+  /* Reduz o tamanho das peças no INVENTÁRIO para caberem na tela */
+  .car-part {
+    transform: scale(0.85);
+    margin: -5px;
+  }
+
+  .assembly-area {
+    border-width: 3px;
+  }
+
+  /* Ajuste fino para as peças ENCAIXADAS no carro pequeno */
+  .placed-part {
+    border-width: 2px;
+  }
+
+  /* Ajuste específico para o teto encaixado no mobile */
+  .placed-part.teto {
+    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
+  }
+}

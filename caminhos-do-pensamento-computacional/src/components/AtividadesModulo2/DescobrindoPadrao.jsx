@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './DescobrindoPadrao.css';
 
-// Desafios de descoberta de padrão
+// Desafios de descoberta de padrão com linguagem ajustada
 const DESAFIOS = [
     {
         id: 1,
@@ -19,11 +19,11 @@ const DESAFIOS = [
             { emoji: '🚙', nome: 'Carro Azul' },
             { emoji: '🍃', nome: 'Folha' }
         ],
-        pergunta: 'Qual é o padrão secreto dos itens dentro do círculo?',
+        pergunta: 'Qual é o segredo dos itens dentro do círculo?',
         opcoes: [
-            { texto: 'São frutas', correto: false, explicacao: 'Não! O carro vermelho não é uma fruta.' },
-            { texto: 'São vermelhos', correto: true, explicacao: 'Exatamente! Todos compartilham a cor vermelha.' },
-            { texto: 'São veículos', correto: false, explicacao: 'Não! A maçã e o tomate não são veículos.' }
+            { texto: 'São frutas', correto: false, explicacao: 'Olhe bem! O carro não é uma fruta.' },
+            { texto: 'São vermelhos', correto: true, explicacao: 'Isso mesmo! Todos são da cor vermelha.' },
+            { texto: 'São veículos', correto: false, explicacao: 'Ops! A maçã e o tomate não são veículos.' }
         ]
     },
     {
@@ -39,11 +39,11 @@ const DESAFIOS = [
             { emoji: '🔺', nome: 'Triângulo' },
             { emoji: '📱', nome: 'Celular' }
         ],
-        pergunta: 'O que todos os itens do círculo têm em comum?',
+        pergunta: 'O que eles têm em comum?',
         opcoes: [
-            { texto: 'São redondos', correto: true, explicacao: 'Perfeito! Todos têm formato circular.' },
-            { texto: 'São amarelos', correto: false, explicacao: 'Não! A bola e a lua não são amarelas.' },
-            { texto: 'São comestíveis', correto: false, explicacao: 'Não! A bola e a lua não são comestíveis.' }
+            { texto: 'São redondos', correto: true, explicacao: 'Perfeito! Todos têm forma de círculo.' },
+            { texto: 'São amarelos', correto: false, explicacao: 'Quase! A bola não é amarela.' },
+            { texto: 'São de comer', correto: false, explicacao: 'Cuidado! Não dá para comer a lua nem a bola!' }
         ]
     },
     {
@@ -59,11 +59,11 @@ const DESAFIOS = [
             { emoji: '🌳', nome: 'Árvore' },
             { emoji: '⚽', nome: 'Bola' }
         ],
-        pergunta: 'Qual característica une os itens do círculo?',
+        pergunta: 'Qual é a característica do grupo?',
         opcoes: [
-            { texto: 'São animais', correto: true, explicacao: 'Isso mesmo! Todos são seres vivos (animais).' },
-            { texto: 'São brinquedos', correto: false, explicacao: 'Não! Eles são animais de verdade, não brinquedos.' },
-            { texto: 'São grandes', correto: false, explicacao: 'Não! O tamanho não é o padrão.' }
+            { texto: 'São animais', correto: true, explicacao: 'Isso aí! Todos são bichinhos.' },
+            { texto: 'São brinquedos', correto: false, explicacao: 'Eles parecem fofos, mas são animais de verdade!' },
+            { texto: 'São grandes', correto: false, explicacao: 'O tamanho não é o segredo aqui.' }
         ]
     },
     {
@@ -79,11 +79,11 @@ const DESAFIOS = [
             { emoji: '📚', nome: 'Livros' },
             { emoji: '🍕', nome: 'Pizza' }
         ],
-        pergunta: 'O que conecta todos os objetos do círculo?',
+        pergunta: 'O que todos eles são?',
         opcoes: [
-            { texto: 'São comida', correto: false, explicacao: 'Não! Instrumentos musicais não são comida.' },
-            { texto: 'São instrumentos musicais', correto: true, explicacao: 'Correto! Todos produzem música.' },
-            { texto: 'São esportes', correto: false, explicacao: 'Não! Instrumentos não são esportes.' }
+            { texto: 'Comida', correto: false, explicacao: 'Não dá para comer um piano!' },
+            { texto: 'Instrumentos musicais', correto: true, explicacao: 'Correto! Todos fazem música.' },
+            { texto: 'Esportes', correto: false, explicacao: 'Tocar música é legal, mas não é um esporte.' }
         ]
     },
     {
@@ -99,11 +99,11 @@ const DESAFIOS = [
             { emoji: '🐕', nome: 'Cachorro' },
             { emoji: '⛵', nome: 'Barco' }
         ],
-        pergunta: 'Qual habilidade especial todos do círculo possuem?',
+        pergunta: 'O que todos eles conseguem fazer?',
         opcoes: [
-            { texto: 'Sabem nadar', correto: false, explicacao: 'Não! Avião e borboleta não nadam.' },
-            { texto: 'Podem voar', correto: true, explicacao: 'Excelente! Todos podem se deslocar pelo ar.' },
-            { texto: 'Têm rodas', correto: false, explicacao: 'Não! Águia e borboleta não têm rodas.' }
+            { texto: 'Nadar', correto: false, explicacao: 'O avião e a borboleta não nadam.' },
+            { texto: 'Voar', correto: true, explicacao: 'Excelente! Todos voam pelo céu.' },
+            { texto: 'Rodar', correto: false, explicacao: 'A águia e a borboleta não têm rodas.' }
         ]
     }
 ];
@@ -155,9 +155,9 @@ export default function PadraoSecreto({ onConcluido }) {
 
     return (
         <div className="atividade-container padrao-secreto-container">
-            <h3>🔮 Atividade: O Padrão Secreto</h3>
+            <h3>🔮 O Padrão Secreto</h3>
             <p className="instrucoes">
-                Observe os objetos dentro do círculo e descubra o que eles têm em comum!
+                Olhe para os objetos dentro do círculo. O que eles têm em comum? Descubra o segredo!
             </p>
 
             {!concluido ? (
@@ -266,8 +266,7 @@ export default function PadraoSecreto({ onConcluido }) {
                             animate={{ opacity: 1, y: 0 }}
                             className="dica-box"
                         >
-                            <strong>💡 Dica:</strong> Observe o que TODOS os itens dentro do círculo têm
-                            em comum, mas que os de fora NÃO têm!
+                            <strong>💡 Dica:</strong> Veja o que TODOS os itens de dentro têm igual, mas que os de fora NÃO têm!
                         </motion.div>
                     )}
 
@@ -297,7 +296,7 @@ export default function PadraoSecreto({ onConcluido }) {
                         </AnimatePresence>
                     )}
 
-                    {/* Estatísticas */}
+                    {/* Estatísticas (Com Tentativas Restauradas) */}
                     <div className="estatisticas">
                         <div className="stat">
                             <span className="stat-label">Acertos:</span>
@@ -316,13 +315,13 @@ export default function PadraoSecreto({ onConcluido }) {
                         animate={{ opacity: 1, scale: 1 }}
                         className="feedback sucesso"
                     >
-                        <h3>🎊 Detetive de Padrões!</h3>
-                        <p>Você completou todos os desafios de descoberta!</p>
+                        <h3>🎊 Parabéns!</h3>
+                        <p>Você descobriu todos os segredos!</p>
                         <p>
                             <strong>Desempenho:</strong> {acertos} acertos em {tentativas} tentativas
                         </p>
                         <p>
-                            Você provou ser um verdadeiro especialista em identificar padrões secretos! 🔍✨
+                            Você é ótimo em encontrar o que as coisas têm em comum! 🔍✨
                         </p>
                     </motion.div>
                 </AnimatePresence>

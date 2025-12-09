@@ -1,4 +1,4 @@
-/* RoboCondicoes.css - Versão Compacta */
+/* RoboCondicoes.css - Versão Compacta e Responsiva */
 
 .robo-condicoes-container {
     max-width: 900px;
@@ -15,8 +15,15 @@
 .robo-title {
     font-size: 1.8em;
     color: #0c4a6e;
-    margin: 0 0 15px 0;
+    margin: 0 auto;
     text-align: center;
+    background: #fff566;
+    font-weight: 700;
+    padding: 3px 8px;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    display: block;
+    width: fit-content;
 }
 
 .subtitle {
@@ -96,9 +103,28 @@
     overflow: visible;
 }
 
-.robo-animado {
-    transition: transform 0.8s ease-in-out;
+/* AJUSTE: Tempo de transição reduzido para 0.6s para casar com o JS */
+.robo-movimento {
+    transition: transform 0.6s ease-in-out;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+}
+
+.robo-animado {
+    transform-origin: center;
+}
+
+/* A classe 'tremendo' é adicionada via JS */
+.robo-animado.tremendo {
+    animation: robo-tremer 0.4s ease;
+}
+
+@keyframes robo-tremer {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
 }
 
 .btn-dica {
@@ -131,15 +157,8 @@
 }
 
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .dica-box strong {
@@ -165,10 +184,12 @@
 
 .comandos-mini {
     display: flex;
-    gap: 8px;
+    row-gap: 35px;
+    column-gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
-    padding-bottom: 25px;
+    padding-bottom: 15px;
+    margin-top: 10px;
 }
 
 .cmd-mini {
@@ -185,6 +206,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    touch-action: none;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.cmd-mini::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.45em;
+    white-space: nowrap;
+    color: #1e293b;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
 }
 
 .cmd-mini:active {
@@ -220,7 +258,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .btn-limpar-mini {
@@ -261,6 +299,7 @@
 .algo-item {
     animation: slideIn 0.3s ease;
     cursor: grab;
+    touch-action: none;
 }
 
 .algo-item:active {
@@ -277,15 +316,8 @@
 }
 
 @keyframes pulsarComando {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .algo-item.comando-ativo .cmd-item {
@@ -299,15 +331,8 @@
 }
 
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(-15px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 .cmd-item {
@@ -356,15 +381,8 @@
 }
 
 @keyframes pulsarBlocoSe {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1); }
 }
 
 .bloco-se-ativo {
@@ -466,26 +484,21 @@
 }
 
 /* Feedback */
-.feedback {
-    padding: 12px 16px;
-    border-radius: 8px;
-    border: 2px solid;
-    text-align: center;
-    font-size: 1em;
-    font-weight: 600;
-    animation: fadeIn 0.3s ease;
+.feedback { 
+    width: fit-content !important;
+    justify-content: center !important;
+    padding: 10px 10px !important;
+    border-radius: 8px !important;
+    border: 2px solid !important;
+    text-align: center !important;
+    font-size: 1em !important;
+    font-weight: 600 !important;
+    animation: fadeIn 0.3s ease !important;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .feedback.sucesso {
@@ -507,7 +520,7 @@
     border-radius: 12px;
     border: 3px solid #8b5cf6;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .conclusao h3 {
@@ -520,7 +533,7 @@
     font-size: 1.05em;
     color: #4c1d95;
     line-height: 1.6;
-    margin: 0;
+    margin-bottom: 1rem;
 }
 
 /* Estilos para comandos com nome */
@@ -550,62 +563,55 @@
 }
 
 @keyframes pulsarUmaVez {
-    0% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
 
-    50% {
-        transform: scale(1.03);
-    }
+.conceito-box {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+    margin-bottom: 10px;
+}
 
-    100% {
-        transform: scale(1);
-    }
+.conceito-box strong {
+    color: #92400e;
+    font-size: 1.1em;
+}
+
+.conceito-box p {
+    color: #78350f;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .robo-condicoes-container {
-        padding: 15px;
-    }
-
-    .robo-title {
-        font-size: 1.4em;
-    }
-
+    .robo-condicoes-container { padding: 15px; }
+    .robo-title { font-size: 1.4em; }
     .game-area {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-
-    .grade-svg {
-        max-width: 100%;
-    }
-
-    .nivel-selector {
-        gap: 8px;
-    }
-
+    .grade-svg { max-width: 100%; }
+    .nivel-selector { gap: 8px; flex-wrap: wrap; }
     .nivel-btn {
         padding: 6px 12px;
         font-size: 0.85em;
+        min-width: 80px;
+        text-align: center;
     }
-
-    .algoritmo-mini {
-        max-height: 200px;
+    .algoritmo-mini { max-height: 200px; }
+    .botoes-acao { flex-direction: column; gap: 10px; }
+    .btn-exec, .btn-reset, .btn-prox {
+        width: 150px;
+        justify-content: center;
+        padding: 8px;
     }
-
-    .botoes-acao {
-        flex-direction: column;
-    }
-
-    .btn {
-        max-width: none;
-    }
-
-    .dica-box {
-        font-size: 0.85em;
-    }
+    .dica-box { font-size: 0.85em; max-width: 100%; }
 }
 
 /* Animação da Bandeira quando o robô chega */
@@ -614,17 +620,7 @@
 }
 
 @keyframes bandeiraBalanco {
-
-    0%,
-    100% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(-15deg) scale(1.1);
-    }
-
-    75% {
-        transform: rotate(15deg) scale(1.1);
-    }
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg) scale(1.1); }
+    75% { transform: rotate(15deg) scale(1.1); }
 }

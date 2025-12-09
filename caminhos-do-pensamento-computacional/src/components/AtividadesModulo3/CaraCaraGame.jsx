@@ -1,116 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './CaraCaraGame.css';
 
-// Personagens do jogo (12 personagens com características visuais claras)
+// Personagens do jogo (15 personagens com características visuais claras)
 const PERSONAGENS = [
-  {
-    id: 1,
-    nome: 'Ana',
-    oculos: true,
-    cabelo: 'loiro',
-    chapeu: false,
-    bigode: false,
-    descricao: 'Loira com óculos'
-  },
-  {
-    id: 2,
-    nome: 'Bruno',
-    oculos: false,
-    cabelo: 'preto',
-    chapeu: true,
-    bigode: true,
-    descricao: 'Moreno de chapéu com barba'
-  },
-  {
-    id: 3,
-    nome: 'Clara',
-    oculos: true,
-    cabelo: 'ruivo',
-    chapeu: false,
-    bigode: false,
-    descricao: 'Ruiva com óculos'
-  },
-  {
-    id: 4,
-    nome: 'Diego',
-    oculos: false,
-    cabelo: 'preto',
-    chapeu: false,
-    bigode: false,
-    descricao: 'Moreno sem acessórios'
-  },
-  {
-    id: 5,
-    nome: 'Elisa',
-    oculos: false,
-    cabelo: 'loiro',
-    chapeu: true,
-    bigode: false,
-    descricao: 'Loira de chapéu'
-  },
-  {
-    id: 6,
-    nome: 'Fabio',
-    oculos: true,
-    cabelo: 'castanho',
-    chapeu: false,
-    bigode: true,
-    descricao: 'Castanho com óculos e barba'
-  },
-  {
-    id: 7,
-    nome: 'Gabi',
-    oculos: false,
-    cabelo: 'ruivo',
-    chapeu: true,
-    bigode: false,
-    descricao: 'Ruiva de chapéu'
-  },
-  {
-    id: 8,
-    nome: 'Hugo',
-    oculos: true,
-    cabelo: 'loiro',
-    chapeu: true,
-    bigode: false,
-    descricao: 'Loiro com óculos e chapéu'
-  },
-  {
-    id: 9,
-    nome: 'Iris',
-    oculos: false,
-    cabelo: 'castanho',
-    chapeu: false,
-    bigode: false,
-    descricao: 'Castanha sem acessórios'
-  },
-  {
-    id: 10,
-    nome: 'João',
-    oculos: false,
-    cabelo: 'preto',
-    chapeu: false,
-    bigode: true,
-    descricao: 'Moreno com barba'
-  },
-  {
-    id: 11,
-    nome: 'Karla',
-    oculos: true,
-    cabelo: 'castanho',
-    chapeu: true,
-    bigode: false,
-    descricao: 'Castanha com óculos e chapéu'
-  },
-  {
-    id: 12,
-    nome: 'Lucas',
-    oculos: false,
-    cabelo: 'loiro',
-    chapeu: false,
-    bigode: false,
-    descricao: 'Loiro sem acessórios'
-  }
+  { id: 1, nome: 'Ana', oculos: true, cabelo: 'loiro', chapeu: false, bigode: false, descricao: 'Loira com óculos' },
+  { id: 2, nome: 'Bruno', oculos: false, cabelo: 'preto', chapeu: true, bigode: true, descricao: 'Moreno de chapéu com barba' },
+  { id: 3, nome: 'Clara', oculos: true, cabelo: 'ruivo', chapeu: false, bigode: false, descricao: 'Ruiva com óculos' },
+  { id: 4, nome: 'Diego', oculos: false, cabelo: 'preto', chapeu: false, bigode: false, descricao: 'Moreno sem acessórios' },
+  { id: 5, nome: 'Elisa', oculos: false, cabelo: 'loiro', chapeu: true, bigode: false, descricao: 'Loira de chapéu' },
+  { id: 6, nome: 'Fabio', oculos: true, cabelo: 'castanho', chapeu: false, bigode: true, descricao: 'Castanho com óculos e barba' },
+  { id: 7, nome: 'Gabi', oculos: false, cabelo: 'ruivo', chapeu: true, bigode: false, descricao: 'Ruiva de chapéu' },
+  { id: 8, nome: 'Hugo', oculos: true, cabelo: 'loiro', chapeu: true, bigode: false, descricao: 'Loiro com óculos e chapéu' },
+  { id: 9, nome: 'Iris', oculos: false, cabelo: 'castanho', chapeu: false, bigode: false, descricao: 'Castanha sem acessórios' },
+  { id: 10, nome: 'João', oculos: false, cabelo: 'preto', chapeu: false, bigode: true, descricao: 'Moreno com barba' },
+  { id: 11, nome: 'Karla', oculos: true, cabelo: 'castanho', chapeu: true, bigode: false, descricao: 'Castanha com óculos e chapéu' },
+  { id: 12, nome: 'Lucas', oculos: false, cabelo: 'loiro', chapeu: false, bigode: false, descricao: 'Loiro sem acessórios' },
+  // Novos Personagens adicionados para aumentar a dificuldade
+  { id: 13, nome: 'Mário', oculos: false, cabelo: 'preto', chapeu: true, bigode: false, descricao: 'Moreno de chapéu' },
+  { id: 14, nome: 'Nina', oculos: true, cabelo: 'ruivo', chapeu: true, bigode: false, descricao: 'Ruiva de óculos e chapéu' },
+  { id: 15, nome: 'Otávio', oculos: true, cabelo: 'castanho', chapeu: false, bigode: true, descricao: 'Castanho com óculos e barba' }
 ];
 
 const PERGUNTAS = [
@@ -191,7 +99,7 @@ export default function JogoCaraACara({ onConcluido }) {
   const [perguntaSelecionada, setPerguntaSelecionada] = useState('');
   const [feedback, setFeedback] = useState(null);
   const [venceu, setVenceu] = useState(false);
-  const [tentativaFinal, setTentativaFinal] = useState(false);
+  const [jaConcluido, setJaConcluido] = useState(false);
 
   useEffect(() => {
     iniciarJogo();
@@ -205,59 +113,71 @@ export default function JogoCaraACara({ onConcluido }) {
     setPerguntaSelecionada('');
     setFeedback(null);
     setVenceu(false);
-    setTentativaFinal(false);
   };
 
-  const fazerPergunta = (resposta) => {
+  const fazerPergunta = () => {
     if (!perguntaSelecionada) return;
 
     const pergunta = PERGUNTAS.find(p => p.id === perguntaSelecionada);
-    let respostaCorreta;
+    let respostaDoComputador;
 
     if (pergunta.valor) {
-      respostaCorreta = personagemSecreto[pergunta.atributo] === pergunta.valor;
+      respostaDoComputador = personagemSecreto[pergunta.atributo] === pergunta.valor;
     } else {
-      respostaCorreta = personagemSecreto[pergunta.atributo] === true;
+      respostaDoComputador = personagemSecreto[pergunta.atributo] === true;
     }
 
-    const acertou = resposta === respostaCorreta;
+    const novosFiltrados = personagensVisiveis.filter(p => {
+      if (pergunta.valor) {
+        return respostaDoComputador ? p[pergunta.atributo] === pergunta.valor : p[pergunta.atributo] !== pergunta.valor;
+      } else {
+        return respostaDoComputador ? p[pergunta.atributo] === true : p[pergunta.atributo] === false;
+      }
+    });
+
+    setPersonagensVisiveis(novosFiltrados);
+
+    // ATUALIZAÇÃO DO FEEDBACK (Lógica nova de resposta automática)
+    if (novosFiltrados.length === 1) {
+      // Caso só reste 1 personagem (feedback especial solicitado)
+      setFeedback({
+        tipo: 'info',
+        mensagem: '🎯 Só resta 1 personagem! Parabéns, você descobriu o personagem secreto. Clique nele para fazer seu palpite final!'
+      });
+    } else {
+      const textoSimOuNao = respostaDoComputador ? "Sim! ✅" : "Não ❌";
+      const textoComplementar = respostaDoComputador
+        ? `O personagem secreto TEM essa característica.`
+        : `O personagem secreto NÃO TEM essa característica.`;
+
+      let mensagemFinal = `${textoSimOuNao} ${textoComplementar} (Restam ${novosFiltrados.length})`;
+
+      // Se restarem 3 ou menos, avisa que pode chutar (Lógica nova)
+      if (novosFiltrados.length <= 3 && novosFiltrados.length > 1) {
+        mensagemFinal += " Você já pode tentar chutar clicando no personagem!";
+      }
+
+      setFeedback({
+        tipo: respostaDoComputador ? 'sucesso' : 'erro',
+        mensagem: mensagemFinal
+      });
+    }
 
     setPerguntasFeitas([...perguntasFeitas, {
       pergunta: pergunta.texto,
-      resposta: resposta ? 'Sim' : 'Não',
-      correta: acertou
+      resposta: respostaDoComputador ? 'Sim' : 'Não',
+      isYes: respostaDoComputador
     }]);
-
-    if (acertou) {
-      const novosFiltrados = personagensVisiveis.filter(p => {
-        if (pergunta.valor) {
-          return resposta ? p[pergunta.atributo] === pergunta.valor : p[pergunta.atributo] !== pergunta.valor;
-        } else {
-          return resposta ? p[pergunta.atributo] === true : p[pergunta.atributo] === false;
-        }
-      });
-
-      setPersonagensVisiveis(novosFiltrados);
-      setFeedback({ tipo: 'sucesso', mensagem: `✅ Correto! Restam ${novosFiltrados.length} personagens.` });
-
-      if (novosFiltrados.length === 1) {
-        setTimeout(() => {
-          setFeedback({
-            tipo: 'info',
-            mensagem: '🎯 Só resta 1 personagem! Clique nele para fazer seu palpite final!'
-          });
-          setTentativaFinal(true);
-        }, 1500);
-      }
-    } else {
-      setFeedback({ tipo: 'erro', mensagem: '❌ Essa não era a resposta correta. Tente outra pergunta!' });
-    }
 
     setPerguntaSelecionada('');
   };
 
+  // Lógica de "chute" quando restam poucos personagens
+  const podeChutar = personagensVisiveis.length <= 3;
+
   const tentarAdivinhar = (personagem) => {
-    if (!tentativaFinal) return;
+    // Só permite chutar se a condição for atendida
+    if (!podeChutar) return;
 
     if (personagem.id === personagemSecreto.id) {
       setVenceu(true);
@@ -265,25 +185,46 @@ export default function JogoCaraACara({ onConcluido }) {
         tipo: 'vitoria',
         mensagem: `🎉 PARABÉNS! Você descobriu! Era ${personagemSecreto.nome}!`
       });
-      onConcluido && onConcluido();
+
+      if (!jaConcluido) {
+        onConcluido && onConcluido();
+        setJaConcluido(true);
+      }
+
     } else {
+      // Feedback de erro ao chutar, sem reiniciar o jogo imediatamente
       setFeedback({
         tipo: 'erro',
-        mensagem: `😢 Não era ${personagem.nome}... O personagem secreto era ${personagemSecreto.nome}. Tente novamente!`
+        mensagem: `❌ Não é ${personagem.nome}! O jogo continua. Tente outra pergunta ou outro palpite.`
       });
-      setTimeout(() => {
-        iniciarJogo();
-      }, 3000);
     }
   };
 
   return (
     <div className="cara-cara-container">
       <div className="cara-cara-header">
-        <h2 className="cara-cara-title">🎮 Jogo Cara a Cara</h2>
-        <p className="cara-cara-subtitle">
-          Use atributos para filtrar e descobrir o personagem secreto!
+        <h2 className="cara-cara-title">🎮 Quem é o Personagem Secreto?</h2>
+
+        <p className="cara-cara-subtitle" style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+          Objetivo: Descobrir quem é o personagem secreto!
         </p>
+
+        <div style={{
+          background: 'rgba(255,255,255,0.2)',
+          padding: '15px',
+          borderRadius: '10px',
+          margin: '15px auto',
+          maxWidth: '600px',
+          textAlign: 'left',
+          color: 'white'
+        }}>
+          <h4 style={{ margin: '0 0 10px 0', textDecoration: 'underline' }}>Como jogar:</h4>
+          <ol style={{ paddingLeft: '20px', lineHeight: '1.5' }}>
+            <li>Escolha uma pergunta na lista abaixo (ex: "Usa chapéu?").</li>
+            <li>O jogo vai responder <strong>Sim</strong> ou <strong>Não</strong> e remover os personagens errados.</li>
+            <li><strong>Quando restarem 3 ou menos personagens</strong>, você pode clicar neles para dar seu palpite final!</li>
+          </ol>
+        </div>
       </div>
 
       {!venceu && (
@@ -296,13 +237,15 @@ export default function JogoCaraACara({ onConcluido }) {
             <div className="grade-personagens">
               {PERSONAGENS.map(p => {
                 const visivel = personagensVisiveis.some(pv => pv.id === p.id);
-                const podeClicar = tentativaFinal && visivel;
+                // Permite clicar apenas se estiver visível E a contagem for <= 3
+                const isClickable = visivel && podeChutar;
 
                 return (
                   <div
                     key={p.id}
-                    className={`personagem-card ${!visivel ? 'eliminado' : ''} ${podeClicar ? 'pode-clicar' : ''}`}
-                    onClick={() => podeClicar && tentarAdivinhar(p)}
+                    className={`personagem-card ${!visivel ? 'eliminado' : ''} ${isClickable ? 'pode-clicar' : ''}`}
+                    onClick={() => isClickable && tentarAdivinhar(p)}
+                    title={isClickable ? "Clique para chutar!" : ""}
                   >
                     <div className="avatar-container">
                       <PersonagemAvatar personagem={p} />
@@ -310,7 +253,7 @@ export default function JogoCaraACara({ onConcluido }) {
                     <div className="personagem-nome">{p.nome}</div>
                     <div className="personagem-descricao">{p.descricao}</div>
                     {!visivel && <div className="eliminado-badge">❌</div>}
-                    {podeClicar && <div className="clique-badge">👆 Clique aqui!</div>}
+                    {isClickable && <div className="clique-badge">👆 Palpite?</div>}
                   </div>
                 );
               })}
@@ -318,11 +261,13 @@ export default function JogoCaraACara({ onConcluido }) {
           </div>
 
           {/* Fazer Pergunta */}
-          {!tentativaFinal && (
-            <div className="pergunta-container">
-              <h3 className="section-title">Faça uma pergunta:</h3>
+          <div className="pergunta-container">
+            <h3 className="section-title">Faça uma pergunta:</h3>
+
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <select
                 className="pergunta-select"
+                style={{ marginBottom: 0, maxWidth: '400px' }}
                 value={perguntaSelecionada}
                 onChange={(e) => setPerguntaSelecionada(e.target.value)}
               >
@@ -332,24 +277,16 @@ export default function JogoCaraACara({ onConcluido }) {
                 ))}
               </select>
 
-              {perguntaSelecionada && (
-                <div className="botoes-resposta">
-                  <button
-                    className="btn-resposta btn-sim"
-                    onClick={() => fazerPergunta(true)}
-                  >
-                    👍 Sim
-                  </button>
-                  <button
-                    className="btn-resposta btn-nao"
-                    onClick={() => fazerPergunta(false)}
-                  >
-                    👎 Não
-                  </button>
-                </div>
-              )}
+              <button
+                className="btn-resposta btn-sim"
+                style={{ background: '#3b82f6', padding: '10px 20px', minWidth: '120px' }}
+                disabled={!perguntaSelecionada}
+                onClick={fazerPergunta}
+              >
+                🔍 Perguntar
+              </button>
             </div>
-          )}
+          </div>
 
           {/* Feedback */}
           {feedback && (
@@ -367,7 +304,7 @@ export default function JogoCaraACara({ onConcluido }) {
                   <div key={idx} className="historico-item">
                     <span className="historico-numero">{idx + 1}</span>
                     <span className="historico-pergunta">{item.pergunta}</span>
-                    <span className={`historico-resposta ${item.correta ? 'correta' : 'incorreta'}`}>
+                    <span className={`historico-resposta ${item.isYes ? 'correta' : 'incorreta'}`}>
                       {item.resposta}
                     </span>
                   </div>
@@ -392,10 +329,9 @@ export default function JogoCaraACara({ onConcluido }) {
             Você usou <strong>{perguntasFeitas.length} perguntas</strong> para descobrir!
           </p>
           <div className="conceito-box-end">
-            <h3><strong>💡 Você aplicou Abstração!</strong></h3><br></br>
+            <h3><strong>💡 O que aprendemos?</strong></h3><br></br>
             <p>
-              Você usou ATRIBUTOS (óculos, cabelo, chapéu, barba) para FILTRAR informações
-              e resolver o problema. Isso é abstração em ação!
+              Isso foi <strong>Abstração</strong>! Você usou as características mais importantes (cabelo, óculos, chapéu...) para filtrar e encontrar o personagem secreto.
             </p>
           </div>
           <button className="btn-jogar-novamente" onClick={iniciarJogo}>

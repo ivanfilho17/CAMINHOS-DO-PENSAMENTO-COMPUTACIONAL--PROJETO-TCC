@@ -5,18 +5,20 @@
   padding: 1.5rem;
   box-shadow: 6px 6px 0 var(--black);
   text-align: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .quiz-container h3 {
   display: inline-flex;
   font-size: 1.3rem;
-  padding: 5px;
+  padding: 5px 10px;
   text-align: center;
   margin-top: 0;
   background-color: var(--yellow);
   border: 2px var(--black) solid;
   box-shadow: 4px 4px var(--black);
-
 }
 
 .quiz-container.finalizado {
@@ -28,6 +30,7 @@
   font-size: 1.5rem;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
+  line-height: 1.4;
 }
 
 .opcoes {
@@ -48,6 +51,7 @@
   border-radius: 6px;
   box-shadow: 4px 4px 0 var(--darkgray);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .btn-opcao:hover {
@@ -81,3 +85,34 @@
 }
 .feedback-quiz.sucesso { background-color: #d4edda; color: #155724; }
 .feedback-quiz.erro { background-color: #f8d7da; color: #721c24; }
+
+/* --- RESPONSIVIDADE QUIZ --- */
+@media (max-width: 600px) {
+  .quiz-container {
+    padding: 1rem;
+    box-shadow: 4px 4px 0 var(--black);
+  }
+
+  .quiz-container h3 {
+    font-size: 1.1rem;
+  }
+
+  .pergunta h4 {
+    font-size: 1.2rem;
+  }
+
+  .btn-opcao {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .feedback-quiz {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+  
+  /* Botão de próxima pergunta ocupa largura total */
+  .btn {
+      width: fit-content;
+  }
+}

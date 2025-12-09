@@ -1,11 +1,11 @@
 // Atividade 1 do Módulo 2: Reconhecimento de Padrões
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import './PadraoSequencia.css'; 
 
-// Desafios com padrões diferentes
+// Desafios com linguagem simplificada
 const DESAFIOS = [
     {
         id: 1,
@@ -13,8 +13,8 @@ const DESAFIOS = [
         sequencia: ['💠', '🟡', '💠', '🟡', '💠', '?'],
         opcoes: ['💠', '🟡', '🔺'],
         resposta: '🟡',
-        dica: 'O padrão alterna: azul, amarelo, azul, amarelo...',
-        explicacao: 'É um padrão A-B que se repete!'
+        dica: 'Veja as cores: Azul, Amarelo, Azul, Amarelo...',
+        explicacao: 'Isso mesmo! Um azul, depois um amarelo. O padrão se repete!'
     },
     {
         id: 2,
@@ -22,8 +22,8 @@ const DESAFIOS = [
         sequencia: ['🔴', '🔴', '🟢', '🔴', '🔴', '?'],
         opcoes: ['🔴', '🟢', '🟡'],
         resposta: '🟢',
-        dica: 'Duas vermelhas, uma verde... depois se repete!',
-        explicacao: 'Padrão A-A-B: vermelho, vermelho, verde.'
+        dica: 'Temos dois vermelhos e depois um verde...',
+        explicacao: 'Exato! A regra é: dois vermelhos, um verde.'
     },
     {
         id: 3,
@@ -31,26 +31,26 @@ const DESAFIOS = [
         sequencia: ['1️⃣', '2️⃣', '1️⃣', '2️⃣', '1️⃣', '?'],
         opcoes: ['1️⃣', '2️⃣', '3️⃣'],
         resposta: '2️⃣',
-        dica: 'Vai trocando: 1, 2, 1, 2...',
-        explicacao: 'Alternância simples entre dois números!'
+        dica: 'Eles vão trocando a vez: 1, depois 2, depois 1...',
+        explicacao: 'Perfeito! Os números vão trocando um pelo outro.'
     },
     {
         id: 4,
-        titulo: 'Padrão Complexo',
+        titulo: 'Desafio das Estrelas', // Simplificado de "Padrão Complexo"
         sequencia: ['⭐', '⭐', '❤️', '⭐', '⭐', '❤️', '⭐', '?'],
         opcoes: ['⭐', '❤️', '🌙'],
         resposta: '⭐',
-        dica: 'Duas estrelas, um coração... repete!',
-        explicacao: 'Padrão A-A-B que continua: ⭐⭐❤️'
+        dica: 'Duas estrelas, um coração. O que vem depois do coração?',
+        explicacao: 'Muito bem! Depois do coração, o padrão começa de novo com estrela.'
     },
     {
         id: 5,
-        titulo: 'Padrão Triplo',
+        titulo: 'Padrão de 3 Cores', // Simplificado de "Padrão Triplo"
         sequencia: ['🔵', '🟡', '🔴', '🔵', '🟡', '🔴', '🔵', '?'],
         opcoes: ['🔵', '🟡', '🔴'],
         resposta: '🟡',
-        dica: 'Azul, amarelo, vermelho... depois repete!',
-        explicacao: 'Padrão A-B-C: três cores em sequência.'
+        dica: 'Azul, amarelo, vermelho... E começa tudo de novo!',
+        explicacao: 'Isso! São três cores que se repetem sempre na mesma ordem.'
     }
 ];
 
@@ -149,9 +149,9 @@ export default function CompleteSequencia({ onConcluido }) {
 
     return (
         <div className="atividade-container padrao-sequencia-container">
-            <h3>🔍 Atividade: Complete a Sequência</h3>
+            <h3>🔍 Complete a Sequência</h3>
             <p className="instrucoes">
-                Descubra o padrão e arraste a forma correta para completar a sequência!
+                Descubra o padrão e arraste a forma correta para o quadrado vazio para completar a sequência!
             </p>
 
             {!concluido ? (
@@ -275,7 +275,8 @@ export default function CompleteSequencia({ onConcluido }) {
                             <strong>Desempenho:</strong> {acertos} acertos em {tentativas} tentativas
                         </p>
                         <p>
-                            Você demonstrou excelente habilidade em reconhecer padrões! 🌟
+                            Você demonstrou excelente habilidade em reconhecer padrões!
+                            <br></br>Você é um <strong>Mestre dos Padrões!</strong> 🌟
                         </p>
                     </motion.div>
                 </AnimatePresence>

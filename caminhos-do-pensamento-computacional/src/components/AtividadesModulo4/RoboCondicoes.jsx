@@ -1,17 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './RoboCondicoes.css';
 
-// Componente do Robô em SVG - SEM ROTAÇÃO
-function RoboSVG() {
+// Componente do Robô em SVG
+function RoboSVG({ expressao = 'feliz' }) {
     return (
         <g>
+            {/* Corpo e Cabeça */}
             <rect x="-18" y="-22" width="36" height="44" fill="#2563eb" rx="6" />
             <rect x="-16" y="-20" width="32" height="40" fill="#3b82f6" rx="5" />
             <ellipse cx="0" cy="-32" rx="15" ry="12" fill="#60a5fa" />
-            <circle cx="-6" cy="-32" r="4" fill="white" />
-            <circle cx="6" cy="-32" r="4" fill="white" />
-            <circle cx="-6" cy="-32" r="2" fill="#1e293b" />
-            <circle cx="6" cy="-32" r="2" fill="#1e293b" />
+            
+            {/* Expressões */}
+            {expressao === 'triste' ? (
+                <>
+                    <line x1="-8" y1="-34" x2="-4" y2="-30" stroke="#1e293b" strokeWidth="1.5" />
+                    <line x1="-8" y1="-30" x2="-4" y2="-34" stroke="#1e293b" strokeWidth="1.5" />
+                    <line x1="4" y1="-34" x2="8" y2="-30" stroke="#1e293b" strokeWidth="1.5" />
+                    <line x1="4" y1="-30" x2="8" y2="-34" stroke="#1e293b" strokeWidth="1.5" />
+                    <path d="M -6 -24 Q 0 -30 6 -24" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+                </>
+            ) : (
+                <>
+                    <circle cx="-6" cy="-32" r="4" fill="white" />
+                    <circle cx="6" cy="-32" r="4" fill="white" />
+                    <circle cx="-6" cy="-32" r="2" fill="#1e293b" />
+                    <circle cx="6" cy="-32" r="2" fill="#1e293b" />
+                    <path d="M -6 -26 Q 0 -22 6 -26" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+                </>
+            )}
+
+            {/* Detalhes */}
             <line x1="0" y1="-40" x2="0" y2="-48" stroke="#1e293b" strokeWidth="2" />
             <circle cx="0" cy="-48" r="3" fill="#ef4444" />
             <rect x="-22" y="-12" width="4" height="18" fill="#3b82f6" rx="2" />
@@ -25,7 +43,6 @@ function RoboSVG() {
     );
 }
 
-// Bandeira
 function BandeiraSVG({ animando }) {
     return (
         <g className={animando ? 'bandeira-vitoria' : ''}>
@@ -36,42 +53,40 @@ function BandeiraSVG({ animando }) {
     );
 }
 
-// Comandos disponíveis - Movimentos em 2D
 const COMANDOS = [
-    { id: 'direita', nome: 'Avançar', icone: '➡️', cor: '#3b82f6' },
-    { id: 'baixo', nome: 'Descer', icone: '⬇️', cor: '#10b981' },
-    { id: 'cima', nome: 'Subir', icone: '⬆️', cor: '#f59e0b' },
-    { id: 'esquerda', nome: 'Voltar', icone: '⬅️', cor: '#ec4899' },
+    { id: 'direita', nome: 'Direita', icone: '➡️', cor: '#3b82f6' },
+    { id: 'baixo', nome: 'Baixo', icone: '⬇️', cor: '#10b981' },
+    { id: 'cima', nome: 'Cima', icone: '⬆️', cor: '#f59e0b' },
+    { id: 'esquerda', nome: 'Esquerda', icone: '⬅️', cor: '#ec4899' },
 ];
 
-// Níveis do jogo
 const NIVEIS = [
     {
         id: 1,
-        titulo: 'Nível 1: Desvie da Lama',
+        titulo: 'Desafio 1: Desvie da Lama',
         grade: 5,
         roboInicio: { x: 0, y: 2 },
         bandeiraPos: { x: 4, y: 2 },
         lamas: [{ x: 2, y: 2 }],
-        dica: 'Use: SE tem lama → ENTÃO Avance para Baixo, Avance à Direita 2x, Avance para Cima'
+        dica: 'O robô vai encontrar lama! Use o bloco SE/ENTÃO para ele desviar.'
     },
     {
         id: 2,
-        titulo: 'Nível 2: Duas Lamas',
+        titulo: 'Desafio 2: Desvie de Duas Lamas',
         grade: 5,
         roboInicio: { x: 0, y: 3 },
         bandeiraPos: { x: 4, y: 1 },
         lamas: [{ x: 1, y: 3 }, { x: 3, y: 2 }],
-        dica: 'Use dois blocos SE/ENTÃO para desviar de cada lama encontrada!'
+        dica: 'Tem lama duas vezes! Use o bloco SE/ENTÃO sempre que encontrar sujeira.'
     },
     {
         id: 3,
-        titulo: 'Nível 3: Labirinto',
+        titulo: 'Desafio 3: Labirinto de Lamas',
         grade: 5,
         roboInicio: { x: 0, y: 4 },
         bandeiraPos: { x: 4, y: 0 },
         lamas: [{ x: 1, y: 4 }, { x: 2, y: 3 }, { x: 3, y: 1 }],
-        dica: 'Combine várias condições SE para navegar pelo labirinto!'
+        dica: 'O caminho é cheio de obstáculos! Use as condições com sabedoria.'
     }
 ];
 
@@ -90,6 +105,10 @@ export default function RoboCondicoes({ onConcluido }) {
     const [comandoAtivo, setComandoAtivo] = useState(null);
     const [blocoSeAtivo, setBlocoSeAtivo] = useState(null);
     const [comandoInternoAtivo, setComandoInternoAtivo] = useState(null);
+    const [expressaoRobo, setExpressaoRobo] = useState('feliz');
+
+    // REF: Referência direta para o elemento do robô na DOM
+    const roboRef = useRef(null);
 
     const nivel = NIVEIS[nivelAtual];
 
@@ -101,6 +120,11 @@ export default function RoboCondicoes({ onConcluido }) {
         setComandoAtivo(null);
         setBlocoSeAtivo(null);
         setComandoInternoAtivo(null);
+        setExpressaoRobo('feliz');
+        
+        if (roboRef.current) {
+            roboRef.current.classList.remove('tremendo');
+        }
     };
 
     const adicionarComando = (comandoId) => {
@@ -139,46 +163,62 @@ export default function RoboCondicoes({ onConcluido }) {
     };
 
     const temLamaFrente = (x, y) => {
-        // Verifica sempre à direita (direção fixa)
         const proxX = x + 1;
         return nivel.lamas.some(l => l.x === proxX && l.y === y);
     };
 
-    const mover = (pos, cmd) => {
+    const calcularNovaPosicao = (pos, cmd) => {
         const { x, y } = pos;
         let nx = x, ny = y;
 
-        // Movimentos diretos em 2D
-        if (cmd === 'direita') {
-            nx = Math.min(x + 1, nivel.grade - 1);
-        } else if (cmd === 'esquerda') {
-            nx = Math.max(x - 1, 0);
-        } else if (cmd === 'baixo') {
-            ny = Math.min(y + 1, nivel.grade - 1);
-        } else if (cmd === 'cima') {
-            ny = Math.max(y - 1, 0);
-        }
-
-        // Verifica se não vai pisar na lama
-        if (nivel.lamas.some(l => l.x === nx && l.y === ny)) {
-            return null;
-        }
+        if (cmd === 'direita') nx = x + 1;
+        else if (cmd === 'esquerda') nx = x - 1;
+        else if (cmd === 'baixo') ny = y + 1;
+        else if (cmd === 'cima') ny = y - 1;
 
         return { x: nx, y: ny };
     };
 
-    const executar = async () => {
-        setExecutando(true);
-        setFeedback('');
+    const isForaDoMapa = (p) => {
+        return p.x < 0 || p.x >= nivel.grade || p.y < 0 || p.y >= nivel.grade;
+    };
+
+    const checarColisaoLama = (p) => {
+        return nivel.lamas.some(l => l.x === p.x && l.y === p.y);
+    };
+
+    // Função de animação corrigida usando REF
+    const tratarSaidaTabuleiro = async () => {
+        setExpressaoRobo('triste');
+        setFeedback('💥 Ops! O robô saiu do tabuleiro!');
+        
+        // Usa a referência direta, não querySelector
+        if (roboRef.current) {
+            // Pequeno delay para garantir que o render da expressão ocorra antes da animação
+            await new Promise(r => setTimeout(r, 50));
+            roboRef.current.classList.add('tremendo');
+            await new Promise(r => setTimeout(r, 600));
+            if (roboRef.current) roboRef.current.classList.remove('tremendo');
+        }
+        
+        setExecutando(false);
         setComandoAtivo(null);
         setBlocoSeAtivo(null);
         setComandoInternoAtivo(null);
-        let pos = nivel.roboInicio;
+    };
+
+    const executar = async () => {
+        resetar();
+        await new Promise(r => setTimeout(r, 400)); // Tempo aumentado para garantir reset visual
+
+        setExecutando(true);
+        let pos = { x: nivel.roboInicio.x, y: nivel.roboInicio.y };
 
         for (let i = 0; i < algoritmo.length; i++) {
             const item = algoritmo[i];
             setComandoAtivo(i);
-            await new Promise(r => setTimeout(r, 800));
+            
+            await new Promise(r => setTimeout(r, 600));
 
             if (item.tipo === 'se') {
                 const temLama = temLamaFrente(pos.x, pos.y);
@@ -188,37 +228,58 @@ export default function RoboCondicoes({ onConcluido }) {
                     for (let ci = 0; ci < item.comandos.length; ci++) {
                         const cmd = item.comandos[ci];
                         setComandoInternoAtivo(ci);
-                        await new Promise(r => setTimeout(r, 700));
-                        const nova = mover(pos, cmd);
-                        if (nova) {
-                            pos = nova;
-                            setRoboPos(pos);
-                        } else {
-                            setFeedback('💥 Ops! O robô pisou na lama!');
-                            setExecutando(false);
-                            setComandoAtivo(null);
-                            setBlocoSeAtivo(null);
-                            setComandoInternoAtivo(null);
+                        
+                        await new Promise(r => setTimeout(r, 600));
+                        
+                        const novaPos = calcularNovaPosicao(pos, cmd);
+                        
+                        if (isForaDoMapa(novaPos)) {
+                            setRoboPos(novaPos);
+                            // Espera o tempo da transição CSS (0.6s) antes de tremer
+                            await new Promise(r => setTimeout(r, 600)); 
+                            await tratarSaidaTabuleiro();
                             return;
                         }
-                        await new Promise(r => setTimeout(r, 200));
+
+                        setRoboPos(novaPos);
+                        await new Promise(r => setTimeout(r, 600)); // Espera movimento
+
+                        if (checarColisaoLama(novaPos)) {
+                            setExpressaoRobo('triste');
+                            setFeedback('💥 Sujou! O robô pisou na lama!');
+                            setExecutando(false);
+                            return;
+                        }
+                        
+                        pos = novaPos;
+                        await new Promise(r => setTimeout(r, 300));
                     }
                     setComandoInternoAtivo(null);
                     setBlocoSeAtivo(null);
                 }
             } else {
-                const nova = mover(pos, item.id);
-                if (nova) {
-                    pos = nova;
-                    setRoboPos(pos);
-                } else {
-                    setFeedback('💥 Ops! O robô pisou na lama!');
-                    setExecutando(false);
-                    setComandoAtivo(null);
-                    setComandoInternoAtivo(null);
+                const novaPos = calcularNovaPosicao(pos, item.id);
+                
+                if (isForaDoMapa(novaPos)) {
+                    setRoboPos(novaPos);
+                    // Espera o tempo da transição CSS (0.6s) antes de tremer
+                    await new Promise(r => setTimeout(r, 600));
+                    await tratarSaidaTabuleiro();
                     return;
                 }
-                await new Promise(r => setTimeout(r, 200));
+
+                setRoboPos(novaPos);
+                await new Promise(r => setTimeout(r, 600));
+
+                if (checarColisaoLama(novaPos)) {
+                    setExpressaoRobo('triste');
+                    setFeedback('💥 Sujou! O robô pisou na lama! Use o bloco SE/ENTÃO para desviar!');
+                    setExecutando(false);
+                    return;
+                }
+                
+                pos = novaPos;
+                await new Promise(r => setTimeout(r, 300));
             }
         }
 
@@ -231,7 +292,7 @@ export default function RoboCondicoes({ onConcluido }) {
             setBandeiraAnimando(true);
             await new Promise(r => setTimeout(r, 2000));
             setVenceu(true);
-            setFeedback('🎉 Parabéns! Você completou o nível!');
+            setFeedback('🎉 Isso aí! O robô desviou direitinho da lama e conseguiu chegar na bandeira!');
             if (!niveisCompletos.includes(nivelAtual)) {
                 setNiveisCompletos([...niveisCompletos, nivelAtual]);
             }
@@ -239,7 +300,8 @@ export default function RoboCondicoes({ onConcluido }) {
                 setTimeout(() => onConcluido && onConcluido(), 2000);
             }
         } else {
-            setFeedback('❌ O robô não chegou na bandeira. Tente de novo!');
+            setExpressaoRobo('triste');
+            setFeedback('❌ O robô não chegou na bandeira. Revise seu algoritmo e tente de novo!');
         }
 
         setExecutando(false);
@@ -255,13 +317,14 @@ export default function RoboCondicoes({ onConcluido }) {
             setFeedback('');
             setMostrarDica(false);
             setBandeiraAnimando(false);
+            setExpressaoRobo('feliz');
         }
     };
 
-    // Funções de Drag and Drop
-    const handleDragStart = (e, item, index = null) => {
-        setDraggedItem({ item, fromIndex: index });
+    const handleDragStart = (e, item, index = null, parentIndex = null) => {
+        setDraggedItem({ item, fromIndex: index, fromParentIndex: parentIndex });
         e.dataTransfer.effectAllowed = 'move';
+        e.stopPropagation();
     };
 
     const handleDragOver = (e, index) => {
@@ -269,36 +332,44 @@ export default function RoboCondicoes({ onConcluido }) {
         setDragOverIndex(index);
     };
 
-    const handleDrop = (e, dropIndex = null) => {
+    const handleDrop = (e, dropIndex = null, dropParentIndex = null) => {
         e.preventDefault();
-
+        e.stopPropagation();
         if (!draggedItem) return;
 
-        // Se está arrastando de um comando para adicionar ao algoritmo
-        if (draggedItem.fromIndex === null) {
-            if (dropIndex === null) {
-                // Adicionar no final
-                if (algoritmo.length < 15) {
-                    setAlgoritmo([...algoritmo, draggedItem.item]);
-                }
-            } else {
-                // Adicionar em posição específica
-                if (algoritmo.length < 15) {
-                    const novo = [...algoritmo];
-                    novo.splice(dropIndex, 0, draggedItem.item);
-                    setAlgoritmo(novo);
-                }
+        const newAlgoritmo = JSON.parse(JSON.stringify(algoritmo));
+
+        if (dropParentIndex !== null) {
+            // Drop dentro de um SE
+            const targetBlock = newAlgoritmo[dropParentIndex];
+            if (draggedItem.fromParentIndex === dropParentIndex) {
+                 // Move dentro do mesmo SE
+                 if (draggedItem.fromIndex !== null && dropIndex !== null && dropIndex !== draggedItem.fromIndex) {
+                     const [removed] = targetBlock.comandos.splice(draggedItem.fromIndex, 1);
+                     targetBlock.comandos.splice(dropIndex, 0, removed);
+                 }
+            } else if (draggedItem.fromIndex === null) {
+                 // Adiciona novo vindo da toolbar
+                 if (targetBlock.comandos.length < 8) {
+                    if (dropIndex === null) targetBlock.comandos.push(draggedItem.item.id);
+                    else targetBlock.comandos.splice(dropIndex, 0, draggedItem.item.id);
+                 }
             }
         } else {
-            // Reordenar dentro do algoritmo
-            if (dropIndex !== null && dropIndex !== draggedItem.fromIndex) {
-                const novo = [...algoritmo];
-                const [removed] = novo.splice(draggedItem.fromIndex, 1);
-                novo.splice(dropIndex, 0, removed);
-                setAlgoritmo(novo);
+            // Drop na raiz
+            if (draggedItem.fromParentIndex === null) {
+                if (draggedItem.fromIndex === null) {
+                    if (newAlgoritmo.length < 15) {
+                        if (dropIndex === null) newAlgoritmo.push(draggedItem.item);
+                        else newAlgoritmo.splice(dropIndex, 0, draggedItem.item);
+                    }
+                } else if (dropIndex !== null && dropIndex !== draggedItem.fromIndex) {
+                    const [removed] = newAlgoritmo.splice(draggedItem.fromIndex, 1);
+                    newAlgoritmo.splice(dropIndex, 0, removed);
+                }
             }
         }
-
+        setAlgoritmo(newAlgoritmo);
         setDraggedItem(null);
         setDragOverIndex(null);
     };
@@ -310,9 +381,9 @@ export default function RoboCondicoes({ onConcluido }) {
 
     return (
         <div className="robo-condicoes-container">
-            <h2 className="robo-title">🤖 Robô com Condições (SE)</h2>
+            <h2 className="robo-title">🤖 Robo com Condições (SE/ENTÃO)</h2>
+            <p className="robo-subtitle">Ensine o robô a <strong>tomar decisões</strong>! Use o bloco <strong>SE/ENTÃO</strong> para ele saber o que fazer quando encontrar lama.</p>
 
-            {/* Níveis */}
             <div className="nivel-selector">
                 {NIVEIS.map((n, i) => (
                     <button
@@ -326,17 +397,17 @@ export default function RoboCondicoes({ onConcluido }) {
                             setFeedback('');
                             setMostrarDica(false);
                             setBandeiraAnimando(false);
+                            setExpressaoRobo('feliz');
                         }}
                         disabled={executando}
                     >
                         {niveisCompletos.includes(i) && '✓ '}
-                        Nível {n.id}
+                        Desafio {n.id}
                     </button>
                 ))}
             </div>
 
             <div className="game-area">
-                {/* Grade */}
                 <div className="grade-wrapper">
                     <h4 className="subtitle">{nivel.titulo}</h4>
                     <svg width="320" height="320" viewBox="0 0 400 400" className="grade-svg">
@@ -360,8 +431,14 @@ export default function RoboCondicoes({ onConcluido }) {
                             </g>
                         ))}
 
-                        <g transform={`translate(${roboPos.x * 80 + 40}, ${roboPos.y * 80 + 40})`} className="robo-animado">
-                            <RoboSVG />
+                        <g 
+                            transform={`translate(${roboPos.x * 80 + 40}, ${roboPos.y * 80 + 40})`} 
+                            className="robo-movimento"
+                        >
+                            {/* REF: Adicionada aqui para controle direto */}
+                            <g ref={roboRef} className="robo-animado">
+                                <RoboSVG expressao={expressaoRobo} />
+                            </g>
                         </g>
 
                         <g transform={`translate(${nivel.bandeiraPos.x * 80 + 40}, ${nivel.bandeiraPos.y * 80 + 40})`}>
@@ -377,9 +454,15 @@ export default function RoboCondicoes({ onConcluido }) {
                     <button className="btn-dica" onClick={() => setMostrarDica(!mostrarDica)}>
                         {mostrarDica ? '🙈 Esconder' : '💡 Ver Dica'}
                     </button>
+
+                    {feedback && (
+                        <div className={`feedback ${venceu ? 'sucesso' : (feedback.includes('Ops') || feedback.includes('Sujou') || feedback.includes('não chegou') ? 'erro' : '')}`}>
+                            {feedback}
+                        </div>
+                    )}
                 </div>
 
-                {/* Painel de Controle */}
+                {/* Painel e Barra lateral (mantidos iguais) */}
                 <div className="control-panel">
                     <div className="comandos-section">
                         <h4 className="subtitle">Comandos:</h4>
@@ -393,7 +476,7 @@ export default function RoboCondicoes({ onConcluido }) {
                                     disabled={executando || algoritmo.length >= 15}
                                     title={c.nome}
                                     draggable={!executando && algoritmo.length < 15}
-                                    onDragStart={(e) => handleDragStart(e, { tipo: 'comando', id: c.id })}
+                                    onDragStart={(e) => handleDragStart(e, { tipo: 'comando', id: c.id }, null, null)}
                                 >
                                     {c.icone}
                                 </button>
@@ -402,18 +485,18 @@ export default function RoboCondicoes({ onConcluido }) {
                                 className="cmd-mini se"
                                 onClick={adicionarBlocoSe}
                                 disabled={executando || algoritmo.length >= 15}
-                                title="SE tem lama"
+                                title="SE/ENTÃO"
                                 draggable={!executando && algoritmo.length < 15}
-                                onDragStart={(e) => handleDragStart(e, { tipo: 'se', comandos: [] })}
+                                onDragStart={(e) => handleDragStart(e, { tipo: 'se', comandos: [] }, null, null)}
                             >
-                                🔀 SE
+                                🔀 SE, ENTÃO
                             </button>
                         </div>
                     </div>
 
                     <div className="algoritmo-section">
                         <div className="algo-header">
-                            <h4 className="subtitle">Algoritmo ({algoritmo.length}/15):</h4>
+                            <h4 className="subtitle">Seu Algoritmo ({algoritmo.length}/15):</h4>
                             {algoritmo.length > 0 && (
                                 <button className="btn-limpar-mini" onClick={limpar} disabled={executando}>
                                     🗑️
@@ -423,7 +506,7 @@ export default function RoboCondicoes({ onConcluido }) {
                         <div
                             className="algoritmo-mini"
                             onDragOver={(e) => handleDragOver(e, null)}
-                            onDrop={(e) => handleDrop(e, null)}
+                            onDrop={(e) => handleDrop(e, null, null)}
                         >
                             {algoritmo.length === 0 ? (
                                 <div className="algo-vazio">Arraste ou clique nos comandos...</div>
@@ -433,9 +516,9 @@ export default function RoboCondicoes({ onConcluido }) {
                                         key={i}
                                         className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                         draggable={!executando}
-                                        onDragStart={(e) => handleDragStart(e, item, i)}
+                                        onDragStart={(e) => handleDragStart(e, item, i, null)}
                                         onDragOver={(e) => handleDragOver(e, i)}
-                                        onDrop={(e) => handleDrop(e, i)}
+                                        onDrop={(e) => handleDrop(e, i, null)}
                                         onDragEnd={handleDragEnd}
                                     >
                                         {item.tipo === 'se' ? (
@@ -451,7 +534,15 @@ export default function RoboCondicoes({ onConcluido }) {
                                                         item.comandos.map((cmdId, ci) => {
                                                             const cmd = COMANDOS.find(c => c.id === cmdId);
                                                             return (
-                                                                <div key={ci} className={`se-cmd ${blocoSeAtivo === i && comandoInternoAtivo === ci ? 'se-cmd-ativo' : ''}`} style={{ background: cmd.cor }}>
+                                                                <div 
+                                                                    key={ci} 
+                                                                    className={`se-cmd ${blocoSeAtivo === i && comandoInternoAtivo === ci ? 'se-cmd-ativo' : ''}`} 
+                                                                    style={{ background: cmd.cor }}
+                                                                    draggable={!executando}
+                                                                    onDragStart={(e) => handleDragStart(e, {id: cmdId}, ci, i)}
+                                                                    onDragOver={(e) => { e.stopPropagation(); handleDragOver(e, null); }}
+                                                                    onDrop={(e) => handleDrop(e, ci, i)}
+                                                                >
                                                                     <span className="cmd-content">
                                                                         <span className="cmd-icone-item">{cmd.icone}</span>
                                                                         <span className="cmd-nome">{cmd.nome}</span>
@@ -470,6 +561,8 @@ export default function RoboCondicoes({ onConcluido }) {
                                                             onClick={() => adicionarDentroSe(i, c.id)}
                                                             disabled={executando || item.comandos.length >= 8}
                                                             title={c.nome}
+                                                            draggable={!executando}
+                                                            onDragStart={(e) => handleDragStart(e, {item: {id: c.id}}, null, i)}
                                                         >
                                                             {c.icone}
                                                         </button>
@@ -504,19 +597,20 @@ export default function RoboCondicoes({ onConcluido }) {
                             </button>
                         )}
                     </div>
-
-                    {feedback && (
-                        <div className={`feedback ${venceu ? 'sucesso' : 'erro'}`}>
-                            {feedback}
-                        </div>
-                    )}
                 </div>
             </div>
 
             {niveisCompletos.length === NIVEIS.length && (
                 <div className="conclusao">
-                    <h3>🏆 Parabéns! Todos os níveis completos!</h3>
+                    <h3>🏆 Parabéns! Todos os os desafios completos!</h3>
                     <p>Você dominou as <strong>CONDIÇÕES</strong>! O robô agora sabe tomar decisões baseadas no que encontra.</p>
+                    <div className="conceito-box">
+                        <strong>💡 O que aprendemos:</strong>
+                        <p>
+                            <br></br><strong>CONDIÇÕES (SE/ENTÃO)</strong> permitem que o algoritmo tome decisões! 
+                            "SE tiver lama, ENTÃO desvie". Sem isso, o robô ficaria preso sem saber o que fazer.
+                        </p>
+                    </div>
                 </div>
             )}
         </div>

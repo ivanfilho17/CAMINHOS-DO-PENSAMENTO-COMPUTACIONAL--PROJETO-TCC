@@ -38,6 +38,7 @@
 .pilares-titulo-container {
     text-align: center;
     /* Centraliza o título */
+    font-size: 1.2rem;
 }
 
 .pilares-titulo-container h4 {
@@ -102,6 +103,7 @@
 }
 
 .flip-card-front h4 {
+    font-size: 1rem;
     margin-top: 1.5rem;
 }
 
@@ -117,31 +119,33 @@
     color: var(--white);
     transform: rotateY(180deg);
     /* Começa virado */
-    font-size: 0.85rem;
-    line-height: 1.5;
+    font-size: 0.95rem;
+    line-height: 1.3;
     text-align: left;
 }
 
+/* Container de Conclusão da Introdução */
 .conclusao-intro-container {
     text-align: center;
-    background: var(--background);
-    /* Usa a cor de fundo padrão */
+    background: var(--white);
     padding: 2rem;
     border: 4px solid var(--black);
     border-radius: 10px;
     box-shadow: 6px 6px 0 var(--black);
     max-width: 600px;
-    /* Um pouco mais estreito que o módulo normal */
     margin: auto;
     margin-bottom: 0;
-    /* Centraliza vertical e horizontalmente */
 }
 
 .conclusao-intro-container h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: var(--secondary);
-    /* Cor roxa para destaque */
+    color: var(--black);
+    background-color: var(--yellow);
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
 }
 
 .conclusao-intro-container p {
@@ -151,37 +155,84 @@
 }
 
 .conclusao-intro-botoes {
-    justify-content: space-between; /* Botões nas extremidades */
+    justify-content: center; 
+    gap: 1.5rem;
     border-top: 3px solid var(--black);
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    margin-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 /* Garante que os botões tenham o estilo correto */
 .conclusao-intro-botoes .btn-icon {
     background-color: var(--primary);
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
 }
 
 .conclusao-intro-botoes .btn-icon svg {
     fill: var(--white);
 }
 
-
 .conclusao-intro-botoes .btn.start svg {
     margin-left: 0;
-    /* Remove margem se houver */
 }
 
 .conclusao-intro-container.tela-conteudo {
-    /* O !important é necessário aqui para vencer os 120px do Module.css */
     padding-bottom: 1.5rem !important; 
-    
-    /* Se quiser reduzir ainda mais o espaço interno geral */
     padding-top: 1.5rem; 
 }
 
-/* Opcional: Ajuste também a margem externa do container principal se necessário */
-.intro-container {
-    margin-bottom: 1rem; /* Garante que não tenha margem excessiva fora */
+/* ------------------------------------------- */
+/* --- RESPONSIVIDADE INTRODUÇÃO --- */
+/* ------------------------------------------- */
+
+@media (max-width: 768px) {
+    .intro-container {
+        padding: 10px;
+    }
+
+    /* Cards em coluna única */
+    .pilares-container {
+        grid-template-columns: 1fr; 
+        gap: 1.2rem;
+    }
+
+    .flip-card {
+        height: 150px; /* Altura ajustada */
+    }
+    
+    .pilar-icone {
+        font-size: 3rem;
+    }
+
+    .conclusao-intro-container {
+        padding: 1.5rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .pilares-titulo-container h4 {
+        font-size: 1.2rem;
+        padding: 5px;
+    }
+    
+    .texto-explicativo h3 {
+        font-size: 1.2rem;
+    }
+    
+    .conclusao-intro-container h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Botões empilhados ou ajustados */
+    .conclusao-intro-botoes {
+        gap: 10px;
+    }
+
+    .conclusao-intro-botoes .btn {
+        padding: 6px;
+    }
 }

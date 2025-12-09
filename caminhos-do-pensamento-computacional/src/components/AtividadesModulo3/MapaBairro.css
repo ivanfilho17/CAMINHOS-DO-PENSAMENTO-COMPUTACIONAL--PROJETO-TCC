@@ -14,8 +14,8 @@
     font-family: 'Arial', sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--white);
-    background: var(--secondary);
+    color: var(--black);
+    background: #fff566;
     padding: 3px 5px;
     border: 3px solid var(--black);
     box-shadow: 4px 4px 0 var(--black);
@@ -269,8 +269,8 @@
 
 /* Barra de Ícones */
 .barra-icones {
-    margin: 2rem 0;
-    padding: 1.5rem;
+    margin: 1rem 0;
+    padding: 1rem;
     background: var(--white);
     border: 4px solid var(--black);
     border-radius: 12px;
@@ -280,7 +280,7 @@
 .barra-icones h5 {
     text-align: center;
     margin-bottom: 1rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--accent);
 }
 
@@ -288,7 +288,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.8rem;
     flex-wrap: wrap;
 }
 
@@ -297,7 +297,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.8rem;
+    padding: 0.5rem;
     background: var(--background);
     border: 3px solid var(--black);
     border-radius: 10px;
@@ -306,6 +306,7 @@
     transition: all 0.2s ease;
     user-select: none;
     min-width: 80px;
+    touch-action: none; /* Importante para o drag no mobile */
 }
 
 .icone-item:hover:not(.usado) {
@@ -331,7 +332,7 @@
 }
 
 .icone-emoji {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     line-height: 1;
 }
 
@@ -473,11 +474,12 @@
 @media (max-width: 900px) {
     .mapa-principal {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .bairro-ilustracao,
     .grade-mapa {
-        height: 300px;
+        height: 300px; /* Altura ajustada para tablets/mobile horizontal */
     }
 
     .icones-grid {
@@ -499,16 +501,53 @@
 }
 
 @media (max-width: 600px) {
-    .bairro-ilustracao,
-    .grade-mapa {
-        height: 250px;
+    .mapa-bairro-container {
+        padding: 15px;
     }
 
+    .mapa-bairro-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .bairro-ilustracao,
+    .grade-mapa {
+        height: 220px; /* Altura menor para smartphones */
+    }
+
+    /* Ajuste dos elementos fixos para caberem no mapa menor */
     .elemento-fixo {
+        font-size: 2rem;
+    }
+
+    .escola-pos { font-size: 2rem; }
+    .hospital-pos { font-size: 2rem; }
+    .padaria-pos { font-size: 1.8rem; }
+    .parque-pos { font-size: 2.2rem; }
+
+    .elemento-decorativo {
+        font-size: 1.2rem;
+    }
+
+    .elemento-no-mapa {
         font-size: 2.5rem;
     }
 
-    .elemento-decorativo {
-        font-size: 1.5rem;
+    /* Grid de ícones ajustado */
+    .icones-grid {
+        gap: 0.5rem;
+        justify-content: space-around;
+    }
+
+    .icone-item {
+        min-width: 60px;
+        padding: 0.4rem;
+    }
+
+    .icone-emoji {
+        font-size: 1.8rem;
+    }
+
+    .icone-nome {
+        font-size: 0.7rem;
     }
 }

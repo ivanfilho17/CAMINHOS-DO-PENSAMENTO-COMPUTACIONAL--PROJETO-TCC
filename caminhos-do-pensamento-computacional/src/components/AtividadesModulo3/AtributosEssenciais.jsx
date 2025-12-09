@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './AtributosEssenciais.css';
 
-// Desafios com diferentes conceitos
+// Desafios com linguagem ajustada
 const DESAFIOS = [
     {
         id: 1,
@@ -18,7 +18,7 @@ const DESAFIOS = [
             { id: 'ovos', texto: 'Bota ovos', essencial: true },
             { id: 'gaiola', texto: 'Mora em gaiola', essencial: false }
         ],
-        explicacao: 'Um pássaro PRECISA ter bico, penas e botar ovos. A cor (amarelo) ou onde mora (gaiola) são detalhes que mudam de pássaro para pássaro!'
+        explicacao: 'Isso! Todo pássaro tem bico, penas e nasce de ovos. A cor ou onde ele mora pode mudar, então não define o que é um pássaro!'
     },
     {
         id: 2,
@@ -28,11 +28,11 @@ const DESAFIOS = [
             { id: 'rodas', texto: 'Tem rodas', essencial: true },
             { id: 'vermelho', texto: 'É vermelho', essencial: false },
             { id: 'motor', texto: 'Tem motor', essencial: true },
-            { id: 'luxo', texto: 'É de luxo', essencial: false },
+            { id: 'luxo', texto: 'É chique (luxo)', essencial: false },
             { id: 'transporte', texto: 'Serve para transportar', essencial: true },
             { id: '4portas', texto: 'Tem 4 portas', essencial: false }
         ],
-        explicacao: 'Um carro PRECISA ter rodas, motor e servir para transporte. A cor, o luxo ou o número de portas são características que variam!'
+        explicacao: 'Muito bem! Um carro precisa de rodas e motor para andar e serve para transportar. A cor, o modelo ou quantas portas tem são apenas detalhes!'
     },
     {
         id: 3,
@@ -41,12 +41,12 @@ const DESAFIOS = [
         atributos: [
             { id: 'paginas', texto: 'Tem páginas', essencial: true },
             { id: 'capa-dura', texto: 'Tem capa dura', essencial: false },
-            { id: 'texto', texto: 'Contém texto/imagens', essencial: true },
-            { id: 'romance', texto: 'É de romance', essencial: false },
+            { id: 'texto', texto: 'Tem texto ou imagens', essencial: true },
+            { id: 'romance', texto: 'É uma história de amor', essencial: false },
             { id: 'ler', texto: 'Serve para ler', essencial: true },
             { id: 'cheiro', texto: 'Tem cheiro de novo', essencial: false }
         ],
-        explicacao: 'Um livro PRECISA ter páginas, conteúdo (texto/imagens) e servir para leitura. O tipo (romance) ou o cheiro são detalhes secundários!'
+        explicacao: 'Exato! Um livro precisa ter páginas, ter conteúdo (texto/imagens) e servir para ler. Se a capa é dura ou mole, ou o tipo de história, são coisas que variam.'
     }
 ];
 
@@ -96,11 +96,10 @@ export default function AtributosEssenciais({ onConcluido }) {
             const sobrou = selecionados.filter(id => !atributosEssenciais.includes(id));
 
             let mensagem = '';
-            if (faltou.length > 0) {
-                mensagem += 'Você esqueceu atributos essenciais! ';
-            }
             if (sobrou.length > 0) {
-                mensagem += 'Você selecionou atributos que não são essenciais.';
+                mensagem = 'Ops! Você marcou coisas que podem mudar (detalhes). Tente focar no que é obrigatório!';
+            } else if (faltou.length > 0) {
+                mensagem = `Faltou coisa! Para ser um(a) ${desafio.conceito}, ele(a) precisa de mais características importantes.`;
             }
 
             setFeedback({ tipo: 'erro', mensagem });
@@ -127,10 +126,10 @@ export default function AtributosEssenciais({ onConcluido }) {
 
     return (
         <div className="atividade-container atributos-essenciais-container">
-            <h2>🎯 Atividade: O que define um...?</h2>
+            <h2>🎯 O que define um...?</h2>
             <p className="instrucoes">
-                Identifique os atributos ESSENCIAIS! Marque apenas o que define o conceito,
-                não detalhes que podem variar.
+                Pense bem: Para ser esse objeto, o que ele <strong>TEM que ter</strong>?
+                <br />Marque só o que é obrigatório. Detalhes que podem mudar (como a cor) não valem!
             </p>
 
             {!concluido ? (
@@ -204,7 +203,7 @@ export default function AtributosEssenciais({ onConcluido }) {
                                 onClick={handleVerificar}
                                 disabled={selecionados.length === 0}
                             >
-                                Verificar Resposta
+                                Conferir
                             </button>
                         ) : (
                             <>
@@ -214,7 +213,7 @@ export default function AtributosEssenciais({ onConcluido }) {
                                     </button>
                                 )}
                                 <button className="btn-proximo" onClick={proximoDesafio}>
-                                    {ultimoDesafio ? 'Finalizar Atividade' : 'Próximo Desafio →'}
+                                    {ultimoDesafio ? 'Finalizar Atividade' : 'Próximo →'}
                                 </button>
                             </>
                         )}
@@ -228,20 +227,21 @@ export default function AtributosEssenciais({ onConcluido }) {
                         className="resultado-conteudo"
                     >
                         <div className="resultado-emoji">🏆</div>
-                        <h3>Atividade Concluída!</h3>
+                        <h3>Parabéns! 👏🏽</h3>
+                        <h3>Atividade Concluída! ✅</h3>
                         <p className="resultado-texto">
                             Você acertou {acertos} de {DESAFIOS.length} desafios!
                         </p>
                         <p className="resultado-mensagem">
                             {acertos === DESAFIOS.length
-                                ? 'Perfeito! Você entendeu muito bem o que são atributos essenciais!'
-                                : 'Bom trabalho! Você está aprendendo a identificar o que é essencial.'}
+                                ? 'Perfeito! Você entendeu muito bem o que é essencial!'
+                                : 'Bom trabalho! Você está aprendendo a identificar o que é importante.'}
                         </p>
                         <div className="conceito-aprendido">
-                            <strong>💡 Conceito Aprendido:</strong>
+                            <strong>💡 O que aprendemos:</strong>
                             <p>
-                                Abstração é focar no que é ESSENCIAL e ignorar detalhes que variam.
-                                Isso é fundamental para criar modelos e resolver problemas!
+                                <strong>Abstração</strong> é focar apenas no que é principal e ignorar os detalhes que mudam.
+                                Assim a gente entende o que as coisas realmente são!
                             </p>
                         </div>
                     </motion.div>

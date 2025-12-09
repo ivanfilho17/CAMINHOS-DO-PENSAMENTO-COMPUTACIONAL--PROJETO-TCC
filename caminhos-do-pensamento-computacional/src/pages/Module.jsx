@@ -369,12 +369,23 @@ export default function Module({
                 </div>
             )}
 
-            {/* ---------- TELA 4: CONCLUSÃO ---------- */}
+            {/* ---------- TELA 4: CONCLUSÃO (COM TROFÉU E MEDALHA) ---------- */}
             {telaAtual === 4 && (
                 <div className="tela-conteudo">
                     <Confetti />
                     <div className="conclusao-container">
                         <h1>PARABÉNS!</h1>
+                        
+                        {/* ÁREA DE PRÊMIOS ANIMADOS - ADICIONADA */}
+                        <div className="premios-container">
+                            <div className="premio-wrapper trophy">
+                                <span className="premio-img" style={{fontSize: '5rem', display:'block'}}>🏆</span>
+                            </div>
+                            <div className="premio-wrapper medal">
+                                <span className="premio-img" style={{fontSize: '5rem', display:'block'}}>🏅</span>
+                            </div>
+                        </div>
+
                         <p className="subtitulo">
                             Você concluiu: {moduleData.title}. ✅
                         </p>

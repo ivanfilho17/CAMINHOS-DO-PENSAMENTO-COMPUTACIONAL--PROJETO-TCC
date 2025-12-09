@@ -1,4 +1,4 @@
-/* RoboRepeticoes.css - Versão Compacta */
+/* RoboRepeticoes.css - Versão Compacta e Responsiva */
 
 .robo-repeticoes-container {
     max-width: 900px;
@@ -15,8 +15,15 @@
 .robo-title {
     font-size: 1.8em;
     color: #0c4a6e;
-    margin: 0 0 10px 0;
+    margin: 0 auto;
     text-align: center;
+    background: #fff566;
+    font-weight: 700;
+    padding: 3px 8px;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    display: block;
+    width: fit-content;
 }
 
 .robo-subtitle {
@@ -42,6 +49,7 @@
     gap: 10px;
     justify-content: center;
     margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
 .nivel-btn {
@@ -104,9 +112,32 @@
     overflow: visible;
 }
 
-.robo-animado {
+/* CORREÇÃO CSS: Classes separadas para movimento e animação */
+
+/* Grupo Pai: Move o robô suavemente */
+.robo-movimento {
     transition: transform 0.8s ease-in-out;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+}
+
+/* Grupo Filho: Recebe a animação de tremor */
+.robo-animado {
+    transform-origin: center;
+}
+
+/* A classe 'tremendo' é adicionada via JS */
+.robo-animado.tremendo {
+    animation: robo-tremer 0.4s ease;
+}
+
+/* Animação de tremor */
+@keyframes robo-tremer {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
 }
 
 .btn-dica {
@@ -139,15 +170,8 @@
 }
 
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .dica-box strong {
@@ -173,10 +197,12 @@
 
 .comandos-mini {
     display: flex;
-    gap: 8px;
+    row-gap: 35px;
+    column-gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
-    padding-bottom: 25px;
+    padding-bottom: 15px;
+    margin-top: 10px;
 }
 
 .cmd-mini {
@@ -193,11 +219,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    touch-action: none;
+    position: relative;
+    margin-bottom: 5px;
 }
 
 .cmd-mini.repita {
     border: 4px solid rgba(255, 255, 255, 0.8);
     font-weight: 800;
+}
+
+.cmd-mini::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.45em;
+    white-space: nowrap;
+    color: #1e293b;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
 }
 
 .cmd-mini:active {
@@ -227,7 +270,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .btn-limpar-mini {
@@ -268,6 +311,7 @@
 .algo-item {
     animation: slideIn 0.3s ease;
     cursor: grab;
+    touch-action: none;
 }
 
 .algo-item:active {
@@ -280,15 +324,8 @@
 }
 
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 .cmd-item {
@@ -447,7 +484,7 @@
 /* Botões de Ação */
 .botoes-acao {
     display: flex;
-    gap: 20px;  
+    gap: 20px;
     justify-content: center;
     align-items: center;
 }
@@ -485,7 +522,10 @@
 
 /* Feedback */
 .feedback {
-    padding: 12px 16px;
+    width: fit-content;
+    justify-content: center;
+    padding: 10px 10px;
+    margin-top: 2rem;
     border-radius: 8px;
     border: 2px solid;
     text-align: center;
@@ -495,15 +535,8 @@
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .feedback.sucesso {
@@ -520,25 +553,25 @@
 
 /* Conclusão */
 .conclusao {
-    background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+    background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
     padding: 25px;
     border-radius: 12px;
-    border: 3px solid #ec4899;
+    border: 3px solid #8b5cf6;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .conclusao h3 {
     font-size: 1.6em;
-    color: #9f1239;
+    color: #5b21b6;
     margin: 0 0 10px 0;
 }
 
 .conclusao p {
     font-size: 1.05em;
-    color: #831843;
+    color: #4c1d95;
     line-height: 1.6;
-    margin: 0 0 15px 0;
+    margin-bottom: 1rem;
 }
 
 .conceito-box {
@@ -547,78 +580,18 @@
     padding: 15px;
     border-radius: 8px;
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .conceito-box strong {
     color: #92400e;
     font-size: 1.1em;
-    display: block;
-    margin-bottom: 8px;
 }
 
 .conceito-box p {
     color: #78350f;
     line-height: 1.6;
     margin: 0;
-}
-
-/* Conquista Final */
-.conquista-final {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    border: 3px solid #3b82f6;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-.conquista-final h4 {
-    font-size: 1.3em;
-    color: #1e40af;
-    margin: 0 0 15px 0;
-}
-
-.pilares-completos {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.pilar {
-    background: white;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 700;
-    color: #1e40af;
-    border: 2px solid #3b82f6;
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
-    font-size: 0.95em;
-    transition: transform 0.3s ease;
-}
-
-.pilar:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
-}
-
-/* Animação da Bandeira */
-.bandeira-vitoria {
-    animation: bandeiraBalanco 0.6s ease-in-out 3;
-}
-
-@keyframes bandeiraBalanco {
-
-    0%,
-    100% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(-15deg) scale(1.1);
-    }
-
-    75% {
-        transform: rotate(15deg) scale(1.1);
-    }
 }
 
 /* Estilos para comandos com nome */
@@ -646,15 +619,9 @@
 }
 
 @keyframes pulsarUmaVez {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.03);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
 }
 
 .algo-item.comando-ativo .cmd-item {
@@ -681,55 +648,37 @@
     box-shadow: 0 0 15px rgba(251, 237, 36, 0.788), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
+/* Animação da Bandeira */
+.bandeira-vitoria {
+    animation: bandeiraBalanco 0.6s ease-in-out 3;
+}
+
+@keyframes bandeiraBalanco {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg) scale(1.1); }
+    75% { transform: rotate(15deg) scale(1.1); }
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
-    .robo-repeticoes-container {
-        padding: 15px;
-    }
-
-    .robo-title {
-        font-size: 1.4em;
-    }
-
-    .robo-subtitle {
-        font-size: 0.95em;
-    }
-
+    .robo-repeticoes-container { padding: 15px; }
+    .robo-title { font-size: 1.4em; }
     .game-area {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-
-    .grade-svg {
-        max-width: 100%;
-    }
-
-    .nivel-selector {
-        gap: 8px;
-    }
-
+    .grade-svg { max-width: 100%; }
+    .nivel-selector { gap: 8px; }
     .nivel-btn {
         padding: 6px 12px;
         font-size: 0.85em;
     }
-
-    .algoritmo-mini {
-        max-height: 200px;
+    .algoritmo-mini { max-height: 200px; }
+    .botoes-acao { flex-direction: column; gap: 10px; }
+    .btn-exec, .btn-reset, .btn-prox {
+        width: 150px;
+        justify-content: center;
+        padding: 8px;
     }
-
-    .botoes-acao {
-        flex-direction: column;
-    }
-
-    .btn {
-        max-width: none;
-    }
-
-    .pilares-completos {
-        grid-template-columns: 1fr;
-    }
-
-    .dica-box {
-        font-size: 0.85em;
-    }
+    .dica-box { font-size: 0.85em; }
 }
