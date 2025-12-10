@@ -1,5 +1,8 @@
-/* === ESTILO NEO-BRUTALISTA PARA A ATIVIDADE "PLANEJANDO A MOCHILA" === */
+/* ==========================================================================
+   ATIVIDADE: PLANEJANDO A MOCHILA (MÓDULO 1)
+   ========================================================================== */
 
+/* --- Container Principal --- */
 .plan-backpack-container {
     max-width: 900px;
     width: 100%;
@@ -10,6 +13,7 @@
     color: #111;
 }
 
+/* --- Títulos e Instruções --- */
 .pb-title {
     font-size: 1.6rem;
     font-weight: 700;
@@ -27,7 +31,7 @@
     padding: 6px 8px;
 }
 
-/* === Estrutura Principal === */
+/* --- Layout Principal --- */
 .pb-main {
     display: flex;
     flex-wrap: wrap;
@@ -35,13 +39,16 @@
     align-items: flex-start;
 }
 
-/* === ESTEIRA DE ITENS === */
+/* ==========================================================================
+   ESTEIRA DE ITENS (ORIGEM)
+   ========================================================================== */
 .pb-esteira {
     flex: 1 1 300px;
     background: #ffd5cc;
     border: 3px solid #000;
     border-radius: 12px;
     box-shadow: 5px 5px 0 #000;
+    padding-bottom: 5px;
 }
 
 .pb-esteira h4 {
@@ -64,11 +71,27 @@
 .pb-esteira-item {
     width: 90px;
     height: 70px;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* === ITENS === */
+/* Nota de rodapé da esteira (Ajuste de Centralização) */
+.pb-esteira-note {
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0;
+    text-align: center;
+    /* Centraliza o texto */
+    width: 100%;
+    /* Garante largura total para centralizar */
+    display: block;
+}
+
+/* ==========================================================================
+   ITENS ARRASTÁVEIS
+   ========================================================================== */
 .pb-item {
     cursor: grab;
     user-select: none;
@@ -97,14 +120,14 @@
 .pb-item-emoji {
     font-size: 28px;
     margin: 0;
+    line-height: 1;
 }
 
 .pb-item-label {
     font-size: 14px;
 }
 
-/* === ITENS DURANTE O ARRASTE === */
-
+/* Estado: Arrastando */
 .pb-item.dragging {
     background: #fffae3;
     box-shadow: 6px 6px 0 #000;
@@ -113,7 +136,7 @@
     position: relative;
 }
 
-/* === FEEDBACK VISUAL === */
+/* Estados: Feedback (Certo/Errado) */
 .pb-item.correct {
     background: #9aff9a;
     border-color: #008000;
@@ -126,37 +149,9 @@
     animation: pb-shake 0.4s ease;
 }
 
-@keyframes pb-shake {
-    0% {
-        transform: translateX(0);
-    }
-
-    20% {
-        transform: translateX(-6px);
-    }
-
-    40% {
-        transform: translateX(6px);
-    }
-
-    60% {
-        transform: translateX(-4px);
-    }
-
-    80% {
-        transform: translateX(4px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
-
-.shake {
-    animation: pb-shake 0.4s ease;
-}
-
-/* === CAIXAS (CATEGORIAS) === */
+/* ==========================================================================
+   CAIXAS DE CATEGORIA (DESTINO)
+   ========================================================================== */
 .pb-categories {
     flex: 1 1 520px;
 }
@@ -186,7 +181,7 @@
     display: flex;
     flex-direction: column;
     box-shadow: 5px 5px 0 #000;
-    transition: 0.1s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .pb-category.over {
@@ -201,6 +196,7 @@
     padding: 4px;
     background: #fff;
     border-bottom: 2px solid #000;
+    text-align: center;
 }
 
 .pb-category-content {
@@ -210,21 +206,28 @@
     gap: 8px;
     justify-content: center;
     width: 100%;
+    flex-grow: 1;
 }
 
-/* === ITENS COLOCADOS === */
-.pb-item-placed .pb-item {
-    background: #97fa69b9;
-    gap: 5px;
-}
-
+/* Placeholder (quando vazio) */
 .pb-placeholder {
     color: #555;
     font-size: 12px;
     text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-/* === FEEDBACK DE SUCESSO === */
+/* Estilo do item quando já colocado na caixa */
+.pb-item-placed .pb-item {
+    background: #97fa69b9;
+    gap: 2px;
+    cursor: default;
+}
+
+/* ==========================================================================
+   FEEDBACK E ANIMAÇÕES
+   ========================================================================== */
 .pb-feedback-success {
     margin-top: 18px;
     padding: 12px;
@@ -237,15 +240,37 @@
     font-size: 15px;
 }
 
-/* === NOTA === */
-.pb-esteira-note {
-    margin-bottom: 5px;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 0;
+@keyframes pb-shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-6px);
+    }
+
+    40% {
+        transform: translateX(6px);
+    }
+
+    60% {
+        transform: translateX(-4px);
+    }
+
+    80% {
+        transform: translateX(4px);
+    }
 }
 
-/* === RESPONSIVIDADE OTIMIZADA === */
+.shake {
+    animation: pb-shake 0.4s ease;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE (MOBILE)
+   ========================================================================== */
 @media (max-width: 900px) {
     .pb-title {
         font-size: 1.3rem;
@@ -253,43 +278,46 @@
 
     .pb-main {
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
     }
 
-    /* ESTEIRA FIXA NO TOPO (Sticky) */
+    /* ESTEIRA: Ajustes Críticos para Mobile */
     .pb-esteira {
         position: sticky;
+        /* Fixa no topo para facilitar o arraste */
         top: 0;
         z-index: 100;
-        /* Garante que fique acima de outros elementos ao rolar */
+        /* Garante que fique SOBRE as caixas ao rolar/arrastar */
         width: 100%;
-        overflow-x: auto;
-        /* Permite rolagem horizontal */
         background-color: #ffd5cc;
-        /* Garante opacidade */
-        margin-bottom: 1rem;
-
+        margin-bottom: 0.5rem;
+        border-bottom: 4px solid #000;
+        /* Destaque visual da separação */
+        /* Importante: Removemos overflow-x: auto para evitar corte dos itens ao arrastar */
     }
 
     .pb-esteira h4 {
         font-size: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
     }
 
     .pb-esteira-content {
-        align-items: center;
-        justify-content: center;
         padding: 10px;
-        /* Remove altura mínima fixa */
-        gap: 10px;
+        gap: 8px;
+        justify-content: center;
     }
 
     .pb-esteira-item {
         flex: 0 0 auto;
-        /* Impede que os itens encolham */
     }
 
-    /* CATEGORIAS EM PILHA */
+    /* Nota da esteira no mobile */
+    .pb-esteira-note {
+        padding-bottom: 8px;
+    }
+
+    /* CAIXAS DE CATEGORIA: Layout Vertical */
     .pb-categories {
         width: 100%;
         flex: 1 1 auto;
@@ -298,28 +326,25 @@
     .pb-categories-grid {
         grid-template-columns: 1fr;
         /* Uma coluna única */
-        gap: 1.5rem;
+        gap: 1rem;
     }
 
     .pb-category {
-        min-height: 120px;
+        min-height: 100px;
         width: 100%;
-        gap: 10px;
+        gap: 5px;
     }
 
-    .pb-category-content {
-        gap: 10px;
-    }
-
-    /* Ajuste para itens colocados não ficarem gigantes */
+    /* Itens colocados menores para economizar espaço */
     .pb-item-placed .pb-item {
         width: auto;
-        min-width: 100px;
-        font-size: 0.8rem;
-        height: 60px;
+        min-width: 80px;
+        font-size: 0.75rem;
+        height: 50px;
+        padding: 4px;
     }
 
     .pb-item-placed .pb-item-emoji {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
 }

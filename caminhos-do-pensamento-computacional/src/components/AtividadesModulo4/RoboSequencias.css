@@ -438,9 +438,9 @@
 
 /* Feedback */
 .feedback {
-    width: fit-content;
     justify-content: center;
     padding: 10px 10px;
+    margin-top: 2rem;
     border-radius: 8px;
     border: 2px solid;
     text-align: center;

@@ -521,8 +521,7 @@
 }
 
 /* Feedback */
-.feedback {
-    width: fit-content;
+.feedback {  
     justify-content: center;
     padding: 10px 10px;
     margin-top: 2rem;

@@ -1,7 +1,6 @@
-/* ==============================
-   ESTILO NEOBRUTALISTA GLOBAL
-   ============================== */
-
+/* ==========================================================================
+   1. VARIÁVEIS E GLOBAIS
+   ========================================================================== */
 :root {
   --primary: #ff006e;
   --secondary: #8338ec;
@@ -40,9 +39,58 @@ a {
   text-decoration: none;
 }
 
-/* ==============================
-   HEADER
-   ============================== */
+/* acessibilidade: exibir indicação de foco por teclado */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(255, 215, 0, 0.15);
+  outline-offset: 4px;
+}
+
+/* Layout geral */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.footer {
+  text-align: center;
+  color: var(--black);
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  background: var(--khaki);
+  border-top: 4px solid var(--black);
+}
+
+/* Tela de Carregamento */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--lightgray);
+  border-top: 5px solid var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ==========================================================================
+   2. HEADER
+   ========================================================================== */
 .header {
   display: flex;
   width: 100%;
@@ -54,6 +102,14 @@ a {
   gap: 0.5rem;
   flex-wrap: nowrap;
   justify-content: flex-start;
+}
+
+.header .left {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  /* Permite a quebra de linha em telas muito pequenas */
+  align-items: center;
 }
 
 .header .btn {
@@ -80,14 +136,6 @@ a {
   flex-shrink: 0;
 }
 
-/* aumenta distância entre os botões Sobre e Avaliar */
-.header .left {
-  display: flex;
-  gap: 0.8rem;
-  flex-wrap: wrap; /* Permite a quebra de linha em telas muito pequenas */
-  align-items: center;
-}
-
 /* cor específica para "Sobre" */
 .header .btn-about {
   background: var(--primary);
@@ -104,6 +152,16 @@ a {
   padding: 0.7rem;
 }
 
+/* cor específica para "Resetar" */
+.header .btn-reset {
+  background: #ff6b6b;
+  color: var(--white);
+  border-color: var(--black);
+  padding: 0.7rem;
+  white-space: wrap;
+  flex-shrink: 0;
+}
+
 /* hover mais sutil para os botões do header */
 .header .btn-header:hover {
   transform: translate(2px, 2px);
@@ -115,7 +173,7 @@ a {
   width: 18px;
   height: 18px;
   color: #ffffff;
-  /* permite usar stroke="currentColor" */
+  transition: color 180ms ease, transform 120ms ease;
 }
 
 /* seta externa menor e com leve deslocamento à direita */
@@ -130,50 +188,21 @@ a {
   vector-effect: non-scaling-stroke;
 }
 
-/* transição para ícones */
-.header .btn-header .icon,
-.btn.start .start-icon {
-  transition: color 180ms ease, transform 120ms ease;
-  color: inherit;
-  /* base */
-}
-
-/* ao passar o mouse / foco no teclado (focus-visible): ícone do Sobre */
+/* Interações Hover e Focus nos Ícones do Header */
 .header .btn-about:hover .icon,
 .header .btn-about:focus-visible .icon {
   color: var(--black);
 }
 
-/* efeito dourado no ícone da ação "Avaliar" ao hover/focus */
-.header .btn-evaluate .icon,
-.header .btn-evaluate .ext-icon {
-  color: #ffffff;
-  /* cor padrão (herda do botão) */
-  transition: color 180ms ease, transform 180ms ease;
-  /* garante que stroke="currentColor" nos SVGs siga esse color */
-}
-
 .header .btn-evaluate:hover .icon,
 .header .btn-evaluate:focus-visible .icon {
   color: var(--gold);
-  color: var(--gold);
-  /* dourado ao passar o mouse */
 }
 
 .header .btn-evaluate:hover .ext-icon,
 .header .btn-evaluate:focus-visible .ext-icon {
   color: var(--gold);
   transform: translate(2px, -2px);
-  /* leve movimento para indicar redirecionamento */
-}
-
-.header .btn-reset {
-  background: #ff6b6b;
-  color: var(--white);
-  border-color: var(--black);
-  padding: 0.7rem;
-  white-space: wrap;
-  flex-shrink: 0;
 }
 
 .header .btn-reset:hover .icon,
@@ -182,9 +211,9 @@ a {
   transform: rotate(180deg);
 }
 
-/* ==============================
-   BOTÕES
-   ============================== */
+/* ==========================================================================
+   3. BOTÕES GERAIS E NAVEGAÇÃO
+   ========================================================================== */
 .btn {
   background: var(--primary);
   color: var(--white);
@@ -197,7 +226,6 @@ a {
   box-shadow: 3px 3px 0 var(--black);
   transition: transform 0.2s ease;
   max-width: 260px;
-  
 }
 
 .btn:hover {
@@ -212,14 +240,27 @@ a {
   text-align: left;
 }
 
+.btn-icon {
+  justify-content: center;
+  padding: 0.5rem;
+  max-width: 70px;
+  min-width: 70px;
+}
+
+.btn-icon svg,
+.btn .icon-avancar,
+.btn .icon-voltar {
+  width: 25px;
+  height: 25px;
+  fill: currentColor;
+}
+
 /* botão Iniciar: manter conteúdo centralizado e responsivo */
 .btn.start {
   display: inline-flex;
   justify-content: center;
-  /* centraliza ícone + texto */
   align-items: center;
   gap: 8px;
-  /* espaço entre ícone e texto */
   font-size: 1.2rem;
   padding: 0.5rem 0.8rem;
   background: var(--secondary);
@@ -232,17 +273,10 @@ a {
   max-width: 200px;
 }
 
-
 .btn.start:hover {
   transform: translate(4px, 4px);
   box-shadow: 1px 1px var(--black);
-}
-
-
-/* garante que o SVG do play siga o tamanho do texto */
-.btn.start .start-icon {
-  width: 30px;
-  height: 30px;
+  color: var(--gold);
 }
 
 .btn.start:hover .start-icon,
@@ -250,9 +284,12 @@ a {
   color: var(--gold);
 }
 
-.btn.start:hover,
-.btn.start:focus-visible {
-  color: var(--gold);
+/* garante que o SVG do play siga o tamanho do texto */
+.btn.start .start-icon {
+  width: 30px;
+  height: 30px;
+  transition: color 180ms ease, transform 120ms ease;
+  color: inherit;
 }
 
 /* Botão "Acessar Módulos" - versão menor */
@@ -269,20 +306,49 @@ a {
   height: 24px;
 }
 
-.footer {
-  text-align: center;
-  color: var(--black);
-  padding: 0.5rem;
-  font-size: 0.9rem;
-  background: var(--khaki);
-  border-top: 4px solid var(--black);
+.nav-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
-/* ==============================
-   HOME
-   ============================== */
+/* ==========================================================================
+   4. HOME, CARDS E FUNDO
+   ========================================================================== */
+/* Fundo only na Home (usa o arquivo em public/) */
+.container.home-bg {
+  background-image: url('assets/homeBG.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  /* necessário para o overlay pseudo-element */
+  padding: 2rem;
+  /*Centraliza verticalmente o conteúdo (o componente .home) */
+  justify-content: center;
+  /* Centraliza verticalmente */
+  align-items: center;
+  /* Centraliza horizontalmente */
+}
+
+/* overlay suave para melhorar legibilidade do conteúdo sobre a imagem */
+.container.home-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.308));
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* garante que o conteúdo interno fique acima do overlay */
+.container.home-bg>* {
+  position: relative;
+  z-index: 1;
+}
+
 .home {
-  padding: 2rem; 
+  padding: 2rem;
   justify-self: center;
   text-align: center;
   align-items: center;
@@ -291,19 +357,15 @@ a {
 /* Intro text: largura compatível com o conteúdo e centralizada */
 .home .intro-text {
   max-width: min(1000px, 100%);
-  /* não fica muito largo em telas grandes, adapta em telas pequenas */
   margin: 0 auto 1.6rem;
-  /* centraliza e dá espaçamento inferior */
   text-align: center;
   padding: 0;
-  /* padding controlado por elementos internos */
   align-items: center;
 }
 
 .home .intro-text h1 {
   display: inline-block;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
-  /* responsivo entre 1.8rem e 2.5rem */
   font-weight: 700;
   text-align: center;
   margin-bottom: 3rem;
@@ -345,7 +407,6 @@ a {
   gap: 2.2rem;
   margin: 0.5rem;
   transform: rotate(-0.3deg);
-
   will-change: transform;
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
@@ -364,22 +425,16 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* mantém progresso no rodapé */
   min-height: 220px;
-  /* garante espaço para o footer */
 }
 
-/* layout topo do card: ícone + título alinhados VERTICALMENTE */
+/* layout topo do card */
 .card-top {
   display: flex;
   flex-direction: column;
-  /* <<< A MUDANÇA PRINCIPAL */
   align-items: center;
-  /* Centraliza horizontalmente */
   gap: 0.5rem;
-  /* Espaço entre o ícone e o título */
   margin-bottom: 0.5rem;
-  /* Aumenta a margem inferior para o texto */
 }
 
 .card-top h2 {
@@ -389,9 +444,7 @@ a {
 /* icone/emoji do título */
 .card-icon {
   font-size: 1.5rem;
-  /* Aumenta um pouco o tamanho do emoji */
   line-height: 1;
-  /* As outras propriedades de tamanho podem ser removidas pois o flex-direction já cuida do layout */
 }
 
 /* título */
@@ -402,7 +455,7 @@ a {
   vertical-align: middle;
 }
 
-/* descrição mantém formato, mas com espaçamento maior do título */
+/* descrição */
 .card-desc {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -412,16 +465,32 @@ a {
   text-align: center;
   color: #222;
   flex-grow: 1;
-  /* ocupa espaço intermédio para empurrar footer pra baixo */
 }
 
-/* footer do card (barra de progresso) sempre no rodapé do card */
+/* footer do card (barra de progresso) */
 .card-footer {
   margin-top: 1rem;
   width: 100%;
 }
 
-/* lock badge: canto superior direito */
+.card .progress-bar {
+  height: 18px;
+  border-width: 3px;
+  margin-top: 0.5rem;
+  box-shadow: 2px 2px 0 var(--black);
+  border-radius: 6px;
+  margin: 0;
+}
+
+.card .progress-fill {
+  transition: width 300ms ease;
+}
+
+.card .progress-text {
+  font-size: 0.7rem;
+}
+
+/* lock badge */
 .lock-badge {
   position: absolute;
   top: 8px;
@@ -434,16 +503,13 @@ a {
   z-index: 4;
 }
 
-/* card bloqueado: esmaecido e levemente dessaturado */
+/* card bloqueado */
 .card.locked {
   opacity: 0.66;
   filter: grayscale(100%);
   pointer-events: auto;
-  /* mantém eventos para acessibilidade/alerta */
 }
 
-
-/* animação do cadeado no canto superior direito */
 .card.locked .lock-badge {
   transition: transform 260ms ease, box-shadow 180ms ease;
 }
@@ -453,13 +519,662 @@ a {
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6);
 }
 
-/* acessibilidade: exibir indicação de foco por teclado sem aplicar a cor dourada persistente */
-button:focus-visible,
-a:focus-visible {
-  outline: 3px solid rgba(255, 215, 0, 0.15);
-  outline-offset: 4px;
+.card:hover {
+  animation: cards-animation 420ms cubic-bezier(.2, .9, .3, 1);
 }
 
+/* Medalha flutuante */
+.medal-badge {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 1.2rem;
+  z-index: 2;
+  background: #000000e7;
+  border-radius: 100%;
+  padding: 3px;
+  box-shadow: 3px 3px rgba(0, 0, 0, 0.301);
+  animation: medal-pop 0.6s ease;
+  cursor: default;
+}
+
+/* ==========================================================================
+   5. MÓDULOS E CONTEÚDO DIDÁTICO
+   ========================================================================== */
+.module {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.module h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.module iframe {
+  border: 4px solid var(--black);
+  box-shadow: 4px 4px 0 var(--black);
+  margin-bottom: 1rem;
+}
+
+.module-header h1 {
+  font-size: 2.2rem;
+  background-color: var(--gold);
+  color: var(--black);
+  padding: 0.4rem;
+  border: 4px solid var(--black);
+  box-shadow: 6px 6px 0 var(--black);
+  display: inline-flex;
+  margin-bottom: 1rem;
+}
+
+.texto-explicativo {
+  background: var(--white);
+  border: 4px solid var(--black);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 6px 6px 0 var(--black);
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.exemplo-principal {
+  background-color: #e0f2fe;
+  border: 3px solid var(--black);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  box-shadow: 4px 4px 0 var(--black);
+}
+
+.cards-exemplo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.card-exemplo {
+  background: var(--yellow);
+  border: 4px solid var(--black);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 var(--black);
+}
+
+.exemplos-container {
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
+.module-footer-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 870px;
+  border: 4px solid var(--black);
+  border-radius: 8px;
+  background-color: #fffffff1;
+  box-shadow: 6px 6px 0 var(--black);
+  z-index: 100;
+  padding: 0.60rem 0.80rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.module-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+/* ==========================================================================
+   6. PROGRESSO E CONCLUSÃO
+   ========================================================================== */
+.progress-bar {
+  height: 20px;
+  background: var(--white);
+  border: 4px solid var(--black);
+  margin-bottom: 1rem;
+  box-shadow: 4px 4px 0 var(--black);
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  transition: width 0.3s ease;
+  will-change: width;
+}
+
+.progress-text {
+  position: absolute;
+  font-size: 0.8rem;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: #000000;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.progress-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 1rem auto;
+  height: 30px;
+}
+
+.progress-container.scrolled {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 180px;
+  z-index: 100;
+}
+
+/* Conclusão */
+.conclusao-container {
+  text-align: center;
+  background: var(--white);
+  padding: 2rem;
+  border: 4px solid var(--black);
+  border-radius: 10px;
+  box-shadow: 8px 8px 0 var(--black);
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.conclusao-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--yellow);
+  border: 4px solid var(--black);
+  box-shadow: 4px 4px;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+}
+
+.conclusao-container .subtitulo {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--darkgray);
+}
+
+.conclusao-container p {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.premios-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.premio-img {
+  font-size: 5rem !important;
+  display: block;
+}
+
+.conclusao-botoes {
+  justify-content: center;
+  gap: 2rem;
+  border-top: 3px solid var(--black);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.conclusao-botoes .btn,
+.conclusao-botoes .btn svg {
+  fill: var(--white);
+}
+
+.conclusao-botoes .btn {
+  width: 60px;
+  height: 60px;
+  padding: 0.3rem;
+}
+
+.conclusao-botoes .btn svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* ==========================================================================
+   7. MODAIS (SOBRE, ALERTA, ETC.)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--white);
+  border: 4px solid var(--black);
+  box-shadow: 6px 6px 0 var(--black);
+  border-radius: 6px;
+  text-align: justify;
+}
+
+/* Modal de Alerta */
+.modal.alert-modal {
+  text-align: center;
+  max-width: 320px;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.alert-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: shake 0.5s;
+}
+
+.alert-modal h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.alert-modal p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.alert-modal .btn {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  min-width: 100px;
+}
+
+/* Modal Sobre */
+.modal.about-modal {
+  width: min(980px, 95%);
+  max-width: 980px;
+  max-height: 86vh;
+  padding: 1rem 1rem 0.75rem 1rem;
+  overflow: hidden;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.2rem 0.2rem 0.6rem 0.2rem;
+}
+
+.about-header h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.6px;
+  margin: 0;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.modal-close-top {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.45rem;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border-radius: 999px;
+  border: 3px solid var(--black);
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 2px 2px 0 var(--black);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 40;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.modal-close-top:hover,
+.modal-close-top:focus-visible {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.95);
+}
+
+.modal .modal-close {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  border-width: 3px;
+  box-shadow: 3px 3px 0 var(--black);
+  background: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+  text-transform: none;
+}
+
+.modal .modal-close:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--black);
+}
+
+.modal h2 {
+  margin-bottom: 2rem;
+}
+
+.about-content {
+  overflow-y: auto;
+  max-height: calc(86vh - 150px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-right: 0.5rem;
+}
+
+.about-section {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 4px solid var(--black);
+  box-shadow: 6px 6px 0 var(--black);
+  border-radius: 6px;
+  background: var(--white);
+  align-items: flex-start;
+  margin-bottom: 0.3rem;
+}
+
+.about-section.yellow {
+  background: var(--yellow);
+  color: #000;
+}
+
+.about-section.purple {
+  background: #8a2be2;
+  color: #fff;
+}
+
+.about-section.pink {
+  background: #ff007f;
+  color: #fff;
+}
+
+.about-section.light {
+  background: #2ff0c7;
+  color: #000;
+}
+
+.about-section.neutral {
+  background: var(--background);
+  color: #111;
+}
+
+.about-section.neutral h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-icon {
+  font-size: 1.6rem;
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-body h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.about-body p,
+.about-body ul {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.about-body ul {
+  margin-left: 1rem;
+  padding-left: 0.6rem;
+}
+
+.about-body a {
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  color: var(--accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.social-links p {
+  color: var(--accent);
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.social-icon {
+  width: 25px;
+  height: 25px;
+  fill: var(--black);
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-links a:hover .social-icon {
+  transform: translateY(-3px) scale(1.1);
+  fill: var(--primary);
+}
+
+
+/* ==========================================================================
+   8. ATIVIDADES E ELEMENTOS GENÉRICOS
+   ========================================================================== */
+.atividade-container {
+  max-width: 900px;
+  width: 100%;
+  background-color: var(--white);
+  border: 4px solid var(--black);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 6px 6px 0 var(--black);
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.atividade-container h3 {
+  margin-bottom: 0.5rem;
+}
+
+.atividade-container>p {
+  margin-bottom: 1rem;
+  color: var(--darkgray);
+}
+
+.conclusao-botoes .btn-home {
+  background-color: var(--primary);
+}
+
+.conclusao-botoes .btn-refazer {
+  background-color: var(--accent);
+}
+
+.conclusao-botoes .btn-avancar {
+  background-color: var(--secondary);
+}
+
+/* Algoritmo Cards */
+.alg-section {
+  margin-top: 2rem;
+}
+
+.alg-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+.alg-card {
+  background-color: transparent;
+  width: auto;
+  height: 200px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.alg-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.alg-card.flipped .alg-card-inner {
+  transform: rotateY(-180deg);
+}
+
+.alg-card-front,
+.alg-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border: 3px solid var(--black);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  box-shadow: 5px 5px 0 var(--black);
+}
+
+.alg-card-front {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.alg-card-front h4 {
+  font-size: 1.2rem;
+  color: var(--black);
+  background-color: var(--gold);
+  padding: 0 0.4rem;
+  border: 2px solid var(--black);
+  border-radius: 10px;
+}
+
+.alg-card-front p {
+  font-size: 0.95rem;
+}
+
+.alg-card-back {
+  background-color: var(--secondary);
+  transform: rotateY(180deg);
+  color: var(--white);
+}
+
+.alg-card-back h4 {
+  background-color: var(--primary);
+  padding: 0 0.4rem;
+  border: 2px solid var(--black);
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.alg-card-back p {
+  font-size: 0.95rem;
+}
+
+.alg-icon {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-screen-wrapper {
+  justify-content: flex-start;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 120px);
+}
+
+.quiz-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 3px solid var(--black);
+  justify-content: space-between;
+}
+
+.quiz-footer.module-footer-fixed {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.quiz-footer .btn-icon {
+  background-color: var(--primary);
+}
+
+.quiz-footer .btn-icon svg {
+  fill: var(--white);
+}
+
+/* ==========================================================================
+   9. ANIMAÇÕES
+   ========================================================================== */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes cards-animation {
   0% {
@@ -479,83 +1194,75 @@ a:focus-visible {
   }
 }
 
-.card:hover {
-  /*transform: translate(-3px, -3px);*/
-  animation: cards-animation 420ms cubic-bezier(.2, .9, .3, 1);
+@keyframes medal-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
-/* barra de progresso pequena dentro dos cards */
-.card .progress-bar {
-  height: 18px;
-  border-width: 3px;
-  margin-top: 0.5rem;
-  box-shadow: 2px 2px 0 var(--black);
-  border-radius: 6px;
-  margin: 0;
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+
+  75% {
+    transform: translateX(5px) rotate(5deg);
+  }
 }
 
-.card .progress-fill {
-  transition: width 300ms ease;
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-20deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }
 
-.card .progress-text {
-  font-size: 0.7rem;
+@keyframes balanco {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-6deg);
+  }
+
+  75% {
+    transform: rotate(6deg);
+  }
 }
 
-
-/* Layout geral: garante que o root ocupe a altura da viewport e o main ocupe o espaço restante */
-.app-root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+.premio-wrapper {
+  animation: appear 1s ease-out forwards, balanco 3s ease-in-out infinite 1s;
+  display: inline-block;
+  transform-origin: bottom center;
 }
 
-/* Faz o main (.container) crescer e alinhar seu conteúdo na parte inferior */
-.container {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-  /* Altera para flex-start ou center, dependendo da tela */
-  justify-content: flex-start; /* MANTIDO: Base para o layout, mas será sobrescrito pelo .home-bg */
-}
-
-.container .cards,
-.container .cards * {
-  filter: none !important;
-  opacity: 1 !important;
-  transition: none !important;
-}
-
-/* Fundo only na Home (usa o arquivo em public/) */
-.container.home-bg {
-  background-image: url('assets/homeBG.png'); /* nome do arquivo conforme public/ */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative; /* necessário para o overlay pseudo-element */
-  padding: 2rem;
-  
-  /*Centraliza verticalmente o conteúdo (o componente .home) */
-  justify-content: center; /* Centraliza verticalmente */
-  align-items: center;    /* Centraliza horizontalmente (se o item for menor que a largura) */
-  /*min-height: 100vh; /* Garante que o contêiner ocupe a altura total para a centralização */
-}
-
-/* overlay suave para melhorar legibilidade do conteúdo sobre a imagem */
-.container.home-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.308));
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* garante que o conteúdo interno fique acima do overlay */
-.container.home-bg>* {
-  position: relative;
-  z-index: 1;
-}
+/* ==========================================================================
+   10. MEDIA QUERIES (RESPONSIVIDADE)
+   ========================================================================== */
 
 /* opcional: reduzir repetição visual de cards sobre imagem quando tela pequena */
 @media (max-width: 1920px) {
@@ -564,430 +1271,7 @@ a:focus-visible {
   }
 }
 
-/* Medalha flutuante no canto superior direito do card */
-.medal-badge {
-  position: absolute;
-  top: 6px;
-  right: 10px;
-  font-size: 1.2rem;
-  z-index: 2;
-  background: #000000e7;
-  border-radius: 100%;
-  padding: 3px;
-  box-shadow: 3px 3px rgba(0, 0, 0, 0.301);
-  animation: medal-pop 0.6s ease;
-  cursor: default;
-}
-
-@keyframes medal-pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  60% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-
-/* ==============================
-   MODAL
-   ============================== */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: var(--white);
-  border: 4px solid var(--black);
-  padding: 2rem;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 6px 6px 0 var(--black);
-}
-
-/* Ajuste: botão de fechar menor e no canto inferior direito da modal */
-.modal {
-  position: relative;
-  /* necessário para posicionar o botão dentro */
-  max-width: 720px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: var(--white);
-  border: 4px solid var(--black);
-  box-shadow: 6px 6px 0 var(--black);
-  border-radius: 6px;
-  text-align: justify;
-}
-
-.modal.about-modal {
-  width: min(980px, 95%);
-  max-width: 980px;
-  max-height: 86vh;
-  padding: 1rem 1rem 0.75rem 1rem;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.modal .modal-close {
-  position: absolute;
-  right: 0.7rem;
-  bottom: 0.7rem;
-  padding: 0.2rem 0.3rem;
-  font-size: 0.85rem;
-  border-radius: 8px;
-  border-width: 3px;
-  box-shadow: 3px 3px 0 var(--black);
-  background: var(--primary);
-  color: var(--white);
-  cursor: pointer;
-  text-transform: none;
-}
-
-/* título grande no topo */
-.about-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0.2rem 0.2rem 0.6rem 0.2rem;
-}
-
-.about-header h1 {
-  font-size: 1.5rem;
-  letter-spacing: 0.6px;
-  margin: 0;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-/* botão X (topo) com estilo redondo e borda preta seguindo o estilo dos outros botões */
-.modal-close-top {
-  position: absolute;
-  right: 0.6rem;
-  top: 0.45rem;
-
-  /* tamanho e forma */
-  width: 35px;
-  height: 35px;
-  padding: 0;
-  border-radius: 999px;
-
-  /* estilo de borda e sombra consistente com .btn */
-  border: 3px solid var(--black);
-  background: var(--primary);
-  color: var(--white);
-  box-shadow: 2px 2px 0 var(--black);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 40;
-  transition: transform 120ms ease, box-shadow 120ms ease;
-}
-
-/* hover / foco por teclado sem "grudar" (usar focus-visible) */
-.modal-close-top:hover,
-.modal-close-top:focus-visible {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.95);
-}
-
-/* área rolável dentro do modal */
-.about-content {
-  overflow-y: auto;
-  max-height: calc(86vh - 150px);
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  padding-right: 0.5rem;
-}
-
-/* cada bloco colorido */
-.about-section {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  border: 4px solid var(--black);
-  box-shadow: 6px 6px 0 var(--black);
-  border-radius: 6px;
-  background: var(--white);
-  align-items: flex-start;
-  margin-bottom: 0.3rem;
-}
-
-/* cores dos blocos */
-
-/* amerelo vibrante */
-.about-section.yellow {
-  background: var(--yellow);
-  color: #000;
-}
-
-/* roxo vibrante */
-.about-section.purple {
-  background: #8a2be2;
-  color: #fff;
-}
-
-/* magenta/rosa */
-.about-section.pink {
-  background: #ff007f;
-  color: #fff;
-}
-
-/* verde água */
-.about-section.light {
-  background: #2ff0c7;
-  color: #000;
-}
-
-.about-section.neutral {
-  background: var(--background);
-  color: #111;
-}
-
-.about-section.neutral h4 {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-/* ícone grande à esquerda do bloco */
-.about-icon {
-  font-size: 1.6rem;
-  width: 3rem;
-  height: 3rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* corpo do bloco: títulos e parágrafos */
-.about-body h3 {
-  margin: 0 0 0.35rem 0;
-  font-size: 1rem;
-  text-transform: uppercase;
-  font-weight: 800;
-}
-
-.about-body p,
-.about-body ul {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.45;
-}
-
-.about-body ul {
-  margin-left: 1rem;
-  padding-left: 0.6rem;
-}
-
-
-/* mantém animação/efeito similar aos outros botões */
-.modal .modal-close:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 2px 2px 0 var(--black);
-}
-
-.modal h2 {
-  margin-bottom: 2rem;
-}
-
-/* Estilos para os ícones sociais no AboutModal */
-.social-links {
-  display: flex;
-  gap: 15px;
-  margin-top: 12px;
-}
-
-.social-links p {
-  color: var(--accent);
-  margin-left: 0.5rem;
-  font-size: 0.8rem;
-}
-
-.social-icon {
-  width: 25px;
-  height: 25px;
-  fill: var(--black); /* Usa a variável preta do seu tema */
-  transition: transform 0.2s ease, fill 0.2s ease;
-}
-
-.social-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.social-links a:hover .social-icon {
-  transform: translateY(-3px) scale(1.1);
-  fill: var(--primary); /* Muda para a cor rosa primária ao passar o mouse */
-}
-
-/* ==============================
-   MÓDULOS
-   ============================== */
-.module {
-  padding: 2rem;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.module h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.module iframe {
-  border: 4px solid var(--black);
-  box-shadow: 4px 4px 0 var(--black);
-  margin-bottom: 1rem;
-}
-
-.nav-buttons {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-}
-
-/* ==============================
-   BARRA DE PROGRESSO
-   ============================== */
-.progress-bar {
-  height: 20px;
-  background: var(--white);
-  border: 4px solid var(--black);
-  margin-bottom: 1rem;
-  box-shadow: 4px 4px 0 var(--black);
-  position: relative;
-  overflow: hidden;
-  border-radius: 6px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--green);
-  /* cor verde */
-  transition: width 0.3s ease;
-  will-change: width;
-}
-
-.progress-text {
-  position: absolute;
-  font-size: 0.8rem;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  color: #000000;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
-  pointer-events: none;
-}
-
-/* ==============================
-   RESPONSIVIDADE
-   ============================== */
-@media (max-width: 720px) {
-  .header {
-    padding: 0.5rem 1rem;
-    height: auto;
-    flex-wrap: nowrap;
-  }
-
-  .header .btn-header {
-    font-size: 0.75rem;
-    padding: 0.5rem;
-    box-shadow: 2px 2px 0 var(--black);
-    max-width: 120px;
-  }
-
-  .header .left {
-    gap: 0.5rem;
-  }
-
-  .header .right {
-    gap: 0.5rem;
-  }
-
-  .nav-buttons {
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .btn.start {
-    width: 100%;
-  }
-
-  /* Estilos para o Modal de Alerta */
-  .modal.alert-modal {
-    text-align: center;
-    max-width: 320px;
-    /* << Modal MAIS estreito */
-    padding: 1.5rem;
-    border-radius: 10px;
-    /* Pode adicionar bordas arredondadas se quiser */
-  }
-
-  .alert-icon {
-    font-size: 4rem;
-    /* << Emoji MAIOR */
-    margin-bottom: 1rem;
-    animation: shake 0.5s;
-  }
-
-  .alert-modal h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    /* Título um pouco menor se necessário */
-  }
-
-  .alert-modal p {
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    line-height: 1.4;
-  }
-
-  /* Botão "Entendi" MENOR */
-  .alert-modal .btn {
-    padding: 0.4rem 0.8rem;
-    /* Padding reduzido */
-    font-size: 0.85rem;
-    /* Fonte menor */
-    min-width: 100px;
-    /* Largura mínima menor */
-    /* Mantém as outras propriedades do .btn (borda, sombra, etc.) */
-  }
-
-  /* Animação para o ícone de atenção*/
-  @keyframes shake {
-
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-
-    25% {
-      transform: translateX(-5px) rotate(-5deg);
-    }
-
-    75% {
-      transform: translateX(5px) rotate(5deg);
-    }
-  }
-
-}
-
-/*==============================================*/
-/*====== MELHORIAS DE RESPONSIVIDADE ===========*/
-/*==============================================*/
-/* Tablets e telas médias */
+/* Tablets e telas médias (900px) */
 @media (max-width: 900px) {
   .header h1 {
     font-size: 1.3rem;
@@ -1012,7 +1296,48 @@ a:focus-visible {
   }
 }
 
-/* Mobile */
+/* Tablets (768px) */
+@media (max-width: 768px) {
+  .module {
+    padding: 0.5rem;
+  }
+
+  .texto-explicativo {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .cards-exemplo {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .alg-cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .alg-card {
+    height: 180px;
+  }
+
+  .conclusao-container {
+    padding: 1.5rem;
+  }
+
+  .conclusao-container h1 {
+    font-size: 2rem;
+  }
+
+  .conclusao-botoes {
+    gap: 1rem;
+  }
+
+  .premio-img {
+    font-size: 4rem !important;
+  }
+}
+
+/* Mobile (720px) */
 @media (max-width: 720px) {
   body {
     font-size: 14px;
@@ -1022,14 +1347,14 @@ a:focus-visible {
     padding: 0.5rem 1rem;
     height: auto;
     flex-wrap: wrap;
-    justify-content: center; /* Centraliza a linha de botões no header móvel */
+    justify-content: center;
     gap: 0.5rem;
   }
 
- .header .left {
+  .header .left {
     width: 100%;
-    justify-content: center; /* Centraliza botões horizontalmente */
-    gap: 0.5rem; /* Ajusta espaçamento entre botões */
+    justify-content: center;
+    gap: 0.5rem;
   }
 
   .header .btn-header {
@@ -1076,33 +1401,64 @@ a:focus-visible {
 
   /* Modal de Sobre */
   .about-modal {
-    width: 95%;
-    max-height: 90vh;
-    padding: 0.8rem;
+    width: 90%;
+    max-height: 85vh;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-header {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid var(--black);
   }
 
   .about-header h1 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .about-content {
+    padding-right: 0;
   }
 
   .about-section {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 0.8rem;
+    padding: 1.2rem 1rem;
+    gap: 0.8rem;
   }
 
   .about-icon {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    width: auto;
+    height: auto;
+    margin-bottom: 0.5rem;
   }
 
   .about-body h3 {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
   }
 
   .about-body p,
   .about-body ul {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .about-body ul {
+    list-style-position: inside;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .social-links {
+    justify-content: center;
+    margin-top: 1.5rem;
   }
 
   /* Module Page */
@@ -1117,8 +1473,7 @@ a:focus-visible {
 
   .module-header h4 {
     font-size: 0.85rem;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
     padding: 0.3rem;
   }
 
@@ -1246,7 +1601,103 @@ a:focus-visible {
   }
 }
 
-/* Telas muito pequenas (< 400px) */
+/* Telas Pequenas (Max 480px) */
+@media (max-width: 480px) {
+  .module-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .texto-explicativo p {
+    font-size: 0.95rem;
+  }
+
+  .module-footer-fixed {
+    padding: 0.5rem;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .btn.start {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .conclusao-container h1 {
+    font-size: 1.6rem;
+  }
+
+  .conclusao-container .subtitulo {
+    font-size: 1.1rem;
+  }
+
+  .conclusao-botoes .btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .conclusao-botoes .btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .progress-container.scrolled {
+    width: 140px;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+
+  .premio-img {
+    font-size: 3rem !important;
+  }
+
+  .premios-container {
+    gap: 1rem;
+  }
+
+  /* Ajustes finos para Modal Sobre em telas muito pequenas */
+  .modal.about-modal {
+    width: 95%;
+    padding: 0.8rem;
+    max-height: 80vh;
+  }
+
+  .about-header h1 {
+    font-size: 1.1rem;
+  }
+
+  .modal-close-top {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .about-section {
+    padding: 1rem 0.5rem;
+  }
+
+  .about-icon {
+    font-size: 1.8rem;
+  }
+
+  .about-body p,
+  .about-body li {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .social-links {
+    gap: 10px;
+  }
+
+  .social-links p {
+    font-size: 0.75rem;
+  }
+}
+
+/* Telas muito pequenas (Max 400px) */
 @media (max-width: 400px) {
   .header {
     padding: 0.4rem 0.6rem;
@@ -1271,7 +1722,7 @@ a:focus-visible {
   }
 
   .header .left {
-    gap: 0.3rem; /* Espaço mínimo em telas muito pequenas */
+    gap: 0.3rem;
   }
 
   .header .right {
@@ -1297,27 +1748,4 @@ a:focus-visible {
   .video-container iframe {
     height: 200px;
   }
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-  gap: 1rem;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid var(--lightgray);
-  border-top: 5px solid var(--accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }

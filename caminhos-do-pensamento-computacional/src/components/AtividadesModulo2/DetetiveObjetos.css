@@ -265,8 +265,8 @@
 
 /* Feedback Box */
 .feedback-box {
-    margin: 2rem 0;
-    padding: 2rem;
+    margin: 1rem 0;
+    padding: 1rem;
     border: 4px solid var(--black);
     border-radius: 12px;
     text-align: center;

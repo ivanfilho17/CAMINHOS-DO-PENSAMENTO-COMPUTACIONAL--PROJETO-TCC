@@ -485,15 +485,14 @@
 
 /* Feedback */
 .feedback { 
-    width: fit-content !important;
-    justify-content: center !important;
-    padding: 10px 10px !important;
-    border-radius: 8px !important;
-    border: 2px solid !important;
-    text-align: center !important;
-    font-size: 1em !important;
-    font-weight: 600 !important;
-    animation: fadeIn 0.3s ease !important;
+    justify-content: center;
+    padding: 10px 10px;
+    border-radius: 8px;
+    border: 2px solid;
+    text-align: center;
+    font-size: 1em;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {

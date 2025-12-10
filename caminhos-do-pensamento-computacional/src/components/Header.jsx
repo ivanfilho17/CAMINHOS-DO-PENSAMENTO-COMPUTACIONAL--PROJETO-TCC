@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true, onResetProgress = null, showResetButton = false }) {
-    const formUrl = "https://forms.gle/"; // substitua pelo link real
+    const formUrl = "https://forms.gle/w4KKJsiey3iXBFRE6"; // substitua pelo link real
 
     return (
         <header className="header">

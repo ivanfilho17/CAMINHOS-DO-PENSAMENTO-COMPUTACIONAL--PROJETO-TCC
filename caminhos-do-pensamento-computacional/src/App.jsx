@@ -631,7 +631,7 @@ export default function App() {
     <div className="app-root">
       <Header
         onOpenAbout={() => setAboutOpen(true)}
-        onOpenForm={() => window.open("https://forms.gle/", "_blank")}
+        onOpenForm={() => window.open("https://forms.gle/w4KKJsiey3iXBFRE6", "_blank")}
         showHomeButtons={showAboutButtons}
         onResetProgress={resetAllProgress}
         showResetButton={showResetButton}
