@@ -5,7 +5,7 @@
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 
 > **Objeto de Aprendizagem (OA) para o ensino do Pensamento Computacional na educação básica.**
-> **ACESSE AQUI: https://ivanfilho17.github.io/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/#/home**
+> **ACESSE AQUI: https://ivanfilho17.github.io/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/**
 
 ## 📘 Sobre o Projeto
 
