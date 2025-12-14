@@ -64,6 +64,7 @@ Este projeto é um **Progressive Web App (PWA)**. Isso significa que ele pode se
 ## 💻 Como rodar o projeto
 
 Pré-requisitos: Node.js instalado.
+
 Diferente de sites estáticos simples, este projeto utiliza tecnologias modernas que requerem o Node.js instalado. Siga os passos abaixo:
 
 1. **Clone o repositório:**
