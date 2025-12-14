@@ -55,7 +55,7 @@ const MODULES = [
         itens: [
           {
             titulo: "Fazer um Sanduíche🥪",
-            desc: "A tarefa 'fazer um lanche' pode ser dividida em 'preparar o sumo' e 'fazer um sanduíche'. O sanduíche em si decompõe-se em: pegar o pão, passar manteiga, colocar o queijo.",
+            desc: "A tarefa 'fazer um lanche' pode ser dividida em 'preparar o suco' e 'fazer um sanduíche'. O sanduíche em si decompõe-se em: pegar o pão, passar manteiga, colocar o queijo.",
           },
           {
             titulo: "Construir com Blocos🧱",
@@ -238,11 +238,11 @@ const MODULES = [
         itens: [
           {
             titulo: "Emojis 🙂",
-            desc: "São abstrações perfeitas! Ignoram detalhes como cabelo ou formato do nariz e mostram apenas a emoção essencial.",
+            desc: "São abstrações perfeitas! Ignoram detalhes como a cor do cabelo ou o formato do nariz e mostram apenas o essencial: a expressão, como um rosto feliz ou triste.",
           },
           {
             titulo: "Ficha de Cadastro 🧾",
-            desc: "Mostra apenas o essencial sobre uma pessoa: nome, data de nascimento, idade. Ignora preferências pessoais.",
+            desc: "Mostra apenas o essencial sobre uma pessoa: nome, data de nascimento, idade. Não pergunta qual sua cor favorita ou do que você gosta de brincar, pois isso não importa para o cadastro.",
           },
           {
             titulo: "Agrupar veículos 🚗🚜",
@@ -357,7 +357,7 @@ const MODULES = [
           },
           {
             titulo: "Condição: Atravessar a Rua 🚦",
-            desc: "SE o semáforo estiver vermelho OU amarelo, aguarde na calçada. SENÃO, atravesse a rua.",
+            desc: "SE o semáforo estiver vermelho OU amarelo, então aguarde na calçada. SENÃO, atravesse a rua.",
           },
           {
             titulo: "Repetição: Escovar os Dentes 🪥",
@@ -443,7 +443,8 @@ function IntroPageWrapper({
   onCompleteIntro,
   onOpenModule,
   introEverCompleted,
-  progress
+  progress,
+  onGoToModules
 }) {
 
   const location = useLocation();
@@ -470,6 +471,7 @@ function IntroPageWrapper({
       onOpenModule={onOpenModule}
       introEverCompleted={introEverCompleted}
       progress={progress}
+      onGoToModules={onGoToModules}
     />
   );
 }
@@ -514,18 +516,27 @@ function ModuleWrapper({
       onBackHome={onBackHome}
       onAdvance={() => {
         const nextModuleIndex = modules.findIndex((m) => m.id === moduleId) + 1;
+        
+        // Se existe um próximo módulo na lista
         if (nextModuleIndex < modules.length) {
           const nextModule = modules[nextModuleIndex];
-          const prevModuleId = nextModule.id - 1;
-          if (progress[prevModuleId]?.everCompleted) {
-            navigate(`/modulo/${nextModule.id}/teoria`);
+          
+          // --- LÓGICA ALTERADA AQUI ---
+          // Antes: Verificava se o módulo anterior (moduleId) estava completo.
+          // Agora: Verifica apenas se a introdução está completa (o que já deve ser verdade se ele chegou aqui)
+          if (progress.intro?.everCompleted) {
+             navigate(`/modulo/${nextModule.id}/teoria`);
           } else {
-            setAlert({
+             // Caso raro onde o usuário forçou a URL sem fazer a intro
+             setAlert({
               isOpen: true,
-              message: "Você precisa completar o módulo anterior primeiro!",
+              message: "Você precisa completar a Introdução primeiro!",
             });
           }
+          // ----------------------------
+          
         } else {
+          // Se for o último módulo, volta para a home
           onBackHome();
         }
       }}
@@ -672,6 +683,7 @@ export default function App() {
                   onOpenModule={openModule}
                   introEverCompleted={introEverCompleted}
                   progress={progress}
+                  onGoToModules={goToModules}
                 />
               }
             />
@@ -685,6 +697,7 @@ export default function App() {
                   onOpenModule={openModule}
                   introEverCompleted={introEverCompleted}
                   progress={progress}
+                  onGoToModules={goToModules}
                 />
               }
             />
@@ -698,6 +711,7 @@ export default function App() {
                   onOpenModule={openModule}
                   introEverCompleted={introEverCompleted}
                   progress={progress}
+                  onGoToModules={goToModules}
                 />
               }
             />

@@ -54,6 +54,16 @@ const DESAFIOS = [
     }
 ];
 
+// Função para embaralhar
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 // Componente de objeto arrastável
 function DraggableObject({ objeto, isPlaced }) {
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -109,9 +119,19 @@ export default function DetetiveObjetos({ onConcluido }) {
     const [shake, setShake] = useState(null);
     const [concluido, setConcluido] = useState(false);
     const [acertos, setAcertos] = useState(0);
+    
+    // Estado para guardar os objetos da fase atual embaralhados
+    const [objetosDaFase, setObjetosDaFase] = useState([]);
 
     const desafio = DESAFIOS[desafioAtual];
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
+
+    // Embaralha os objetos sempre que mudar de desafio
+    useEffect(() => {
+        if (desafio) {
+            setObjetosDaFase(shuffle(desafio.objetos));
+        }
+    }, [desafioAtual]);
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -120,6 +140,8 @@ export default function DetetiveObjetos({ onConcluido }) {
 
         const objetoId = active.id;
         const zona = over.id; // 'zonaCerta' ou 'zonaErrada'
+        
+        // Busca o objeto na lista original para garantir integridade
         const objeto = desafio.objetos.find(obj => obj.id === objetoId);
 
         if (!objeto) return;
@@ -174,16 +196,19 @@ export default function DetetiveObjetos({ onConcluido }) {
     const reiniciarDesafio = () => {
         setObjetosColocados({ zonaCerta: [], zonaErrada: [] });
         setFeedback(null);
+        // Opcional: Re-embaralhar ao tentar novamente
+        // setObjetosDaFase(shuffle(desafio.objetos));
     };
 
-    const objetosDisponiveis = desafio.objetos.filter(
-        obj => !objetosColocados.zonaCerta.includes(obj) &&
-            !objetosColocados.zonaErrada.includes(obj)
+    // Filtra os objetos disponíveis a partir da lista embaralhada
+    const objetosDisponiveis = objetosDaFase.filter(
+        obj => !objetosColocados.zonaCerta.some(c => c.id === obj.id) &&
+               !objetosColocados.zonaErrada.some(c => c.id === obj.id)
     );
 
     return (
         <div className="atividade-container detetive-objetos-container">
-            <h3>🔎 O Detetive dos Objetos</h3>
+            <h3>🕵🏽 O Detetive dos Objetos</h3>
             {/* Instrução simplificada */}
             <p className="instrucoes">
                 Separe os objetos! Coloque o que segue a regra na caixa certa e o que não segue na outra.
@@ -207,7 +232,7 @@ export default function DetetiveObjetos({ onConcluido }) {
                     </div>
 
                     <DndContext onDragEnd={handleDragEnd}>
-                        {/* Área de objetos disponíveis */}
+                        {/* Área de objetos disponíveis (Esteira Embaralhada) */}
                         <div className="area-objetos">
                             <h5>Objetos misturados:</h5>
                             <div className="objetos-grid">

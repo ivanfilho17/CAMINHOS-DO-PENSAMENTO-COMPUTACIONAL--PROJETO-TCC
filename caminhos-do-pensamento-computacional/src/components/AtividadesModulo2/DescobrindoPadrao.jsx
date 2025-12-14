@@ -1,6 +1,6 @@
 // Atividade 3 do Módulo 2: Descoberta do Padrão
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './DescobrindoPadrao.css';
 
@@ -108,6 +108,16 @@ const DESAFIOS = [
     }
 ];
 
+// Função para embaralhar
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 export default function PadraoSecreto({ onConcluido }) {
     const [desafioAtual, setDesafioAtual] = useState(0);
     const [respostaSelecionada, setRespostaSelecionada] = useState(null);
@@ -116,9 +126,19 @@ export default function PadraoSecreto({ onConcluido }) {
     const [acertos, setAcertos] = useState(0);
     const [tentativas, setTentativas] = useState(0);
     const [concluido, setConcluido] = useState(false);
+    
+    // Estado para guardar as opções da rodada atual embaralhadas
+    const [opcoesEmbaralhadas, setOpcoesEmbaralhadas] = useState([]);
 
     const desafio = DESAFIOS[desafioAtual];
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
+
+    // Embaralha as opções sempre que mudar o desafio
+    useEffect(() => {
+        if (desafio) {
+            setOpcoesEmbaralhadas(shuffle(desafio.opcoes));
+        }
+    }, [desafioAtual]);
 
     const handleSelectOpcao = (index) => {
         if (respostaSelecionada !== null) return;
@@ -126,7 +146,8 @@ export default function PadraoSecreto({ onConcluido }) {
         setRespostaSelecionada(index);
         setTentativas(prev => prev + 1);
 
-        const opcao = desafio.opcoes[index];
+        // Busca a opção correta dentro do array embaralhado usando o índice clicado
+        const opcao = opcoesEmbaralhadas[index];
 
         if (opcao.correto) {
             setFeedback({ tipo: 'sucesso', mensagem: opcao.explicacao });
@@ -151,6 +172,7 @@ export default function PadraoSecreto({ onConcluido }) {
     const tentarNovamente = () => {
         setRespostaSelecionada(null);
         setFeedback(null);
+        // Opcional: Re-embaralhar ao errar? (Geralmente não, para não confundir)
     };
 
     return (
@@ -215,9 +237,9 @@ export default function PadraoSecreto({ onConcluido }) {
                         <h4>{desafio.pergunta}</h4>
                     </div>
 
-                    {/* Opções de Resposta */}
+                    {/* Opções de Resposta (Renderiza o array embaralhado) */}
                     <div className="opcoes-container">
-                        {desafio.opcoes.map((opcao, index) => {
+                        {opcoesEmbaralhadas.map((opcao, index) => {
                             let className = 'opcao-btn';
 
                             if (respostaSelecionada !== null) {
@@ -296,7 +318,7 @@ export default function PadraoSecreto({ onConcluido }) {
                         </AnimatePresence>
                     )}
 
-                    {/* Estatísticas (Com Tentativas Restauradas) */}
+                    {/* Estatísticas */}
                     <div className="estatisticas">
                         <div className="stat">
                             <span className="stat-label">Acertos:</span>

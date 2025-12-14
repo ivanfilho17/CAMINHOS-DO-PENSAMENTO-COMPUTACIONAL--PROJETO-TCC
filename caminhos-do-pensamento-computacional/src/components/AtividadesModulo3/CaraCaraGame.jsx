@@ -1,3 +1,5 @@
+// Atividade 3 do Módulo 3: Jogo Cara a cara ou "Quem é o Personagem Secreto?"
+
 import React, { useState, useEffect } from 'react';
 import './CaraCaraGame.css';
 
@@ -15,7 +17,6 @@ const PERSONAGENS = [
   { id: 10, nome: 'João', oculos: false, cabelo: 'preto', chapeu: false, bigode: true, descricao: 'Moreno com barba' },
   { id: 11, nome: 'Karla', oculos: true, cabelo: 'castanho', chapeu: true, bigode: false, descricao: 'Castanha com óculos e chapéu' },
   { id: 12, nome: 'Lucas', oculos: false, cabelo: 'loiro', chapeu: false, bigode: false, descricao: 'Loiro sem acessórios' },
-  // Novos Personagens adicionados para aumentar a dificuldade
   { id: 13, nome: 'Mário', oculos: false, cabelo: 'preto', chapeu: true, bigode: false, descricao: 'Moreno de chapéu' },
   { id: 14, nome: 'Nina', oculos: true, cabelo: 'ruivo', chapeu: true, bigode: false, descricao: 'Ruiva de óculos e chapéu' },
   { id: 15, nome: 'Otávio', oculos: true, cabelo: 'castanho', chapeu: false, bigode: true, descricao: 'Castanho com óculos e barba' }
@@ -30,6 +31,16 @@ const PERGUNTAS = [
   { id: 'chapeu', texto: 'Usa chapéu?', atributo: 'chapeu' },
   { id: 'bigode', texto: 'Tem barba?', atributo: 'bigode' }
 ];
+
+// Função para embaralhar array
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
 
 // Componente para renderizar o personagem com características visuais
 function PersonagemAvatar({ personagem }) {
@@ -94,7 +105,11 @@ function PersonagemAvatar({ personagem }) {
 
 export default function JogoCaraACara({ onConcluido }) {
   const [personagemSecreto, setPersonagemSecreto] = useState(null);
-  const [personagensVisiveis, setPersonagensVisiveis] = useState(PERSONAGENS);
+  // Lista lógica (filtrada)
+  const [personagensVisiveis, setPersonagensVisiveis] = useState([]);
+  // Lista visual (ordem de exibição na grade) - NOVO ESTADO
+  const [gridPersonagens, setGridPersonagens] = useState([]);
+  
   const [perguntasFeitas, setPerguntasFeitas] = useState([]);
   const [perguntaSelecionada, setPerguntaSelecionada] = useState('');
   const [feedback, setFeedback] = useState(null);
@@ -106,9 +121,17 @@ export default function JogoCaraACara({ onConcluido }) {
   }, []);
 
   const iniciarJogo = () => {
+    // Escolhe um secreto aleatoriamente da lista completa
     const personagemAleatorio = PERSONAGENS[Math.floor(Math.random() * PERSONAGENS.length)];
     setPersonagemSecreto(personagemAleatorio);
-    setPersonagensVisiveis(PERSONAGENS);
+    
+    // Embaralha a lista completa para definir a ordem visual da grade
+    const personagensEmbaralhados = shuffle(PERSONAGENS);
+    setGridPersonagens(personagensEmbaralhados);
+    
+    // Inicialmente, todos os personagens (na ordem embaralhada) estão visíveis
+    setPersonagensVisiveis(personagensEmbaralhados);
+    
     setPerguntasFeitas([]);
     setPerguntaSelecionada('');
     setFeedback(null);
@@ -139,7 +162,7 @@ export default function JogoCaraACara({ onConcluido }) {
 
     // ATUALIZAÇÃO DO FEEDBACK (Lógica nova de resposta automática)
     if (novosFiltrados.length === 1) {
-      // Caso só reste 1 personagem (feedback especial solicitado)
+      // Caso só reste 1 personagem (feedback especial)
       setFeedback({
         tipo: 'info',
         mensagem: '🎯 Só resta 1 personagem! Parabéns, você descobriu o personagem secreto. Clique nele para fazer seu palpite final!'
@@ -152,7 +175,7 @@ export default function JogoCaraACara({ onConcluido }) {
 
       let mensagemFinal = `${textoSimOuNao} ${textoComplementar} (Restam ${novosFiltrados.length})`;
 
-      // Se restarem 3 ou menos, avisa que pode chutar (Lógica nova)
+      // Se restarem 3 ou menos, avisa que pode "chutar" (Lógica nova)
       if (novosFiltrados.length <= 3 && novosFiltrados.length > 1) {
         mensagemFinal += " Você já pode tentar chutar clicando no personagem!";
       }
@@ -235,9 +258,10 @@ export default function JogoCaraACara({ onConcluido }) {
               Personagens ({personagensVisiveis.length} restantes)
             </h3>
             <div className="grade-personagens">
-              {PERSONAGENS.map(p => {
+              {/* CORREÇÃO: Usando gridPersonagens (lista embaralhada e fixa para a rodada) para renderizar a grade */}
+              {gridPersonagens.map(p => {
+                // Verifica se este personagem ainda é um "suspeito" válido
                 const visivel = personagensVisiveis.some(pv => pv.id === p.id);
-                // Permite clicar apenas se estiver visível E a contagem for <= 3
                 const isClickable = visivel && podeChutar;
 
                 return (

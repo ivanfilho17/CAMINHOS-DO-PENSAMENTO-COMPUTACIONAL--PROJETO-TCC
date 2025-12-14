@@ -8,12 +8,9 @@ export default function ModulesHomePage({ modules = [], progress = {}, onOpenMod
     }, []);
 
     const isUnlocked = (m) => {
-        // Módulo 1 só desbloqueia após completar a introdução
-        if (m?.id === 1) {
-            return progress.intro?.completed === true;
-        }
-        // Outros módulos desbloqueiam se o anterior foi completado
-        return !!(progress[m.id - 1] && progress[m.id - 1].everCompleted);
+        // Agora, se a introdução foi completada (everCompleted), 
+        // TODOS os módulos (1, 2, 3, 4) são desbloqueados.
+        return progress.intro?.everCompleted === true;
     };
 
     const getPercent = (id) => {

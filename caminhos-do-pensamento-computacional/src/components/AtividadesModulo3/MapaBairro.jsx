@@ -1,6 +1,6 @@
 // Atividade 1 do Módulo 3: Abstração - O Mapa do Bairro
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import './MapaBairro.css';
@@ -16,6 +16,16 @@ const ELEMENTOS = [
     { id: 'nuvem', emoji: '☁️', nome: 'Nuvem', essencial: false },
     { id: 'pessoa', emoji: '🚶', nome: 'Pessoa', essencial: false },
 ];
+
+// Função para embaralhar array
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
 
 // Elemento arrastável
 function DraggableIcon({ elemento, isUsed }) {
@@ -65,6 +75,14 @@ export default function MapaBairro({ onConcluido }) {
     const [feedback, setFeedback] = useState('');
     const [tentativasErradas, setTentativasErradas] = useState(0);
     const [concluido, setConcluido] = useState(false);
+    
+    // Estado para elementos embaralhados
+    const [elementosEmbaralhados, setElementosEmbaralhados] = useState([]);
+
+    // Embaralha ao iniciar
+    useEffect(() => {
+        setElementosEmbaralhados(shuffle(ELEMENTOS));
+    }, []);
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -185,11 +203,11 @@ export default function MapaBairro({ onConcluido }) {
                     </div>
                 </div>
 
-                {/* Barra de Ícones */}
+                {/* Barra de Ícones (Usando o array embaralhado) */}
                 <div className="barra-icones">
                     <h5>📦 Arraste apenas o que deve ir para o mapa:</h5>
                     <div className="icones-grid">
-                        {ELEMENTOS.map(elemento => (
+                        {elementosEmbaralhados.map(elemento => (
                             <DraggableIcon
                                 key={elemento.id}
                                 elemento={elemento}

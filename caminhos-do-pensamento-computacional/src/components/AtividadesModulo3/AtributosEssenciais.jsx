@@ -1,6 +1,6 @@
 // Atividade 2 do Módulo 3: Identificar Atributos Essenciais
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './AtributosEssenciais.css';
 
@@ -50,6 +50,16 @@ const DESAFIOS = [
     }
 ];
 
+// Função para embaralhar array
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 export default function AtributosEssenciais({ onConcluido }) {
     const [desafioAtual, setDesafioAtual] = useState(0);
     const [selecionados, setSelecionados] = useState([]);
@@ -57,9 +67,19 @@ export default function AtributosEssenciais({ onConcluido }) {
     const [feedback, setFeedback] = useState(null);
     const [acertos, setAcertos] = useState(0);
     const [concluido, setConcluido] = useState(false);
+    
+    // Estado para opções embaralhadas
+    const [atributosEmbaralhados, setAtributosEmbaralhados] = useState([]);
 
     const desafio = DESAFIOS[desafioAtual];
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
+
+    // Embaralha sempre que mudar o desafio
+    useEffect(() => {
+        if (desafio) {
+            setAtributosEmbaralhados(shuffle(desafio.atributos));
+        }
+    }, [desafioAtual]);
 
     const handleToggleAtributo = (atributoId) => {
         if (verificado) return;
@@ -122,6 +142,8 @@ export default function AtributosEssenciais({ onConcluido }) {
         setSelecionados([]);
         setVerificado(false);
         setFeedback(null);
+        // Opcional: Re-embaralhar ao tentar novamente
+        // setAtributosEmbaralhados(shuffle(desafio.atributos));
     };
 
     return (
@@ -144,9 +166,9 @@ export default function AtributosEssenciais({ onConcluido }) {
                         </div>
                     </div>
 
-                    {/* Lista de Atributos */}
+                    {/* Lista de Atributos (Renderiza o array embaralhado) */}
                     <div className="atributos-lista">
-                        {desafio.atributos.map((atributo) => {
+                        {atributosEmbaralhados.map((atributo) => {
                             const selecionado = selecionados.includes(atributo.id);
                             let className = 'atributo-item';
 

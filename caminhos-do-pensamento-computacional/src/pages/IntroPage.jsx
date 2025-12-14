@@ -16,11 +16,12 @@ export default function IntroPage({
     quizData,
     currentSection = 'teoria',
     onNavigateToSection,
-    onBackHome, 
+    onBackHome,
     onCompleteIntro,
     onOpenModule,
     introEverCompleted = false,
-    progress = {}
+    progress = {},
+    onGoToModules
 }) {
     const [flippedCardId, setFlippedCardId] = useState(null);
     const [videoAssistido, setVideoAssistido] = useState(false);
@@ -57,8 +58,9 @@ export default function IntroPage({
         width: '100%',
         playerVars: {
             autoplay: 0,
-            rel: 0,
-            modestbranding: 1
+            rel: 0,           // Mostra apenas vídeos do canal ao final
+            modestbranding: 1, // Esconde o logo do YouTube na barra
+            controls: 1,      // Mantém os controles visíveis
         },
     };
 
@@ -117,12 +119,12 @@ export default function IntroPage({
                     </div>
 
                     <footer className="module-footer">
-                        <button 
-                            className="btn btn-icon" 
+                        <button
+                            className="btn btn-icon"
                             onClick={() => {
                                 console.log('Clicou Voltar (Teoria)');
                                 onBackHome && onBackHome();
-                            }} 
+                            }}
                             aria-label="Voltar ao Menu"
                         >
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
@@ -184,8 +186,8 @@ export default function IntroPage({
                 <div className="tela-conteudo conclusao-intro-container">
                     <h2>Muito bem! 👏🏽😃</h2>
                     <p>Você completou a <strong>Introdução</strong> ao Pensamento Computacional!</p>
-                    <p>O <strong>Módulo 1: Decomposição</strong> foi desbloqueado.</p>
-                    <p>Clique em <strong>AVANÇAR</strong> para acessá-lo!</p>
+                    <p>Os Módulos <strong>Decomposição, Padrões, Abstração e Algoritmos</strong> foram desbloqueados.</p>
+                    <p>Clique em <strong>AVANÇAR</strong> para acessá-los!</p>
 
                     <footer className="module-footer conclusao-intro-botoes">
                         {/* BOTÃO VOLTAR AO MENU */}
@@ -216,17 +218,20 @@ export default function IntroPage({
                             </svg>
                         </button>
 
-                        {/* BOTÃO AVANÇAR (ABRIR MÓDULO 1) */}
+                        {/* BOTÃO AVANÇAR (ABRIR TELA HOME DOS MÓDULOS) */}
                         <button
                             className="btn start"
                             onClick={() => {
-                                console.log('Clicou Avançar para Módulo 1');
-                                if (onOpenModule) {
-                                    console.log('Chamando onOpenModule(1)');
-                                    onOpenModule(1);
+                                console.log('Clicou Avançar -> Ir para ModulesHomePage');
+                                // Chama a nova função específica para ir à lista de módulos
+                                if (onGoToModules) {
+                                    onGoToModules();
+                                } else {
+                                    // Fallback caso a prop não tenha sido passada (opcional)
+                                    console.warn("onGoToModules não foi passado em App.jsx");
                                 }
                             }}
-                            aria-label="Ir para Módulo 1: Decomposição"
+                            aria-label="Ir para Home dos Módulos"
                         >
                             Avançar
                             <svg className="icon-avancar" viewBox="0 0 24 24">

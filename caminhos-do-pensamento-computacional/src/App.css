@@ -372,8 +372,9 @@ a:focus-visible {
   padding: 0.40rem 0.8rem;
   background-color: var(--white);
   border-radius: 1px;
-  border: 3px solid var(--black);
-  box-shadow: 8px 8px 0 var(--black);
+  border: 3px solid var(--black); /* Borda base */
+  box-shadow: 8px 8px 0 var(--black); /* Sombra base */
+  animation: led-blink 4s infinite ease-in-out; /* Animação Piscando */
   box-sizing: border-box;
 }
 
@@ -415,17 +416,41 @@ a:focus-visible {
 
 .card {
   position: relative;
-  background: var(--white);
-  border: 4px solid var(--black);
+  /* Tornamos a borda e o fundo transparentes no elemento pai */
+  /* Isso mantém o tamanho/layout original, mas move o visual para o ::before */
+  background: transparent;
+  border: 4px solid transparent; 
+  box-shadow: none; 
   padding: 1.5rem;
   text-align: left;
-  box-shadow: 6px 6px 0 var(--black);
   border-radius: 20px;
   transition: transform 0.18s ease, filter 180ms ease, opacity 180ms ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 220px;
+  cursor: pointer; 
+  /* A animação de piscar foi removida daqui para não ser reiniciada no hover */
+  animation: none; 
+}
+
+/* Criamos o "corpo visual" do card no ::before */
+/* É aqui que a animação LED vai rodar sem interrupções */
+.card::before {
+  content: "";
+  position: absolute;
+  /* Inset negativo para cobrir a área da borda transparente do pai */
+  inset: -4px; 
+  border-radius: 20px;
+  /* Estilos visuais originais */
+  background: var(--white);
+  border: 4px solid var(--black);
+  box-shadow: 6px 6px 0 var(--black);
+  z-index: -1; /* Fica atrás do conteúdo do texto */
+  /* Animação Piscando Contínua */
+  animation: led-blink 5s infinite ease-in-out;
+  /* Transição suave para quando parar de piscar */
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 /* layout topo do card */
@@ -503,11 +528,20 @@ a:focus-visible {
   z-index: 4;
 }
 
-/* card bloqueado */
+/* Card bloqueado */
 .card.locked {
   opacity: 0.66;
   filter: grayscale(100%);
   pointer-events: auto;
+  cursor: not-allowed;
+  animation: none; /* Sem pulo */
+}
+
+/* Para cards bloqueados, paramos a animação do LED no ::before e deixamos o visual padrão*/
+.card.locked::before {
+  animation: none;
+  border-color: var(--black);
+  box-shadow: 6px 6px 0 var(--black);
 }
 
 .card.locked .lock-badge {
@@ -519,8 +553,19 @@ a:focus-visible {
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6);
 }
 
+/* Estado HOVER do Card */
 .card:hover {
+  /* O Hover afeta apenas o elemento pai (o pulo) */
+  /* Como não mexemos no ::before, o LED continua piscando em perfeita sincronia */
   animation: cards-animation 420ms cubic-bezier(.2, .9, .3, 1);
+  /* Removemos as alterações de borda/sombra daqui, pois o ::before já cuida disso */
+}
+
+.card:hover::before {
+  animation: none; /* Para a animação de piscar */
+  /* Força o visual de "Aceso" */
+  border-color: #ffe600; 
+  box-shadow: 0 0 15px #ffe600, 6px 6px 0 var(--black);
 }
 
 /* Medalha flutuante */
@@ -1251,6 +1296,17 @@ a:focus-visible {
 
   75% {
     transform: rotate(6deg);
+  }
+}
+
+@keyframes led-blink {
+  0%, 100% {
+    border-color: #ffe600; /* Amarelo Led */
+    box-shadow: 0 0 15px #ffe600, 6px 6px 0 var(--black); /* Glow + Sombra Original */
+  }
+  50% {
+    border-color: var(--black);
+    box-shadow: 0 0 0 transparent, 6px 6px 0 var(--black); /* Apenas sombra original */
   }
 }
 

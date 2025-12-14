@@ -1,9 +1,9 @@
 // Atividade 1 do Módulo 2: Reconhecimento de Padrões
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
-import './PadraoSequencia.css'; 
+import './PadraoSequencia.css';
 
 // Desafios com linguagem simplificada
 const DESAFIOS = [
@@ -36,7 +36,7 @@ const DESAFIOS = [
     },
     {
         id: 4,
-        titulo: 'Desafio das Estrelas', // Simplificado de "Padrão Complexo"
+        titulo: 'Desafio das Estrelas',
         sequencia: ['⭐', '⭐', '❤️', '⭐', '⭐', '❤️', '⭐', '?'],
         opcoes: ['⭐', '❤️', '🌙'],
         resposta: '⭐',
@@ -45,7 +45,7 @@ const DESAFIOS = [
     },
     {
         id: 5,
-        titulo: 'Padrão de 3 Cores', // Simplificado de "Padrão Triplo"
+        titulo: 'Padrão de 3 Cores',
         sequencia: ['🔵', '🟡', '🔴', '🔵', '🟡', '🔴', '🔵', '?'],
         opcoes: ['🔵', '🟡', '🔴'],
         resposta: '🟡',
@@ -53,6 +53,16 @@ const DESAFIOS = [
         explicacao: 'Isso! São três cores que se repetem sempre na mesma ordem.'
     }
 ];
+
+// Função para embaralhar array (Fisher-Yates)
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
 
 // Componente de item arrastável
 function DraggableItem({ id, emoji, isUsed }) {
@@ -94,7 +104,7 @@ function DropZone({ children, isOver }) {
     );
 }
 
-export default function CompleteSequencia({ onConcluido }) {
+export default function PadraoSequencia({ onConcluido }) {
     const [desafioAtual, setDesafioAtual] = useState(0);
     const [respostaColocada, setRespostaColocada] = useState(null);
     const [feedback, setFeedback] = useState('');
@@ -104,9 +114,19 @@ export default function CompleteSequencia({ onConcluido }) {
     const [tentativas, setTentativas] = useState(0);
     const [shake, setShake] = useState(false);
     const [concluido, setConcluido] = useState(false);
+    
+    // Estado para as opções embaralhadas
+    const [opcoesEmbaralhadas, setOpcoesEmbaralhadas] = useState([]);
 
     const desafio = DESAFIOS[desafioAtual];
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
+
+    // Embaralha as opções sempre que o desafio mudar
+    useEffect(() => {
+        if (desafio) {
+            setOpcoesEmbaralhadas(shuffle(desafio.opcoes));
+        }
+    }, [desafioAtual]);
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -149,7 +169,7 @@ export default function CompleteSequencia({ onConcluido }) {
 
     return (
         <div className="atividade-container padrao-sequencia-container">
-            <h3>🔍 Complete a Sequência</h3>
+            <h3>🔍🔢 Complete a Sequência</h3>
             <p className="instrucoes">
                 Descubra o padrão e arraste a forma correta para o quadrado vazio para completar a sequência!
             </p>
@@ -193,11 +213,11 @@ export default function CompleteSequencia({ onConcluido }) {
                             ))}
                         </div>
 
-                        {/* Caixa de ferramentas */}
+                        {/* Caixa de ferramentas (Opções Embaralhadas) */}
                         <div className="caixa-ferramentas">
                             <h5>Arraste a resposta:</h5>
                             <div className="opcoes-grid">
-                                {desafio.opcoes.map((opcao, i) => (
+                                {opcoesEmbaralhadas.map((opcao, i) => (
                                     <DraggableItem
                                         key={i}
                                         id={opcao}
