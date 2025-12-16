@@ -30,9 +30,13 @@ const PIECE_CATEGORIES = {
 };
 
 // --- COMPONENTE PEÇA ARRASTÁVEL ---
-function DraggablePiece({ id, piece }) {
+// AJUSTE: Recebe a prop 'disabled' para desativar o arrasto
+function DraggablePiece({ id, piece, disabled }) {
     const { attributes, listeners, setNodeRef, transform, isDragging } =
-        useDraggable({ id });
+        useDraggable({ 
+            id,
+            disabled: disabled // Passa a configuração para o hook
+        });
 
     const style = {
         width: PIECE_SIZE,
@@ -44,6 +48,8 @@ function DraggablePiece({ id, piece }) {
             ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
             : undefined,
         zIndex: isDragging ? 1000 : 1,
+        cursor: disabled ? 'default' : 'grab', // Feedback visual
+        opacity: disabled && !isDragging ? 1 : undefined // Mantém opacidade total se desabilitado
     };
 
     return (
@@ -193,6 +199,9 @@ export default function DigitalPuzzle({ onConcluido }) {
         const piece = pieces.find(p => p.id === pieceId);
         const slotId = over?.id; // Slot B (destino)
         const fromSlot = active.data.current?.fromSlot; // Slot A (origem)
+
+        // Se o jogo acabou, não faz nada (segurança extra além do disabled)
+        if (completed) return;
 
         // Cenário 1: Soltou fora da grade
         if (!slotId || !slotId.includes('-')) {
@@ -344,8 +353,12 @@ export default function DigitalPuzzle({ onConcluido }) {
                                 <DroppableCategoryBox key={cat.id} id={cat.id} title={cat.title}>
                                     {pecasCategorizadas[cat.id].map(pieceId => {
                                         const piece = pieces.find(p => p.id === pieceId);
-                                        // Peças aqui não são arrastáveis
-                                        return <div key={pieceId} className="puzzle-piece-wrapper"><DraggablePiece id={pieceId} piece={piece} /></div>
+                                        // AJUSTE: Peças que já estão na caixa correta agora ficam desabilitadas (disabled={true})
+                                        return (
+                                            <div key={pieceId} className="puzzle-piece-wrapper">
+                                                <DraggablePiece id={pieceId} piece={piece} disabled={true} />
+                                            </div>
+                                        );
                                     })}
                                 </DroppableCategoryBox>
                             ))}
@@ -403,6 +416,8 @@ export default function DigitalPuzzle({ onConcluido }) {
                                                 <DraggablePiece
                                                     id={slotsMontagem[piece.id]}
                                                     piece={pieces.find((p) => p.id === slotsMontagem[piece.id])}
+                                                    // AJUSTE: Desabilita arrasto se o puzzle estiver completo
+                                                    disabled={completed}
                                                 />
                                             )}
                                         </DroppableSlot>
@@ -419,7 +434,8 @@ export default function DigitalPuzzle({ onConcluido }) {
                                     <div className="pb-category-content"> 
                                         {pecasCategorizadas[cat.id].map(pieceId => {
                                             const piece = pieces.find(p => p.id === pieceId);
-                                            return <DraggablePiece key={pieceId} id={pieceId} piece={piece} />
+                                            // AJUSTE: Desabilita arrasto se o puzzle estiver completo
+                                            return <DraggablePiece key={pieceId} id={pieceId} piece={piece} disabled={completed} />
                                         })}
                                     </div>
                                 </div>

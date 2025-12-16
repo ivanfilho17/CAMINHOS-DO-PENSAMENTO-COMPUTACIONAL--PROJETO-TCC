@@ -14,11 +14,11 @@ const DESAFIOS = [
             { id: 'bico', texto: 'Tem bico', essencial: true },
             { id: 'amarelo', texto: 'É amarelo', essencial: false },
             { id: 'penas', texto: 'Tem penas', essencial: true },
-            { id: 'sementes', texto: 'Gosta de sementes', essencial: false },
-            { id: 'ovos', texto: 'Bota ovos', essencial: true },
+            { id: 'nadar', texto: 'Sabe nadar', essencial: false },
+            { id: 'ovos', texto: 'Nasce de ovos', essencial: true },
             { id: 'gaiola', texto: 'Mora em gaiola', essencial: false }
         ],
-        explicacao: 'Isso! Todo pássaro tem bico, penas e nasce de ovos. A cor ou onde ele mora pode mudar, então não define o que é um pássaro!'
+        explicacao: 'Isso! Todo pássaro tem bico, penas e nasce de ovos. A cor, se ele sabe nadar ou onde mora podem mudar!'
     },
     {
         id: 2,

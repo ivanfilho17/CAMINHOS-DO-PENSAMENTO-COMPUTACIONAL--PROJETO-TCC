@@ -142,9 +142,12 @@
   border: 4px dashed var(--black);
   border-radius: 12px;
   position: relative;
+  /* AJUSTE: Proporção fixa para alinhar com SVG (2:1) */
+  width: 100%;
   max-width: 450px;
-  height: 250px;
-  /* Altura fixa base */
+  aspect-ratio: 2 / 1;
+  height: auto;
+  /* Remove altura fixa */
   margin-top: 0.5rem;
   order: 1;
   display: flex;
@@ -325,6 +328,7 @@
     /* Carro em cima */
     width: 100%;
     max-width: 100%;
+    /* Garante proporção 2:1 no mobile também */
     aspect-ratio: 2 / 1;
   }
 
@@ -383,9 +387,14 @@
   /* Ajuste fino para as peças ENCAIXADAS no carro pequeno */
   .placed-part {
     border-width: 2px;
+    border-radius: 3px;
   }
 
-  /* Ajuste específico para o teto encaixado no mobile */
+  .placed-part.roda {
+    border-width: 2px;
+    /* Rodas podem manter um pouco mais de borda */
+  }
+
   .placed-part.teto {
     clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
   }

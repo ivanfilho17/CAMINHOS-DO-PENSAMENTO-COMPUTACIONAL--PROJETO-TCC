@@ -207,6 +207,29 @@ export default function RoboRepeticoes({ onConcluido }) {
         setComandoInternoAtivo(null);
     };
 
+    // --- NOVA FUNÇÃO DE SCROLL (NOVO) ---
+    const scrollToElement = (id) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        // Procura APENAS os containers específicos de scroll (repita-body ou algoritmo-mini)
+        const container = element.closest('.repita-body') || element.closest('.algoritmo-mini');
+
+        if (container) {
+            const elementRect = element.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            // Calcula o deslocamento necessário relativo APENAS ao container
+            const offset = elementRect.top - containerRect.top;
+            const targetScroll = container.scrollTop + offset - (container.clientHeight / 2) + (elementRect.height / 2);
+
+            container.scrollTo({
+                top: targetScroll,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     const executar = async () => {
         // Reset inicial obrigatório
         resetar();
@@ -222,7 +245,10 @@ export default function RoboRepeticoes({ onConcluido }) {
 
         for (let i = 0; i < algoritmo.length; i++) {
             const item = algoritmo[i];
+            
+            // Destaca e rola no container principal
             setComandoAtivo(i);
+            scrollToElement(`rr-cmd-${i}`); // (NOVO) ID com prefixo rr-
         
             await new Promise(r => setTimeout(r, 800));
 
@@ -231,7 +257,10 @@ export default function RoboRepeticoes({ onConcluido }) {
                 for (let rep = 0; rep < item.vezes; rep++) {
                     for (let ci = 0; ci < item.comandos.length; ci++) {
                         const cmdId = item.comandos[ci];
+                        
+                        // Destaca e rola no container interno
                         setComandoInternoAtivo(ci);
+                        scrollToElement(`rr-cmd-int-${i}-${ci}`); // (NOVO) ID com prefixo rr-
                         
                         await new Promise(r => setTimeout(r, 800));
                         
@@ -248,6 +277,10 @@ export default function RoboRepeticoes({ onConcluido }) {
                         pos = novaPos;
                         setRoboPos(pos);
                         await new Promise(r => setTimeout(r, 800)); 
+
+                        // (NOVO) Pausa técnica para permitir re-animação de pulso
+                        setComandoInternoAtivo(null);
+                        await new Promise(r => setTimeout(r, 100));
                     }
                 }
                 setComandoInternoAtivo(null);
@@ -505,6 +538,7 @@ export default function RoboRepeticoes({ onConcluido }) {
                                 algoritmo.map((item, i) => (
                                     <div
                                         key={i}
+                                        id={`rr-cmd-${i}`} // (NOVO) ID para scroll
                                         className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                         draggable={!executando}
                                         onDragStart={(e) => handleDragStart(e, item, i, null)}
@@ -544,6 +578,7 @@ export default function RoboRepeticoes({ onConcluido }) {
                                                             return (
                                                                 <div 
                                                                     key={ci} 
+                                                                    id={`rr-cmd-int-${i}-${ci}`} // (NOVO) ID para scroll interno
                                                                     className={`repita-cmd ${blocoRepitaAtivo === i && comandoInternoAtivo === ci ? 'repita-cmd-ativo' : ''}`} 
                                                                     style={{ background: cmd.cor }}
                                                                     draggable={!executando}

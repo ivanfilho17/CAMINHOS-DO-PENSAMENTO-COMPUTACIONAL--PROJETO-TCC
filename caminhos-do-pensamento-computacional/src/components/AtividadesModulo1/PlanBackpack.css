@@ -283,17 +283,14 @@
 
     /* ESTEIRA: Ajustes Críticos para Mobile */
     .pb-esteira {
-        position: sticky;
-        /* Fixa no topo para facilitar o arraste */
-        top: 0;
+        position: static;
+        /* CORREÇÃO: Removido sticky para não sobrepor as caixas no mobile */
+        top: auto;
         z-index: 100;
-        /* Garante que fique SOBRE as caixas ao rolar/arrastar */
         width: 100%;
         background-color: #ffd5cc;
         margin-bottom: 0.5rem;
         border-bottom: 4px solid #000;
-        /* Destaque visual da separação */
-        /* Importante: Removemos overflow-x: auto para evitar corte dos itens ao arrastar */
     }
 
     .pb-esteira h4 {

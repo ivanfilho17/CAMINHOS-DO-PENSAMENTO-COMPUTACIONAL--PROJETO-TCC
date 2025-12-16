@@ -177,6 +177,29 @@ export default function RoboSequencias({ onConcluido }) {
         }
     };
 
+    // --- FUNÇÃO DE SCROLL LOCAL CORRIGIDA ---
+    const scrollToElement = (id) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        // Encontra o container rolável mais próximo (no caso, .algoritmo-mini)
+        const container = element.closest('.algoritmo-mini');
+
+        if (container) {
+            // Calcula a posição para centralizar o elemento no container
+            const elementRect = element.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            const offset = elementRect.top - containerRect.top;
+            const targetScroll = container.scrollTop + offset - (container.clientHeight / 2) + (elementRect.height / 2);
+
+            container.scrollTo({
+                top: targetScroll,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     const executar = async () => {
         // Reset inicial visual obrigatório
         resetar();
@@ -191,6 +214,9 @@ export default function RoboSequencias({ onConcluido }) {
         for (let i = 0; i < algoritmo.length; i++) {
             const cmd = algoritmo[i];
             setComandoAtivo(i);
+            
+            // Chama o scroll apenas para o container do algoritmo
+            scrollToElement(`cmd-${i}`);
             
             // Pausa inicial para destacar o comando
             await new Promise(r => setTimeout(r, 600));
@@ -430,6 +456,7 @@ export default function RoboSequencias({ onConcluido }) {
                                     return (
                                         <div
                                             key={i}
+                                            id={`cmd-${i}`} // ID ADICIONADO PARA SCROLL
                                             className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                             draggable={!executando}
                                             onDragStart={(e) => handleDragStart(e, cmdId, i)}

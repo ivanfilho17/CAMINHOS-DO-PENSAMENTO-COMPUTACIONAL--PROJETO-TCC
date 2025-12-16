@@ -1,6 +1,39 @@
 import React from "react";
 
-export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true, onResetProgress = null, showResetButton = false }) {
+// Componente ThemeToggle interno (para manter tudo no mesmo arquivo se preferir, ou pode separar)
+const ThemeToggle = ({ theme, toggleTheme }) => {
+  const isDark = theme === 'dark';
+
+  return (
+    <div className="theme-switch-wrapper">
+      <label className="theme-switch" htmlFor="checkbox-theme" aria-label="Alternar Tema Claro/Escuro">
+        <input 
+          type="checkbox" 
+          id="checkbox-theme" 
+          checked={isDark} 
+          onChange={toggleTheme} 
+        />
+        <div className="slider round">
+          {/* Ícone de Sol (Claro - Esquerda) */}
+          <span className="icon-sun">☀️</span>
+          
+          {/* Ícone de Lua (Escuro - Direita) */}
+          <span className="icon-moon">🌙</span>
+        </div>
+      </label>
+    </div>
+  );
+};
+
+export default function Header({ 
+  onOpenAbout, 
+  onOpenForm, 
+  showHomeButtons = true, 
+  onResetProgress = null, 
+  showResetButton = false,
+  theme,       // Nova prop: tema atual ('light' ou 'dark')
+  toggleTheme  // Nova prop: função para alternar tema
+}) {
     const formUrl = "https://forms.gle/w4KKJsiey3iXBFRE6"; // substitua pelo link real
 
     return (
@@ -60,6 +93,11 @@ export default function Header({ onOpenAbout, onOpenForm, showHomeButtons = true
                     </button>
                 )}
             </div>
+
+            {/* Inserção do Botão de Tema à direita ou onde o flex permitir */}
+            {theme && toggleTheme && (
+                <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+            )}
 
         </header>
     );

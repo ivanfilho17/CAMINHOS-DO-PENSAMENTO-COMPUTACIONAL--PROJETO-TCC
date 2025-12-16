@@ -2,12 +2,10 @@
    1. VARIÁVEIS E GLOBAIS
    ========================================================================== */
 :root {
+  /* Cores Base do Design */
   --primary: #ff006e;
   --secondary: #8338ec;
   --accent: #3a86ff;
-  --background: #fdfcdc;
-  --black: #000000;
-  --white: #ffffff;
   --yellow: #fff020;
   --blue: rgb(13, 180, 231);
   --khaki: #f0e68c;
@@ -16,6 +14,42 @@
   --darkgray: #a9a9a9;
   --dust: #d4c4a8;
   --green: #28a745;
+
+  /* Variáveis de TEMA CLARO (Padrão) */
+  --background: #fdfcdc; /* Fundo geral (substituindo o antigo --background fixo) */
+  --background-body: linear-gradient(360deg, #23aeff 0%, #fdfcdc 100%); /* Gradiente do body no claro */
+  --black: #000000; /* Cor de texto e bordas */
+  --white: #ffffff; /* Cor de fundo de cards/elementos */
+  --toggle-bg: #87ceeb; /* Cor do fundo do toggle no claro (céu) */
+  --border-color: #000000; /* Cor padrão de bordas (geralmente preto no design atual) */
+
+  /* Cores específicas para elementos que podem mudar no escuro */
+  --card-bg: #ffffff;
+  --module-bg: #ffffff;
+  --text-color: #000000;
+  --header-bg: #3a86ff; /* --accent original */
+}
+
+/* TEMA ESCURO */
+[data-theme='dark'] {
+  --background: #121212;
+  --background-body: linear-gradient(360deg, #0f3460 0%, #1a1a2e 100%);
+  --black: #000000; 
+  --white: #1e1e1e; /* Inverte o "branco" para fundos escuros */
+  --text-color: #8d8d8d;
+  --toggle-bg: #2c3e50; /* Cor do fundo do toggle no escuro (noite) */
+
+  /* Ajustes finos de cores para o modo escuro */
+  --primary: #ff4081; /* Primary mais suave/brilhante */
+  --secondary: #8b46c4; /* Secondary mais clara */
+  --accent: #4361ee;
+  --yellow: #fdd835;
+  --khaki: #4a4a4a; /* Footer escuro */
+  --gold: #ffd700; /* Mantém dourado */
+
+  --header-bg: #234c8d;
+  --card-bg: #2d2d2d;
+  --module-bg: #121212;
 }
 
 * {
@@ -26,11 +60,14 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(360deg, #23aeff 0%, var(--background) 100%);
-  color: var(--black);
+  /* Usa a variável de gradiente que muda conforme o tema */
+  background: var(--background-body);
+  color: var(--text-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Transição suave ao trocar de tema */
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 button,
@@ -62,11 +99,11 @@ a:focus-visible {
 
 .footer {
   text-align: center;
-  color: var(--black);
+  color: var(--text-color); /* Adaptável */
   padding: 0.5rem;
   font-size: 0.9rem;
   background: var(--khaki);
-  border-top: 4px solid var(--black);
+  border-top: 4px solid var(--black); /* Usa a cor de borda adaptável */
 }
 
 /* Tela de Carregamento */
@@ -89,7 +126,7 @@ a:focus-visible {
 }
 
 /* ==========================================================================
-   2. HEADER
+   2. HEADER & THEME TOGGLE
    ========================================================================== */
 .header {
   display: flex;
@@ -97,11 +134,12 @@ a:focus-visible {
   height: 3.5rem;
   padding: 1rem;
   border-bottom: 4px solid var(--black);
-  background: var(--accent);
+  background: var(--header-bg); /* Adaptável */
   align-items: center;
   gap: 0.5rem;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  transition: background-color 0.3s ease;
 }
 
 .header .left {
@@ -112,6 +150,86 @@ a:focus-visible {
   align-items: center;
 }
 
+/* --- ESTILO DO BOTÃO DE TOGGLE (NOVO) --- */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  /* Empurra para a direita se estiver dentro do flex */
+}
+
+.theme-switch {
+  display: inline-block;
+  height: 32px;
+  position: relative;
+  width: 70px;
+}
+
+.theme-switch input {
+  display: none;
+}
+
+.slider {
+  background-color: var(--toggle-bg);
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+  border-radius: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+  border: 2px solid var(--black); /* Borda adaptável */
+  box-shadow: 2px 2px 0 var(--black);
+}
+
+/* Bolinha do switch */
+.slider:before {
+  background-color: #fff;
+  bottom: 3px;
+  content: "";
+  height: 20px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 20px;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+}
+
+/* Mover bolinha para a direita quando checked (Tema Escuro) */
+input:checked+.slider:before {
+  transform: translateX(36px);
+}
+
+/* Ícones dentro do slider */
+.icon-sun,
+.icon-moon {
+  font-size: 14px;
+  z-index: 1;
+  user-select: none;
+  line-height: 1;
+}
+
+.icon-sun {
+  margin-left: 4px;
+  color: #f39c12;
+  /* Cor do sol */
+}
+
+.icon-moon {
+  margin-right: 4px;
+  color: #f1c40f;
+  /* Cor da lua */
+}
+
+/* --- BOTÕES DO HEADER --- */
 .header .btn {
   margin-right: 2px;
 }
@@ -139,7 +257,8 @@ a:focus-visible {
 /* cor específica para "Sobre" */
 .header .btn-about {
   background: var(--primary);
-  color: var(--white);
+  color: #ffffff;
+  /* Texto sempre branco nestes botões específicos */
   border-color: var(--black);
   padding: 0.7rem;
 }
@@ -147,7 +266,7 @@ a:focus-visible {
 /* cor específica para "Avaliar" */
 .header .btn-evaluate {
   background: var(--secondary);
-  color: var(--white);
+  color: #ffffff;
   border-color: var(--black);
   padding: 0.7rem;
 }
@@ -155,7 +274,7 @@ a:focus-visible {
 /* cor específica para "Resetar" */
 .header .btn-reset {
   background: #ff6b6b;
-  color: var(--white);
+  color: #ffffff;
   border-color: var(--black);
   padding: 0.7rem;
   white-space: wrap;
@@ -192,6 +311,7 @@ a:focus-visible {
 .header .btn-about:hover .icon,
 .header .btn-about:focus-visible .icon {
   color: var(--black);
+  /* No dark mode, vira branco */
 }
 
 .header .btn-evaluate:hover .icon,
@@ -216,7 +336,7 @@ a:focus-visible {
    ========================================================================== */
 .btn {
   background: var(--primary);
-  color: var(--white);
+  color: #ffffff;
   padding: 0.4rem 1rem;
   border: 3px solid var(--black);
   font-weight: 600;
@@ -265,7 +385,7 @@ a:focus-visible {
   padding: 0.5rem 0.8rem;
   background: var(--secondary);
   border-radius: 8px;
-  color: var(--white);
+  color: #ffffff;
   border: 3px solid var(--black);
   font-weight: 700;
   text-transform: uppercase;
@@ -336,6 +456,7 @@ a:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
+  /* Ajuste no overlay para dark mode se necessário, mas o padrão serve bem */
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.308));
   z-index: 0;
   pointer-events: none;
@@ -371,10 +492,14 @@ a:focus-visible {
   margin-bottom: 3rem;
   padding: 0.40rem 0.8rem;
   background-color: var(--white);
+  color: var(--text-color);
   border-radius: 1px;
-  border: 3px solid var(--black); /* Borda base */
-  box-shadow: 8px 8px 0 var(--black); /* Sombra base */
-  animation: led-blink 4s infinite ease-in-out; /* Animação Piscando */
+  border: 3px solid var(--black);
+  /* Borda base */
+  box-shadow: 8px 8px 0 var(--black);
+  /* Sombra base */
+  animation: led-blink 4s infinite ease-in-out;
+  /* Animação Piscando */
   box-sizing: border-box;
 }
 
@@ -385,7 +510,7 @@ a:focus-visible {
   padding: 0.15rem 0.9rem;
   background-color: var(--secondary);
   border-radius: 1px;
-  color: var(--white);
+  color: #ffffff;
   border: 3px solid var(--black);
   box-shadow: 5px 5px 0 var(--black);
   box-sizing: border-box;
@@ -395,6 +520,8 @@ a:focus-visible {
   display: inline-block;
   font-size: 1rem;
   background-color: var(--gold);
+  color: #000000;
+  /* Texto do badge sempre preto */
   padding: 2px 8px;
   border-radius: 10px;
   border-style: groove;
@@ -419,8 +546,8 @@ a:focus-visible {
   /* Tornamos a borda e o fundo transparentes no elemento pai */
   /* Isso mantém o tamanho/layout original, mas move o visual para o ::before */
   background: transparent;
-  border: 4px solid transparent; 
-  box-shadow: none; 
+  border: 4px solid transparent;
+  box-shadow: none;
   padding: 1.5rem;
   text-align: left;
   border-radius: 20px;
@@ -429,9 +556,9 @@ a:focus-visible {
   flex-direction: column;
   justify-content: space-between;
   min-height: 220px;
-  cursor: pointer; 
+  cursor: pointer;
   /* A animação de piscar foi removida daqui para não ser reiniciada no hover */
-  animation: none; 
+  animation: none;
 }
 
 /* Criamos o "corpo visual" do card no ::before */
@@ -440,17 +567,19 @@ a:focus-visible {
   content: "";
   position: absolute;
   /* Inset negativo para cobrir a área da borda transparente do pai */
-  inset: -4px; 
+  inset: -4px;
   border-radius: 20px;
   /* Estilos visuais originais */
-  background: var(--white);
+  background: var(--card-bg);
+  /* Adaptável */
   border: 4px solid var(--black);
   box-shadow: 6px 6px 0 var(--black);
-  z-index: -1; /* Fica atrás do conteúdo do texto */
+  z-index: -1;
+  /* Fica atrás do conteúdo do texto */
   /* Animação Piscando Contínua */
   animation: led-blink 5s infinite ease-in-out;
   /* Transição suave para quando parar de piscar */
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
 /* layout topo do card */
@@ -478,6 +607,7 @@ a:focus-visible {
   font-size: 1rem;
   margin: 0;
   vertical-align: middle;
+  color: var(--text-color);
 }
 
 /* descrição */
@@ -488,7 +618,9 @@ a:focus-visible {
   line-height: 1.15;
   justify-items: center;
   text-align: center;
-  color: #222;
+  color: var(--text-color);
+  /* Adaptável */
+  opacity: 0.9;
   flex-grow: 1;
 }
 
@@ -513,6 +645,8 @@ a:focus-visible {
 
 .card .progress-text {
   font-size: 0.7rem;
+  color: #000000;
+  /* Texto dentro da barra de progresso sempre preto */
 }
 
 /* lock badge */
@@ -534,7 +668,8 @@ a:focus-visible {
   filter: grayscale(100%);
   pointer-events: auto;
   cursor: not-allowed;
-  animation: none; /* Sem pulo */
+  animation: none;
+  /* Sem pulo */
 }
 
 /* Para cards bloqueados, paramos a animação do LED no ::before e deixamos o visual padrão*/
@@ -562,9 +697,10 @@ a:focus-visible {
 }
 
 .card:hover::before {
-  animation: none; /* Para a animação de piscar */
+  animation: none;
+  /* Para a animação de piscar */
   /* Força o visual de "Aceso" */
-  border-color: #ffe600; 
+  border-color: #ffe600;
   box-shadow: 0 0 15px #ffe600, 6px 6px 0 var(--black);
 }
 
@@ -606,7 +742,7 @@ a:focus-visible {
 .module-header h1 {
   font-size: 2.2rem;
   background-color: var(--gold);
-  color: var(--black);
+  color: #000000;
   padding: 0.4rem;
   border: 4px solid var(--black);
   box-shadow: 6px 6px 0 var(--black);
@@ -615,7 +751,9 @@ a:focus-visible {
 }
 
 .texto-explicativo {
-  background: var(--white);
+  background: var(--module-bg);
+  /* Adaptável */
+  color: var(--text-color);
   border: 4px solid var(--black);
   padding: 1.5rem;
   border-radius: 8px;
@@ -625,7 +763,8 @@ a:focus-visible {
 }
 
 .exemplo-principal {
-  background-color: #e0f2fe;
+  background-color: var(--white);
+  /* ou uma cor suave adaptável */
   border: 3px solid var(--black);
   border-radius: 10px;
   padding: 1.5rem;
@@ -641,6 +780,7 @@ a:focus-visible {
 
 .card-exemplo {
   background: var(--yellow);
+  color: #000000;
   border: 4px solid var(--black);
   padding: 1.5rem;
   border-radius: 8px;
@@ -661,7 +801,8 @@ a:focus-visible {
   max-width: 870px;
   border: 4px solid var(--black);
   border-radius: 8px;
-  background-color: #fffffff1;
+  background-color: var(--white);
+  /* Adaptável */
   box-shadow: 6px 6px 0 var(--black);
   z-index: 100;
   padding: 0.60rem 0.80rem;
@@ -703,8 +844,8 @@ a:focus-visible {
   align-items: center;
   justify-content: center;
   font-weight: 500;
-  color: #000000;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+  color: var(--black);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   pointer-events: none;
 }
 
@@ -734,12 +875,14 @@ a:focus-visible {
   box-shadow: 8px 8px 0 var(--black);
   max-width: 900px;
   margin: 2rem auto;
+  color: var(--text-color);
 }
 
 .conclusao-container h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   background-color: var(--yellow);
+  color: #000000;
   border: 4px solid var(--black);
   box-shadow: 4px 4px;
   display: inline-block;
@@ -782,7 +925,7 @@ a:focus-visible {
 
 .conclusao-botoes .btn,
 .conclusao-botoes .btn svg {
-  fill: var(--white);
+  fill: #ffffff;
 }
 
 .conclusao-botoes .btn {
@@ -818,6 +961,7 @@ a:focus-visible {
   margin: 2rem auto;
   padding: 1.5rem;
   background: var(--white);
+  color: var(--text-color);
   border: 4px solid var(--black);
   box-shadow: 6px 6px 0 var(--black);
   border-radius: 6px;
@@ -892,7 +1036,7 @@ a:focus-visible {
   border-radius: 999px;
   border: 3px solid var(--black);
   background: var(--primary);
-  color: var(--white);
+  color: #ffffff;
   box-shadow: 2px 2px 0 var(--black);
   display: inline-flex;
   align-items: center;
@@ -951,6 +1095,7 @@ a:focus-visible {
   box-shadow: 6px 6px 0 var(--black);
   border-radius: 6px;
   background: var(--white);
+  color: var(--text-color);
   align-items: flex-start;
   margin-bottom: 0.3rem;
 }
@@ -977,7 +1122,7 @@ a:focus-visible {
 
 .about-section.neutral {
   background: var(--background);
-  color: #111;
+  color: var(--text-color);
 }
 
 .about-section.neutral h4 {
@@ -1066,6 +1211,7 @@ a:focus-visible {
   box-shadow: 6px 6px 0 var(--black);
   margin: 1rem auto;
   text-align: center;
+  color: var(--text-color);
 }
 
 .atividade-container h3 {
@@ -1300,13 +1446,19 @@ a:focus-visible {
 }
 
 @keyframes led-blink {
-  0%, 100% {
-    border-color: #ffe600; /* Amarelo Led */
-    box-shadow: 0 0 15px #ffe600, 6px 6px 0 var(--black); /* Glow + Sombra Original */
+
+  0%,
+  100% {
+    border-color: #ffe600;
+    /* Amarelo Led */
+    box-shadow: 0 0 15px #ffe600, 6px 6px 0 var(--black);
+    /* Glow + Sombra Original */
   }
+
   50% {
     border-color: var(--black);
-    box-shadow: 0 0 0 transparent, 6px 6px 0 var(--black); /* Apenas sombra original */
+    box-shadow: 0 0 0 transparent, 6px 6px 0 var(--black);
+    /* Apenas sombra original */
   }
 }
 
@@ -1323,6 +1475,7 @@ a:focus-visible {
 /* opcional: reduzir repetição visual de cards sobre imagem quando tela pequena */
 @media (max-width: 1920px) {
   .container.home-bg::before {
+    /* Ajuste para funcionar bem em ambos os temas se necessário */
     background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.10));
   }
 }
@@ -1416,6 +1569,12 @@ a:focus-visible {
   .header .btn-header {
     font-size: 0.75rem;
     padding: 0.5rem 0.7rem;
+  }
+
+  /* Ajuste no toggle para mobile */
+  .theme-switch-wrapper {
+    margin: 0 auto;
+    padding: 0.5rem 0;
   }
 
   .home .intro-text h1 {

@@ -207,6 +207,29 @@ export default function RoboCondicoes({ onConcluido }) {
         setComandoInternoAtivo(null);
     };
 
+    // --- NOVA FUNÇÃO DE SCROLL (NOVO) ---
+    const scrollToElement = (id) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        // Tenta encontrar o container específico de scroll (o .se-body ou o .algoritmo-mini)
+        const container = element.closest('.se-body') || element.closest('.algoritmo-mini');
+
+        if (container) {
+            const elementRect = element.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            // Calcula offset relativo ao container para não rolar a página inteira
+            const offset = elementRect.top - containerRect.top;
+            const targetScroll = container.scrollTop + offset - (container.clientHeight / 2) + (elementRect.height / 2);
+
+            container.scrollTo({
+                top: targetScroll,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     const executar = async () => {
         resetar();
         await new Promise(r => setTimeout(r, 400)); // Tempo aumentado para garantir reset visual
@@ -216,7 +239,9 @@ export default function RoboCondicoes({ onConcluido }) {
 
         for (let i = 0; i < algoritmo.length; i++) {
             const item = algoritmo[i];
+            
             setComandoAtivo(i);
+            scrollToElement(`rc-cmd-${i}`); // (NOVO) Chama scroll para o comando principal
             
             await new Promise(r => setTimeout(r, 600));
 
@@ -227,7 +252,9 @@ export default function RoboCondicoes({ onConcluido }) {
                     setBlocoSeAtivo(i);
                     for (let ci = 0; ci < item.comandos.length; ci++) {
                         const cmd = item.comandos[ci];
+                        
                         setComandoInternoAtivo(ci);
+                        scrollToElement(`rc-cmd-int-${i}-${ci}`); // (NOVO) Chama scroll para o comando interno
                         
                         await new Promise(r => setTimeout(r, 600));
                         
@@ -253,6 +280,10 @@ export default function RoboCondicoes({ onConcluido }) {
                         
                         pos = novaPos;
                         await new Promise(r => setTimeout(r, 300));
+
+                        // (NOVO) Pausa técnica para permitir re-animação de pulso
+                        setComandoInternoAtivo(null);
+                        await new Promise(r => setTimeout(r, 100));
                     }
                     setComandoInternoAtivo(null);
                     setBlocoSeAtivo(null);
@@ -514,6 +545,7 @@ export default function RoboCondicoes({ onConcluido }) {
                                 algoritmo.map((item, i) => (
                                     <div
                                         key={i}
+                                        id={`rc-cmd-${i}`} // (NOVO) ID para scroll
                                         className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                         draggable={!executando}
                                         onDragStart={(e) => handleDragStart(e, item, i, null)}
@@ -536,6 +568,7 @@ export default function RoboCondicoes({ onConcluido }) {
                                                             return (
                                                                 <div 
                                                                     key={ci} 
+                                                                    id={`rc-cmd-int-${i}-${ci}`} // (NOVO) ID para scroll interno
                                                                     className={`se-cmd ${blocoSeAtivo === i && comandoInternoAtivo === ci ? 'se-cmd-ativo' : ''}`} 
                                                                     style={{ background: cmd.cor }}
                                                                     draggable={!executando}

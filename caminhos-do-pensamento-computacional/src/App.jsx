@@ -277,7 +277,7 @@ const MODULES = [
         answer: 2,
       },
       {
-        q: '"Identificar atributos essenciais" é uma parte da Abstração.',
+        q: '"Identificar características essenciais" é uma parte da Abstração.',
         options: ["Verdadeiro.", "Falso."],
         answer: 0,
       },
@@ -291,7 +291,7 @@ const MODULES = [
         answer: 1,
       },
       {
-        q: "Quando você usa um emoji 🙂, você está usando...",
+        q: "Quando você usa um emoji 😄, você está usando...",
         options: [
           "Uma abstração de um rosto feliz.",
           "Uma decomposição de um rosto.",
@@ -552,6 +552,22 @@ export default function App() {
     intro: { completed: false, everCompleted: false },
   });
 
+  // --- IMPLEMENTAÇÃO DO TEMA ---
+  // Estado para controlar o tema (Light/Dark)
+  const [theme, setTheme] = useLocalStorage("theme", "light");
+
+  // Função para alternar o tema
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+  };
+
+  // Efeito para aplicar o atributo data-theme no body
+  useEffect(() => {
+    document.body.setAttribute("data-theme", theme);
+  }, [theme]);
+  // -----------------------------
+
   const resetAllProgress = () => {
     if (window.confirm("Deseja realmente resetar todo o progresso?")) {
       localStorage.removeItem("pc-progress");
@@ -640,12 +656,15 @@ export default function App() {
 
   return (
     <div className="app-root">
+      {/* Passamos o tema e a função de toggle para o Header */}
       <Header
         onOpenAbout={() => setAboutOpen(true)}
         onOpenForm={() => window.open("https://forms.gle/w4KKJsiey3iXBFRE6", "_blank")}
         showHomeButtons={showAboutButtons}
         onResetProgress={resetAllProgress}
         showResetButton={showResetButton}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
 
       <main className={`container ${isHomePage ? "home-bg" : ""}`}>

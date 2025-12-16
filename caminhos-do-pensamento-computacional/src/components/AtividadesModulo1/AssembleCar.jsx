@@ -80,7 +80,6 @@ export default function AssembleCar({ onConcluido }) {
     <div className="assemble-car-container atividade-container">
       <h3 className="ac-title">🚗 Montando o Carro</h3>
       
-      {/* TEXTO AJUSTADO: Linguagem mais simples e focada na ação */}
       <p className="ac-instructions">
         Objetivo: Agora vamos fazer o contrário, <strong>juntar as partes (peças)</strong> para construir o todo!
         <br />
@@ -104,10 +103,11 @@ export default function AssembleCar({ onConcluido }) {
 
           {/* Área de Montagem com SVG */}
           <div className="assembly-area">
-            {/* SVG DA SILHUETA */}
+            {/* SVG DA SILHUETA - AJUSTADO COM preserveAspectRatio */}
             <svg
               className="car-silhouette"
               viewBox="0 0 400 200"
+              preserveAspectRatio="none" 
               xmlns="http://www.w3.org/2000/svg"
             >
               {/* Carroceria */}
