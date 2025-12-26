@@ -32,11 +32,11 @@
 
 /* TEMA ESCURO */
 [data-theme='dark'] {
-  --background: #121212;
-  --background-body: linear-gradient(360deg, #0f3460 0%, #1a1a2e 100%);
-  --black: #000000; 
-  --white: #1e1e1e; /* Inverte o "branco" para fundos escuros */
-  --text-color: #8d8d8d;
+  --background: #1f1f1f;
+  --background-body: linear-gradient(360deg, #386499 0%, #383853 100%);
+  --black: #000000;
+  --white: #3a3a3a; /* Inverte o "branco" para fundos escuros */
+  --text-color: #c7c7c7;
   --toggle-bg: #2c3e50; /* Cor do fundo do toggle no escuro (noite) */
 
   /* Ajustes finos de cores para o modo escuro */
@@ -47,10 +47,876 @@
   --khaki: #4a4a4a; /* Footer escuro */
   --gold: #ffd700; /* Mantém dourado */
 
-  --header-bg: #234c8d;
+  --header-bg: #2c5daa;
   --card-bg: #2d2d2d;
   --module-bg: #121212;
 }
+
+/* ==========================================================================
+   AJUSTES ESPECÍFICOS DO MODO ESCURO
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. BOTÕES DO HEADER (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* Garante que o texto dos botões seja preto no modo escuro */
+[data-theme='dark'] .header .btn-about,
+[data-theme='dark'] .header .btn-evaluate,
+[data-theme='dark'] .header .btn-reset {
+  color: #000000;
+}
+
+/* Define a cor inicial dos ícones como preto */
+[data-theme='dark'] .header .btn-about .icon,
+[data-theme='dark'] .header .btn-evaluate .icon,
+[data-theme='dark'] .header .btn-evaluate .ext-icon,
+[data-theme='dark'] .header .btn-reset .icon {
+  color: #000000;
+}
+
+/* -- Botão Sobre (Hover) -- */
+/* Ícone fica branco ao passar o mouse */
+[data-theme='dark'] .header .btn-about:hover .icon,
+[data-theme='dark'] .header .btn-about:focus-visible .icon {
+  color: #ffffff;
+}
+
+/* -- Botão Avaliar (Hover) -- */
+/* Ícones ficam dourados ao passar o mouse */
+[data-theme='dark'] .header .btn-evaluate:hover .icon,
+[data-theme='dark'] .header .btn-evaluate:focus-visible .icon,
+[data-theme='dark'] .header .btn-evaluate:hover .ext-icon,
+[data-theme='dark'] .header .btn-evaluate:focus-visible .ext-icon {
+  color: var(--gold);
+}
+
+/* -- Botão Resetar (Hover) -- */
+/* Ícone fica branco ao passar o mouse */
+[data-theme='dark'] .header .btn-reset:hover .icon,
+[data-theme='dark'] .header .btn-reset:focus-visible .icon {
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   2. HOME PAGE (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* -- Imagem de Fundo -- */
+/* Aplica um overlay mais escuro sobre a imagem de fundo */
+[data-theme='dark'] .container.home-bg::before {
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+}
+
+/* -- Título -- */
+/* Texto Branco e Fundo Cinza Escuro */
+[data-theme='dark'] .home .intro-text h1 {
+  background-color: #2d2d2d;
+  /* Cinza escuro para contraste */
+  color: #ffffff;
+  box-shadow: 8px 8px 0 #000000;
+  /* Mantém a sombra preta para legibilidade */
+}
+
+/* -- Subtítulo -- */
+/* Texto Preto (o fundo roxo var(--secondary) é mantido do estilo original) */
+[data-theme='dark'] .home .intro-text p {
+  color: #000000;
+}
+
+/* -- Botões Iniciar e Acessar Módulos -- */
+[data-theme='dark'] .btn.start {
+  color: #000000;
+}
+
+/* Força o ícone a ser preto inicialmente */
+[data-theme='dark'] .btn.start .start-icon {
+  color: #000000;
+}
+
+/* Efeito Hover: Muda texto e ícone para Dourado (Gold) */
+[data-theme='dark'] .btn.start:hover,
+[data-theme='dark'] .btn.start:focus-visible {
+  color: var(--gold);
+}
+
+[data-theme='dark'] .btn.start:hover .start-icon,
+[data-theme='dark'] .btn.start:focus-visible .start-icon {
+  color: var(--gold);
+}
+
+[data-theme='dark'] .footer {
+  color: var(--darkgray);
+}
+
+/* --------------------------------------------------------------------------
+   3. MODAL SOBRE (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+[data-theme='dark'] .about-modal #about-title {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .about-section.purple .about-body,
+[data-theme='dark'] .about-section.pink .about-body {
+  color: #000000;
+}
+
+/* Garante que títulos e listas dentro dessas seções também sejam pretos */
+[data-theme='dark'] .about-section.purple h3,
+[data-theme='dark'] .about-section.purple li,
+[data-theme='dark'] .about-section.pink h3,
+[data-theme='dark'] .about-section.pink p {
+  color: #000000;
+}
+
+/* Seção "DESENVOLVIDO POR": Texto Preto e Fundo Cinza Claro */
+[data-theme='dark'] .about-section.neutral {
+  background-color: var(--lightgray);
+  color: #000000;
+}
+
+[data-theme='dark'] .about-section.neutral h3,
+[data-theme='dark'] .about-section.neutral h4 {
+  color: #000000;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. INTRODUÇÃO - TEORIA E EXEMPLOS (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* -- Títulos -- */
+[data-theme='dark'] .intro-container .texto-explicativo h3 {
+  color: #000000;
+  background-color: var(--secondary);
+  padding: 0.3rem 0.6rem;
+}
+
+[data-theme='dark'] .pilares-titulo-container h4 {
+  color: #ffffff;
+  background-color: #2d2d2d;
+  border-color: #000000;
+  border-radius: 4px;
+}
+
+[data-theme='dark'] .video-container h4 {
+  color: #ffffff;
+  background-color: #2d2d2d;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* -- Conteúdo de Texto -- */
+[data-theme='dark'] .intro-container .texto-explicativo {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .intro-container .texto-explicativo p,
+[data-theme='dark'] .intro-container .texto-explicativo li {
+  color: #ffffff;
+}
+
+/* -- Cards de Exemplo -- */
+
+/* Frente e Verso: Texto Preto */
+[data-theme='dark'] .flip-card-front,
+[data-theme='dark'] .flip-card-back {
+  color: #000000;
+}
+
+/* Garante que os títulos e parágrafos dentro dos cards sejam pretos */
+[data-theme='dark'] .flip-card-front h4,
+[data-theme='dark'] .flip-card-back p {
+  color: #000000;
+}
+
+/* -- Botões de Navegação (Footer) -- */
+/* Home e Avançar: Ícones Pretos */
+[data-theme='dark'] .intro-container .module-footer .btn-icon {
+  color: #000000;
+}
+
+[data-theme='dark'] .intro-container .module-footer .btn-icon svg {
+  fill: #000000;
+  color: #000000;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. INTRODUÇÃO - QUIZ (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* Título "Quiz de Verificação": Texto Preto, Fundo Amarelo */
+[data-theme='dark'] .quiz-container h3 {
+  color: #000000;
+  background-color: var(--yellow);
+}
+
+/* Pergunta: Texto Branco */
+[data-theme='dark'] .pergunta h4 {
+  color: #ffffff;
+}
+
+/* Alternativas: Texto Branco */
+[data-theme='dark'] .btn-opcao {
+  background-color: #2d2d2d;
+  /* Fundo cinza escuro para contraste */
+  color: #ffffff;
+  border-color: #000000;
+}
+
+/* Hover na alternativa */
+[data-theme='dark'] .btn-opcao:hover {
+  background-color: #3d3d3d;
+}
+
+/* Alternativas Corretas/Incorretas (mantém a cor branca para leitura no fundo colorido) */
+[data-theme='dark'] .btn-opcao.correta,
+[data-theme='dark'] .btn-opcao.incorreta {
+  color: #ffffff;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. INTRODUÇÃO - CONCLUSÃO (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* Título "Muito Bem!": Texto Preto, Fundo Amarelo */
+[data-theme='dark'] .conclusao-intro-container h2 {
+  color: #000000;
+  background-color: var(--yellow);
+}
+
+/* Texto descritivo: Branco */
+[data-theme='dark'] .conclusao-intro-container p {
+  color: #ffffff;
+}
+
+/* Fundo do Container de Conclusão */
+[data-theme='dark'] .conclusao-intro-container {
+  background-color: #1e1e1e;
+  /* Cinza escuro */
+}
+
+/* --------------------------------------------------------------------------
+   7. MODULES HOME PAGE (Cards e Progresso)
+   -------------------------------------------------------------------------- */
+
+/* Descrição do card*/
+[data-theme='dark'] .card-desc {
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+/* Texto da porcentagem da Barra de Progresso*/
+[data-theme='dark'] .progress-text {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  /* Sombra para garantir leitura em barras claras */
+}
+
+[data-theme='dark'] .card .progress-text {
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   8. MÓDULOS - TELA TEORIA (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* Subtítulo*/
+[data-theme='dark'] .module-header h2 {
+  color: #000000;
+}
+
+/* Título Principal da Seção Teoria*/
+[data-theme='dark'] .texto-explicativo h3 {
+  color: #000000;
+}
+
+/* Texto de Explicação do Conceito*/
+[data-theme='dark'] .texto-explicativo {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .texto-explicativo p,
+[data-theme='dark'] .texto-explicativo li {
+  color: #ffffff;
+}
+
+/* Exemplo Principal*/
+[data-theme='dark'] .exemplo-principal {
+  color: #333333;
+}
+
+[data-theme='dark'] .exemplo-principal p,
+[data-theme='dark'] .exemplo-principal li {
+  color: #333333;
+}
+
+/* Título da Seção Mais Exemplos */
+[data-theme='dark'] .exemplos-container h3 {
+  color: #000000;
+}
+
+/* Botões de Navegação (Home e Voltar) */
+[data-theme='dark'] .module-footer .btn-icon svg,
+[data-theme='dark'] .module-footer .btn .icon-voltar {
+  fill: #000000;
+  color: #000000;
+}
+
+/* Fundo do Footer Fixo de Navegação: Cinza Escuro (com leve transparência) */
+[data-theme='dark'] .module-footer-fixed {
+  background-color: rgba(37, 37, 37, 0.98);
+  /* Cinza escuro quase sólido */
+  border-color: #000000;
+}
+
+/* Garante que o footer do Quiz também siga o padrão se tiver a classe fixa */
+[data-theme='dark'] .quiz-footer.module-footer-fixed {
+  background-color: rgba(37, 37, 37, 0.98);
+}
+
+/* --------------------------------------------------------------------------
+   9. ATIVIDADES (Geral e Específicas do MODULO 1 - DECOMPOSIÇÃO)
+   -------------------------------------------------------------------------- */
+
+/* Container da Atividade: Fundo Escuro e Texto Branco */
+[data-theme='dark'] .atividade-container,
+[data-theme='dark'] .plan-backpack-container,
+[data-theme='dark'] .puzzle-container,
+[data-theme='dark'] .assemble-car-container {
+  background-color: #2d2d2d; /* Cinza escuro */
+  color: #ffffff; /* Texto padrão branco */
+  border-color: #000000;
+}
+
+/* Títulos da Atividade: Texto Preto no Fundo Amarelo */
+[data-theme='dark'] .atividade-title,
+[data-theme='dark'] .pb-title,
+[data-theme='dark'] .ac-title,
+[data-theme='dark'] .puzzle-title {
+  color: #000000;
+  background-color: #fff566;
+}
+
+/* -- Ajustes Específicos para Elementos com Fundo Colorido -- */
+
+/* PlanBackpack: Esteira */
+[data-theme='dark'] .pb-esteira {
+  background-color: #be91a0; /* Rosa mais escuro/intenso */
+  color: #000000; /* Texto preto para contraste */
+  border-color: #000000;
+}
+
+[data-theme='dark'] .pb-esteira h4,
+[data-theme='dark'] .pb-esteira-note {
+  color: #000000;
+}
+
+/* PlanBackpack: Itens Arrastáveis (Cards) -> Fundo Cinza Claro e Texto Preto */
+[data-theme='dark'] .pb-item {
+  background-color: #a3a3a3; /* Cinza claro */
+  color: #000000;
+  border-color: #000000;
+}
+
+/* PlanBackpack: Título "Separe nas Caixas" */
+[data-theme='dark'] .plan-backpack-container .pb-categories h4 {
+  color: #e7e7e7;
+}
+
+/* PlanBackpack: Caixas/Categorias  */
+[data-theme='dark'] .pb-category {
+  background-color: #7a7a7a; /* Cinza claro */
+  color: #000000; /* Texto preto */
+  border-color: #000000;
+}
+
+/* PlanBackpack: TÍTULOS das Caixas (Materiais, Lanche, Casa) */
+[data-theme='dark'] .plan-backpack-container .pb-category-title {
+  background-color: #5f5f5f; 
+  border-bottom: 2px solid #000000;     
+}
+
+/* PlanBackpack: Texto "Solte aqui" */
+[data-theme='dark'] .pb-placeholder {
+  color: #000000;
+  opacity: 0.8;
+}
+
+/* Feedback de Sucesso Específico (Fundo Verde Claro, Texto Verde Escuro) */
+[data-theme='dark'] .pb-feedback-success {
+  background-color: #d1fae5; /* Verde bem claro */
+  color: #064e3b;            /* Verde bem escuro */
+  border-color: #064e3b;
+}
+
+/* Garante que o texto em negrito dentro do feedback também fique verde escuro */
+[data-theme='dark'] .pb-feedback-success strong {
+  color: #064e3b;
+}
+
+/* --- Atividade: Montando o Carro (AssembleCar) --- */
+
+/* Área de Montagem (Container onde solta as peças) */
+[data-theme='dark'] .assembly-area {
+  background-color: #444444;
+  border: 3px dashed rgb(122, 122, 122);
+}
+
+/* Silhueta das Peças (O desenho de fundo) */
+[data-theme='dark'] .silhouette {
+  fill: #313131; 
+  stroke: #999999;
+  opacity: 0.4;
+}
+
+/* (Opcional) Ajuste para o título "Peças Separadas" se necessário */
+[data-theme='dark'] .inventory h4 {
+  color: #ffffff;
+}
+
+/* --- Atividade: Quebra-Cabeça (DigitalPuzzle) --- */
+
+/* Caixas de Peças (Categorias) */
+[data-theme='dark'] .puzzle-container .pb-category {
+  background-color: #555555; /* Cinza médio */
+  border-color: #000000;
+}
+
+/* Título das Caixas: Fundo Cinza Escuro e Texto Branco */
+[data-theme='dark'] .puzzle-container .pb-category-title {
+  background-color: #353535;
+  color: #dadada;
+  border-bottom: 2px solid #000000;
+}
+
+/* --- DigitalPuzzle: Estado "Arrastando Sobre" (Drag Over) --- */
+[data-theme='dark'] .pb-category.over{
+  background-color: #064e3b;
+}
+
+/* Etapa 2 - Container Imagem de Referência */
+[data-theme='dark'] .referencia-mini {
+  background-color: #8a8a8a;
+  border: 2px solid #000000;
+  color: #000000; 
+  border-radius: 8px;
+}
+
+/* Título da Imagem de Referência ("Imagem Completa") */
+[data-theme='dark'] .referencia-mini h4 {
+  color: #000000;
+}
+
+/* Grid de Montagem (Slots/Espaços) */
+[data-theme='dark'] .puzzle-slot {
+  background-color: #8a8a8a; 
+  border-color: #000000;
+}
+
+/* -- Tela de Conclusão do Módulo -- */
+
+/* Texto "Você Concluiu:" (Subtítulo)*/
+[data-theme='dark'] .conclusao-container .subtitulo {
+  color: #ffffff;
+}
+
+/* Texto abaixo (Mensagem Final)*/
+[data-theme='dark'] .conclusao-container .final-message,
+[data-theme='dark'] .conclusao-container p {
+  /* Aplica a todos os parágrafos dentro do container, exceto se sobrescrito */
+  color: #d3d3d3;
+}
+
+/* --------------------------------------------------------------------------
+   10. ATIVIDADES MÓDULO 2 - PADRÕES (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* === GERAL (Indicadores de Desafio) === */
+[data-theme='dark'] .contador-desafios {
+  background-color: #6b6b6b;
+  color: #ffffff;
+}
+
+/* === ATIVIDADE 1: PADRÃO DE SEQUÊNCIA === */
+
+/* Título*/
+[data-theme='dark'] .padrao-sequencia-container h3 {
+  color: #000000;
+  background-color: #fff566;
+}
+
+/* Interrogação (Item que falta)*/
+[data-theme='dark'] .interrogacao {
+  color: #ffffff;
+  opacity: 1;
+  /* Garante visibilidade */
+}
+
+/* Texto da Dica */
+[data-theme='dark'] .dica-box,
+[data-theme='dark'] .dica-box strong {
+  color: #000000;
+}
+
+
+/* === ATIVIDADE 2: DETETIVE DE OBJETOS === */
+
+/* Título */
+[data-theme='dark'] .detetive-objetos-container h3 {
+  color: #000000;
+  background-color: #fff566;
+}
+
+/* Regra */
+[data-theme='dark'] .regra-box .regra-texto,
+[data-theme='dark'] .regra-box .regra-icon {
+  color: #000000;
+}
+
+/* Objetos (Arrastáveis) */
+[data-theme='dark'] .objeto-item {
+  background-color: #808080;
+  /* Cinza médio */
+  color: #000000;
+  /* Texto do nome do objeto em preto para contraste */
+}
+
+[data-theme='dark'] .objeto-item .objeto-nome {
+  color: #000000;
+}
+
+/* Garante que os títulos das zonas sejam legíveis (Pretos) */
+[data-theme='dark'] .drop-zone-header h5,
+[data-theme='dark'] .drop-count {
+  color: #ffffff;
+}
+
+/* Garante que os itens dentro das caixas tenham a mesma cor da esteira */
+[data-theme='dark'] .objeto-colocado {
+  background-color: #808080;
+  /* Cinza médio */
+  color: #000000;
+  border-color: #000000;
+}
+
+/* Garante que o nome do objeto (pequeno) seja preto para leitura */
+[data-theme='dark'] .objeto-nome-mini {
+  color: #000000;
+}
+
+/* === ATIVIDADE 3: DESCOBRINDO PADRÃO === */
+
+/* Título */
+[data-theme='dark'] .padrao-secreto-container h3 {
+  color: #000000;
+  background-color: #fff566;
+}
+
+/* Objetos (Dentro e Fora do Círculo) */
+[data-theme='dark'] .objeto-circulo,
+[data-theme='dark'] .objeto-fora {
+  background-color: #d3d3d3;
+  color: #000000;
+}
+
+/* Texto dos nomes dos objetos */
+[data-theme='dark'] .objeto-nome-pequeno {
+  color: #000000;
+}
+
+/* Alternativas de Resposta (A, B, C) */
+[data-theme='dark'] .opcao-btn {
+  background-color: #d3d3d3;
+  color: #000000;
+  border-color: #000000;
+}
+
+[data-theme='dark'] .opcao-btn .opcao-texto {
+  color: #000000;
+}
+
+/* Ajuste de Hover para as alternativas no modo escuro */
+[data-theme='dark'] .opcao-btn:hover:not(.desabilitado) {
+  background-color: #c0c0c0;
+  /* Cinza um pouco mais escuro no hover */
+}
+
+/* --------------------------------------------------------------------------
+   11. ATIVIDADES MÓDULO 3 - ABSTRAÇÃO (Modo Escuro)
+   -------------------------------------------------------------------------- */
+
+/* === ATIVIDADE 2: ATRIBUTOS ESSENCIAIS === */
+
+/* Título da Pergunta "O que é essencial..." */
+[data-theme='dark'] .atividade-container h4 {
+  color: #000000;
+}
+
+/* Opções de Atributos: Fundo Cinza Escuro e Texto Branco */
+[data-theme='dark'] .atributo-item {
+  background-color: #505050;
+  border-color: #000000;
+}
+
+[data-theme='dark'] .atributo-texto {
+  color: #ffffff;
+}
+
+/* Checkbox (ajuste para manter contraste com o fundo escuro do item) */
+[data-theme='dark'] .checkbox {
+  background-color: #ffffff;
+  border-color: #000000;
+}
+
+/* Item Selecionado: Fundo Cinza Escuro (um pouco mais destacado) e Texto Branco */
+[data-theme='dark'] .atributo-item.selecionado {
+  background-color: #454a64;
+  /* Cinza escuro diferenciado para indicar seleção */
+  border-color: #667eea;
+  /* Mantém a borda roxa para feedback */
+  color: #ffffff;
+}
+
+/* Garante que o checkbox dentro do item selecionado tenha contraste correto */
+[data-theme='dark'] .atributo-item.selecionado .checkbox {
+  background-color: #667eea;
+  /* Cor de destaque (Roxo) do tema */
+  border-color: #667eea;
+}
+
+/* Item "Faltou" (Essencial não marcado): Fundo Amarelo Escuro e Borda Amarela */
+[data-theme='dark'] .atributo-item.faltou {
+  background-color: #665c08;
+  /* Amarelo escuro/oliva para contraste com texto branco */
+  border-color: #ffd700;
+  /* Borda amarela dourada para destaque */
+  color: #ffffff;
+}
+
+/* Item ERRO (Não essencial marcado) */
+[data-theme='dark'] .atributo-item.incorreto {
+  background-color: #721c24;
+  border-color: #dc3545;
+}
+
+/* Container de Conclusão */
+[data-theme='dark'] .resultado-conteudo {
+  background-color: #505050;
+  /* Remove a sombra escura padrão se necessário, ou ajusta para melhor contraste */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+
+}
+
+/* Títulos "Parabéns!" e "Atividade Concluída!": */
+[data-theme='dark'] .resultado-conteudo h3 {
+  color: #ffffff;
+}
+
+/* Texto de Mensagem "Perfeito! Você entendeu..." */
+[data-theme='dark'] .resultado-mensagem {
+  color: #d3d3d3;
+}
+
+/* Container "O que aprendemos": Fundo Azulado Escuro e Texto Branco */
+[data-theme='dark'] .conceito-aprendido {
+  background-color: #374269;
+  /* Azul escuro profundo */
+  border-color: #60a5fa;
+  /* Borda azul clara */
+  color: #ffffff;
+}
+
+/* Título "💡 O que aprendemos:" e destaque "Abstração": Azul Claro */
+/* (Afeta todas as tags <strong> dentro do container) */
+[data-theme='dark'] .conceito-aprendido strong {
+  color: #badaff;
+  /* Azul claro neon/pastel */
+}
+
+/* Garante que o texto corrido do parágrafo seja branco */
+[data-theme='dark'] .conceito-aprendido p {
+  color: #ffffff;
+}
+
+/* === ATIVIDADE 3: CARA A CARA (QUEM É?) === */
+
+[data-theme='dark'] .cara-cara-header>div {
+  color: #000000 !important;
+  /* Força o texto preto */
+  background-color: #a7a7a7 !important;
+  /* Fundo cinza claro quase branco para contraste */
+  border: 2px solid #000000;
+  /* Adiciona borda para combinar com o tema */
+}
+
+/* Garante que o título "Como jogar:" dentro da caixa também fique preto */
+[data-theme='dark'] .cara-cara-header>div h4 {
+  color: #000000 !important;
+}
+
+/* Garante que a lista ordenada (ol) e seus itens (li) fiquem pretos */
+[data-theme='dark'] .cara-cara-header>div ol,
+[data-theme='dark'] .cara-cara-header>div li {
+  color: #000000 !important;
+}
+
+/* Título "Personagens Restantes" */
+[data-theme='dark'] .section-title {
+  color: #e4caff;
+}
+
+/* Container dos Personagens */
+[data-theme='dark'] .grade-personagens-container {
+  background-color: #2d2d2d;
+  border-color: #000000;
+}
+
+/* Cards dos Personagens */
+[data-theme='dark'] .personagem-card {
+  background-color: #b9b9b9;
+  /* Cinza claro */
+  color: #000000;
+  /* Texto preto para contraste */
+  border-color: #000000;
+}
+
+/* Garante que o nome e descrição dentro do card sejam visíveis */
+[data-theme='dark'] .personagem-nome {
+  color: #000000;
+}
+
+[data-theme='dark'] .personagem-descricao {
+  color: #333333;
+}
+
+/* Container de Fazer Perguntas */
+[data-theme='dark'] .pergunta-container {
+  background-color: #5e5e5e;
+  /* Cinza médio */
+  border-color: #000000;
+}
+
+/* Caixa de Seleção (Select) */
+[data-theme='dark'] .pergunta-select {
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+/* Container de Vitória */
+[data-theme='dark'] .vitoria-container {
+  background-color: #2d2d2d;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+}
+
+/* Título "Você Venceu!" */
+[data-theme='dark'] .vitoria-title {
+  color: #ffffff;
+}
+
+/* Texto "Você usou X perguntas..." */
+[data-theme='dark'] .vitoria-texto {
+  color: #d3d3d3;
+}
+
+/* Deixa o número de perguntas em branco para destaque */
+[data-theme='dark'] .vitoria-texto strong {
+  color: #ffffff;
+}
+
+/* Container "O que aprendemos"  */
+[data-theme='dark'] .conceito-box-end {
+  background-color: #374269;
+  border-color: #7db5ff;
+  color: #ffffff;
+}
+
+/* Título "O que aprendemos?" dentro do box */
+[data-theme='dark'] .conceito-box-end h3 strong {
+  color: #afd2ff;
+}
+
+/* Texto da explicação do que aprendemos */
+[data-theme='dark'] .conceito-box-end p {
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   12. ATIVIDADES MÓDULO 4 - ALGORITMOS (RoboSequencias, RoboCondicoes, RoboRepeticoes)
+   -------------------------------------------------------------------------- */
+
+/* Container Principal das Atividades */
+[data-theme='dark'] .robo-sequencias-container,
+[data-theme='dark'] .robo-condicoes-container,
+[data-theme='dark'] .robo-repeticoes-container {
+  background: #2d2d2d;
+  /* Remove o gradiente original */
+  border-color: #000000;
+  box-shadow: 6px 6px #000000;
+}
+
+/* Descrição da Atividade */
+[data-theme='dark'] .robo-subtitle {
+  color: #f0f0f0;
+}
+
+/* Título do Desafio */
+[data-theme='dark'] .subtitle {
+  color: #ffffff;
+}
+
+/* Container de Comandos e Container de Algoritmo */
+[data-theme='dark'] .comandos-section,
+[data-theme='dark'] .algoritmo-section {
+  background-color: #4a4a4a;
+  border-color: #000000;
+}
+
+/* Nome dos Comandos (texto abaixo do botão) */
+[data-theme='dark'] .cmd-mini::after {
+  color: #ffffff;
+  /* Adiciona uma sombra preta mais forte para garantir leitura sobre o cinza médio */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* Área de Drop do Algoritmo (Parte interna onde coloca os comandos) */
+[data-theme='dark'] .algoritmo-mini {
+  background-color: #d3d3d3;
+  border-color: #000000;
+}
+
+/* Texto Placeholder ("Arraste ou clique nos comandos..."): Preto */
+/* (Necessário para contrastar com o fundo cinza claro definido acima) */
+[data-theme='dark'] .algo-vazio {
+  color: #000000;
+}
+
+/* Ajuste opcional para botões de nível dentro do container escuro */
+[data-theme='dark'] .nivel-btn {
+  background-color: #adccce;
+  color: #000000;
+  border-color: #000000;
+}
+
+/* Container de Conclusão*/
+[data-theme='dark'] .conclusao {
+  background: #7caf7f;
+  box-shadow: 6px 6px #462564;
+}
+
+/* Ajuste de textos dentro da conclusão para contraste (Branco/Claro) */
+[data-theme='dark'] .conclusao h3 {
+  color: #f1f1f1;
+}
+
+[data-theme='dark'] .conclusao p {
+  color: #000000;
+}
+
 
 * {
   margin: 0;
@@ -645,8 +1511,6 @@ input:checked+.slider:before {
 
 .card .progress-text {
   font-size: 0.7rem;
-  color: #000000;
-  /* Texto dentro da barra de progresso sempre preto */
 }
 
 /* lock badge */
@@ -668,8 +1532,7 @@ input:checked+.slider:before {
   filter: grayscale(100%);
   pointer-events: auto;
   cursor: not-allowed;
-  animation: none;
-  /* Sem pulo */
+  animation: none; /* Sem pulo */
 }
 
 /* Para cards bloqueados, paramos a animação do LED no ::before e deixamos o visual padrão*/

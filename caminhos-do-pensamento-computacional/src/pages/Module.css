@@ -71,7 +71,7 @@
 
 .texto-explicativo p {
     margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin: 0.5rem;
 }
 
 .texto-explicativo p:last-child {
