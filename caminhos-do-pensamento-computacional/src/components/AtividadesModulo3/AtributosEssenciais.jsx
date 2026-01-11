@@ -1,6 +1,7 @@
 // Atividade 2 do Módulo 3: Identificar Atributos Essenciais
 
 import React, { useState, useEffect } from 'react';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { motion, AnimatePresence } from 'framer-motion';
 import './AtributosEssenciais.css';
 
@@ -61,25 +62,34 @@ function shuffle(array) {
 }
 
 export default function AtributosEssenciais({ onConcluido }) {
-    const [desafioAtual, setDesafioAtual] = useState(0);
-    const [selecionados, setSelecionados] = useState([]);
-    const [verificado, setVerificado] = useState(false);
-    const [feedback, setFeedback] = useState(null);
-    const [acertos, setAcertos] = useState(0);
-    const [concluido, setConcluido] = useState(false);
-    
-    // Estado para opções embaralhadas
-    const [atributosEmbaralhados, setAtributosEmbaralhados] = useState([]);
+    // ESTADOS PERSISTENTES
+    const [desafioAtual, setDesafioAtual] = useLocalStorage("mod3_atributos_desafio", 0);
+    const [acertos, setAcertos] = useLocalStorage("mod3_atributos_acertos", 0);
+    const [concluido, setConcluido] = useLocalStorage("mod3_atributos_concluido", false);
 
-    const desafio = DESAFIOS[desafioAtual];
+    const [selecionados, setSelecionados] = useLocalStorage("mod3_atributos_selecionados", []);
+    const [verificado, setVerificado] = useLocalStorage("mod3_atributos_verificado", false);
+    const [feedback, setFeedback] = useLocalStorage("mod3_atributos_feedback", null);
+    
+    const [atributosEmbaralhados, setAtributosEmbaralhados] = useLocalStorage("mod3_atributos_opcoes", []);
+
+    const desafio = DESAFIOS[desafioAtual] || DESAFIOS[0];
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
 
-    // Embaralha sempre que mudar o desafio
+    useEffect(() => {
+        if (concluido) {
+            onConcluido?.();
+        }
+    }, [concluido, onConcluido]);
+
+    // Embaralha sempre que mudar o desafio (SE ainda não tiver embaralhado salvo)
     useEffect(() => {
         if (desafio) {
-            setAtributosEmbaralhados(shuffle(desafio.atributos));
+            if (atributosEmbaralhados.length === 0) {
+                setAtributosEmbaralhados(shuffle(desafio.atributos));
+            }
         }
-    }, [desafioAtual]);
+    }, [desafioAtual, atributosEmbaralhados.length]);
 
     const handleToggleAtributo = (atributoId) => {
         if (verificado) return;
@@ -132,9 +142,12 @@ export default function AtributosEssenciais({ onConcluido }) {
             onConcluido && onConcluido();
         } else {
             setDesafioAtual(prev => prev + 1);
+            
+            // RESETAR ESTADOS PARA O PRÓXIMO NÍVEL
             setSelecionados([]);
             setVerificado(false);
             setFeedback(null);
+            setAtributosEmbaralhados([]); // Limpa para gerar novo embaralhamento
         }
     };
 
@@ -142,8 +155,11 @@ export default function AtributosEssenciais({ onConcluido }) {
         setSelecionados([]);
         setVerificado(false);
         setFeedback(null);
-        // Opcional: Re-embaralhar ao tentar novamente
-        // setAtributosEmbaralhados(shuffle(desafio.atributos));
+        
+        // AJUSTE: Re-embaralha as opções ao tentar novamente
+        if (desafio) {
+            setAtributosEmbaralhados(shuffle(desafio.atributos));
+        }
     };
 
     return (
@@ -166,7 +182,7 @@ export default function AtributosEssenciais({ onConcluido }) {
                         </div>
                     </div>
 
-                    {/* Lista de Atributos (Renderiza o array embaralhado) */}
+                    {/* Lista de Atributos */}
                     <div className="atributos-lista">
                         {atributosEmbaralhados.map((atributo) => {
                             const selecionado = selecionados.includes(atributo.id);

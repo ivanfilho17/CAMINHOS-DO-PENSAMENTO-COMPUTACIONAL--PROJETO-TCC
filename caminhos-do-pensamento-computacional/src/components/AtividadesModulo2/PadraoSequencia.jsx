@@ -1,6 +1,8 @@
 // Atividade 1 do Módulo 2: Reconhecimento de Padrões
 
 import React, { useState, useEffect } from 'react';
+// 1. IMPORTAR O HOOK DE PERSISTÊNCIA
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import './PadraoSequencia.css';
@@ -105,28 +107,52 @@ function DropZone({ children, isOver }) {
 }
 
 export default function PadraoSequencia({ onConcluido }) {
-    const [desafioAtual, setDesafioAtual] = useState(0);
-    const [respostaColocada, setRespostaColocada] = useState(null);
-    const [feedback, setFeedback] = useState('');
+    // 2. SUBSTITUIR useState POR useLocalStorage PARA OS ESTADOS PERSISTENTES
+    
+    // Progresso Geral
+    const [desafioAtual, setDesafioAtual] = useLocalStorage("mod2_sequencia_desafio", 0);
+    const [acertos, setAcertos] = useLocalStorage("mod2_sequencia_acertos", 0);
+    const [tentativas, setTentativas] = useLocalStorage("mod2_sequencia_tentativas", 0);
+    const [concluido, setConcluido] = useLocalStorage("mod2_sequencia_concluido", false);
+
+    // Estado da Interação Atual (AGORA PERSISTIDOS)
+    // Se o usuário já arrastou a resposta certa, isso precisa ser lembrado.
+    const [respostaColocada, setRespostaColocada] = useLocalStorage("mod2_sequencia_resposta", null);
+    const [feedback, setFeedback] = useLocalStorage("mod2_sequencia_feedback", '');
+    
+    // Persistimos as opções para manter a ordem e consistência visual
+    const [opcoesEmbaralhadas, setOpcoesEmbaralhadas] = useLocalStorage("mod2_sequencia_opcoes", []);
+
+    // Estados visuais temporários (não precisam persistir)
     const [mostrarDica, setMostrarDica] = useState(false);
     const [mostrarExplicacao, setMostrarExplicacao] = useState(false);
-    const [acertos, setAcertos] = useState(0);
-    const [tentativas, setTentativas] = useState(0);
     const [shake, setShake] = useState(false);
-    const [concluido, setConcluido] = useState(false);
     
-    // Estado para as opções embaralhadas
-    const [opcoesEmbaralhadas, setOpcoesEmbaralhadas] = useState([]);
-
-    const desafio = DESAFIOS[desafioAtual];
+    const desafio = DESAFIOS[desafioAtual] || DESAFIOS[0]; // Fallback seguro
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
 
-    // Embaralha as opções sempre que o desafio mudar
+    // Se já estiver concluído ao montar, avisa o pai
+    useEffect(() => {
+        if (concluido) {
+            onConcluido?.();
+        }
+    }, [concluido, onConcluido]);
+
+    // Lógica para mostrar explicação automaticamente se já estiver correto (F5)
+    useEffect(() => {
+        if (feedback === 'correct' && respostaColocada) {
+            setMostrarExplicacao(true);
+        }
+    }, [feedback, respostaColocada]);
+
+    // Embaralha as opções APENAS se ainda não existirem para este nível
     useEffect(() => {
         if (desafio) {
-            setOpcoesEmbaralhadas(shuffle(desafio.opcoes));
+            if (opcoesEmbaralhadas.length === 0) {
+                setOpcoesEmbaralhadas(shuffle(desafio.opcoes));
+            }
         }
-    }, [desafioAtual]);
+    }, [desafioAtual, opcoesEmbaralhadas.length]);
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -136,20 +162,27 @@ export default function PadraoSequencia({ onConcluido }) {
         }
 
         const emojiArrastado = active.id;
-        setRespostaColocada(emojiArrastado);
+        
+        // Atualiza tentativas (persiste)
         setTentativas(prev => prev + 1);
 
         if (emojiArrastado === desafio.resposta) {
+            // Se correto: salva resposta, feedback e acertos
+            setRespostaColocada(emojiArrastado);
             setFeedback('correct');
             setAcertos(prev => prev + 1);
             setMostrarExplicacao(true);
         } else {
+            // Se errado: feedback visual temporário (não persistimos o erro visual prolongado)
+            // Mas poderíamos salvar respostaColocada errada se quiséssemos que o erro persistisse.
+            // Aqui, mantemos o comportamento original: erro some rápido.
+            setRespostaColocada(emojiArrastado); // Mostra o erro momentaneamente
             setFeedback('incorrect');
             setShake(true);
             setTimeout(() => {
                 setShake(false);
-                setRespostaColocada(null);
-                setFeedback('');
+                setRespostaColocada(null); // Limpa resposta visual
+                setFeedback(''); // Limpa feedback
             }, 800);
         }
     };
@@ -160,8 +193,13 @@ export default function PadraoSequencia({ onConcluido }) {
             onConcluido && onConcluido();
         } else {
             setDesafioAtual(prev => prev + 1);
+            
+            // RESETAR ESTADOS PARA O PRÓXIMO NÍVEL
+            // Importante limpar as variáveis persistidas da rodada anterior
             setRespostaColocada(null);
             setFeedback('');
+            setOpcoesEmbaralhadas([]); // Força novo embaralhamento
+            
             setMostrarDica(false);
             setMostrarExplicacao(false);
         }

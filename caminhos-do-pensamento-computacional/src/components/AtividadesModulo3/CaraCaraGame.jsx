@@ -1,6 +1,7 @@
 // Atividade 3 do Módulo 3: Jogo Cara a cara ou "Quem é o Personagem Secreto?"
 
 import React, { useState, useEffect } from 'react';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import './CaraCaraGame.css';
 
 // Personagens do jogo (15 personagens com características visuais claras)
@@ -34,12 +35,12 @@ const PERGUNTAS = [
 
 // Função para embaralhar array
 function shuffle(array) {
-    const arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 // Componente para renderizar o personagem com características visuais
@@ -104,34 +105,42 @@ function PersonagemAvatar({ personagem }) {
 }
 
 export default function JogoCaraACara({ onConcluido }) {
-  const [personagemSecreto, setPersonagemSecreto] = useState(null);
-  // Lista lógica (filtrada)
-  const [personagensVisiveis, setPersonagensVisiveis] = useState([]);
-  // Lista visual (ordem de exibição na grade) - NOVO ESTADO
-  const [gridPersonagens, setGridPersonagens] = useState([]);
+  // ESTADOS PERSISTIDOS
+  const [personagemSecreto, setPersonagemSecreto] = useLocalStorage("mod3_caracara_secreto", null);
+  const [personagensVisiveis, setPersonagensVisiveis] = useLocalStorage("mod3_caracara_visiveis", []);
+  const [gridPersonagens, setGridPersonagens] = useLocalStorage("mod3_caracara_grid", []);
+  const [perguntasFeitas, setPerguntasFeitas] = useLocalStorage("mod3_caracara_historico", []);
+  const [venceu, setVenceu] = useLocalStorage("mod3_caracara_venceu", false);
+  const [jaConcluido, setJaConcluido] = useLocalStorage("mod3_caracara_concluido", false);
   
-  const [perguntasFeitas, setPerguntasFeitas] = useState([]);
-  const [perguntaSelecionada, setPerguntaSelecionada] = useState('');
-  const [feedback, setFeedback] = useState(null);
-  const [venceu, setVenceu] = useState(false);
-  const [jaConcluido, setJaConcluido] = useState(false);
+  // Persistindo seleção e feedback
+  const [perguntaSelecionada, setPerguntaSelecionada] = useLocalStorage("mod3_caracara_pergunta_selecionada", '');
+  const [feedback, setFeedback] = useLocalStorage("mod3_caracara_feedback", null); // <--- AGORA PERSISTIDO
+
+  // Inicializa o jogo APENAS se não houver dados salvos
+  useEffect(() => {
+    if (!personagemSecreto || gridPersonagens.length === 0) {
+      iniciarJogo();
+    }
+  }, [personagemSecreto, gridPersonagens.length]);
 
   useEffect(() => {
-    iniciarJogo();
-  }, []);
+    if (jaConcluido) {
+        onConcluido?.();
+    }
+  }, [jaConcluido, onConcluido]);
 
   const iniciarJogo = () => {
     // Escolhe um secreto aleatoriamente da lista completa
     const personagemAleatorio = PERSONAGENS[Math.floor(Math.random() * PERSONAGENS.length)];
     setPersonagemSecreto(personagemAleatorio);
-    
-    // Embaralha a lista completa para definir a ordem visual da grade
+
     const personagensEmbaralhados = shuffle(PERSONAGENS);
     setGridPersonagens(personagensEmbaralhados);
     
     // Inicialmente, todos os personagens (na ordem embaralhada) estão visíveis
     setPersonagensVisiveis(personagensEmbaralhados);
-    
+
     setPerguntasFeitas([]);
     setPerguntaSelecionada('');
     setFeedback(null);
@@ -345,9 +354,13 @@ export default function JogoCaraACara({ onConcluido }) {
           <div className="vitoria-emoji">🏆</div>
           <h2 className="vitoria-title">Você Venceu!</h2>
           <div className="vitoria-personagem">
-            <PersonagemAvatar personagem={personagemSecreto} />
-            <div className="vitoria-personagem-nome">{personagemSecreto.nome}</div>
-            <div className="vitoria-personagem-desc">{personagemSecreto.descricao}</div>
+            {personagemSecreto && (
+                <>
+                    <PersonagemAvatar personagem={personagemSecreto} />
+                    <div className="vitoria-personagem-nome">{personagemSecreto.nome}</div>
+                    <div className="vitoria-personagem-desc">{personagemSecreto.descricao}</div>
+                </>
+            )}
           </div>
           <p className="vitoria-texto">
             Você usou <strong>{perguntasFeitas.length} perguntas</strong> para descobrir!

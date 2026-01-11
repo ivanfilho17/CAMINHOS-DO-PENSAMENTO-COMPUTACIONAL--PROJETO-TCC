@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useLocalStorage } from "../../hooks/useLocalStorage"; // Hook importado
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { motion, AnimatePresence } from "framer-motion";
 import "./PlanBackPack.css";
@@ -46,8 +47,7 @@ function DraggableItem({ item, draggingDisabled }) {
     return (
         <div
             ref={setNodeRef}
-            className={`pb-item ${isDragging ? "dragging" : ""} ${draggingDisabled ? "disabled" : ""
-                }`}
+            className={`pb-item ${isDragging ? "dragging" : ""} ${draggingDisabled ? "disabled" : ""}`}
             style={style}
             {...(!draggingDisabled ? listeners : {})}
             {...(!draggingDisabled ? attributes : {})}
@@ -103,7 +103,9 @@ function DroppableCategory({ category, slots, items, shaking }) {
 export default function PlanBackPack({ onConcluido }) {
     const items = useMemo(() => shuffle(INITIAL_ITEMS), []);
 
-    const [slots, setSlots] = useState(() =>
+    // 1. CORREÇÃO AQUI: Removemos a função '() =>' e passamos o objeto direto.
+    // Isso garante que o valor inicial seja o objeto { school: [], ... } e não uma função.
+    const [slots, setSlots] = useLocalStorage("mod1_mochila_progresso", 
         CATEGORIES.reduce((acc, c) => {
             acc[c.id] = [];
             return acc;
@@ -111,11 +113,16 @@ export default function PlanBackPack({ onConcluido }) {
     );
 
     const [shaking, setShaking] = useState({});
-    const [completed, setCompleted] = useState(false);
+    
+    // Persistência do estado de conclusão
+    const [completed, setCompleted] = useLocalStorage("mod1_mochila_concluido", false);
 
     const findItemCategory = (itemId) => {
+        // Verifica se slots é um objeto válido antes de usar Object.keys
+        if (!slots || typeof slots !== 'object') return null;
+        
         for (const catId of Object.keys(slots)) {
-            if (slots[catId].includes(itemId)) return catId;
+            if (slots[catId] && slots[catId].includes(itemId)) return catId;
         }
         return null;
     };
@@ -129,11 +136,12 @@ export default function PlanBackPack({ onConcluido }) {
         const itemObj = items.find((it) => it.id === itemId);
         if (!itemObj) return;
 
-        // já colocado corretamente → não permitir mover
+        // Se já foi colocado corretamente, não mover
         if (findItemCategory(itemId)) return;
 
         if (itemObj.correct === targetCategoryId) {
             setSlots((prev) => {
+                // 'prev' agora será o objeto correto, não uma função
                 const updated = { ...prev };
                 Object.keys(updated).forEach((k) => {
                     updated[k] = updated[k].filter((id) => id !== itemId);
@@ -147,8 +155,10 @@ export default function PlanBackPack({ onConcluido }) {
         }
     };
 
-    // Efeito ajustado e seguro
     useEffect(() => {
+        // Proteção extra caso slots esteja indefinido na primeira renderização
+        if (!slots) return;
+
         const placedCount = Object.values(slots).reduce((acc, arr) => acc + arr.length, 0);
         const allPlaced = placedCount === items.length;
 
@@ -158,7 +168,7 @@ export default function PlanBackPack({ onConcluido }) {
         } else if (!allPlaced && completed) {
             setCompleted(false);
         }
-    }, [slots, items.length, completed]);
+    }, [slots, items.length, completed, setCompleted]);
 
     const isPlaced = (itemId) => !!findItemCategory(itemId);
 
@@ -200,7 +210,7 @@ export default function PlanBackPack({ onConcluido }) {
                                 <DroppableCategory
                                     key={cat.id}
                                     category={cat}
-                                    slots={slots}
+                                    slots={slots || {}} // Fallback para evitar erro se slots for null
                                     items={items}
                                     shaking={shaking}
                                 />
@@ -219,7 +229,7 @@ export default function PlanBackPack({ onConcluido }) {
                         className="pb-feedback-success"
                     >
                         ✨ <strong>Muito bem!</strong> Você dividiu o problema em partes menores e organizou tudo!
-                        <br/>Isso é <strong>Decomposição</strong>!
+                        <br />Isso é <strong>Decomposição</strong>!
                     </motion.div>
                 )}
             </AnimatePresence>

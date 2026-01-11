@@ -1,6 +1,8 @@
 // Atividade 2 do Módulo 2: Classificação por Padrões
 
 import React, { useState, useEffect } from 'react';
+// 1. IMPORTAR O HOOK
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import './DetetiveObjetos.css';
@@ -113,25 +115,33 @@ function DropZone({ id, titulo, children, isOver, count }) {
 }
 
 export default function DetetiveObjetos({ onConcluido }) {
-    const [desafioAtual, setDesafioAtual] = useState(0);
-    const [objetosColocados, setObjetosColocados] = useState({ zonaCerta: [], zonaErrada: [] });
+    // 2. SUBSTITUIR useState POR useLocalStorage
+    const [desafioAtual, setDesafioAtual] = useLocalStorage("mod2_detetive_desafio", 0);
+    const [objetosColocados, setObjetosColocados] = useLocalStorage("mod2_detetive_colocados", { zonaCerta: [], zonaErrada: [] });
+    const [concluido, setConcluido] = useLocalStorage("mod2_detetive_concluido", false);
+    const [acertos, setAcertos] = useLocalStorage("mod2_detetive_acertos", 0);
+
+    // Estados visuais temporários (não persistidos)
     const [feedback, setFeedback] = useState(null);
     const [shake, setShake] = useState(null);
-    const [concluido, setConcluido] = useState(false);
-    const [acertos, setAcertos] = useState(0);
-    
-    // Estado para guardar os objetos da fase atual embaralhados
     const [objetosDaFase, setObjetosDaFase] = useState([]);
 
-    const desafio = DESAFIOS[desafioAtual];
+    const desafio = DESAFIOS[desafioAtual] || DESAFIOS[0]; // Proteção contra índice inválido
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
+
+    // Se já estiver concluído ao montar, avisa o pai
+    useEffect(() => {
+        if (concluido) {
+            onConcluido?.();
+        }
+    }, [concluido, onConcluido]);
 
     // Embaralha os objetos sempre que mudar de desafio
     useEffect(() => {
         if (desafio) {
             setObjetosDaFase(shuffle(desafio.objetos));
         }
-    }, [desafioAtual]);
+    }, [desafioAtual]); // Simplificado para depender apenas do índice
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -140,20 +150,19 @@ export default function DetetiveObjetos({ onConcluido }) {
 
         const objetoId = active.id;
         const zona = over.id; // 'zonaCerta' ou 'zonaErrada'
-        
+
         // Busca o objeto na lista original para garantir integridade
         const objeto = desafio.objetos.find(obj => obj.id === objetoId);
 
         if (!objeto) return;
 
-        // Adiciona o objeto à zona
+        // Adiciona o objeto à zona (persiste automaticamente)
         setObjetosColocados(prev => ({
             ...prev,
-            [zona]: [...prev[zona], objeto]
+            [zona]: [...(prev[zona] || []), objeto] // Proteção caso o array esteja undefined
         }));
 
-        // Verifica se a classificação está correta
-        // zonaCerta = deve ser 'correto' | zonaErrada = deve ser 'falso'
+        // Verifica se a classificação está correta (apenas visual por enquanto)
         const correto = (zona === 'zonaCerta' && objeto.correto) ||
             (zona === 'zonaErrada' && !objeto.correto);
 
@@ -165,17 +174,19 @@ export default function DetetiveObjetos({ onConcluido }) {
 
     // Verifica se o desafio foi completado
     useEffect(() => {
-        const totalColocados = objetosColocados.zonaCerta.length + objetosColocados.zonaErrada.length;
+        // Proteção contra estado inicial undefined
+        const zonaCerta = objetosColocados?.zonaCerta || [];
+        const zonaErrada = objetosColocados?.zonaErrada || [];
+        const totalColocados = zonaCerta.length + zonaErrada.length;
 
-        if (totalColocados === desafio.objetos.length) {
+        if (totalColocados > 0 && totalColocados === desafio.objetos.length) {
             // Verifica se todos estão corretos
             const todosCorretos =
-                objetosColocados.zonaCerta.every(obj => obj.correto) &&
-                objetosColocados.zonaErrada.every(obj => !obj.correto);
+                zonaCerta.every(obj => obj.correto) &&
+                zonaErrada.every(obj => !obj.correto);
 
             if (todosCorretos) {
                 setFeedback('sucesso');
-                setAcertos(prev => prev + 1);
             } else {
                 setFeedback('erro');
             }
@@ -183,6 +194,11 @@ export default function DetetiveObjetos({ onConcluido }) {
     }, [objetosColocados, desafio.objetos.length]);
 
     const proximoDesafio = () => {
+        // Incrementa acertos apenas ao clicar para avançar (mais seguro contra loops)
+        if (feedback === 'sucesso') {
+            setAcertos(prev => prev + 1);
+        }
+
         if (ultimoDesafio) {
             setConcluido(true);
             onConcluido && onConcluido();
@@ -197,13 +213,17 @@ export default function DetetiveObjetos({ onConcluido }) {
         setObjetosColocados({ zonaCerta: [], zonaErrada: [] });
         setFeedback(null);
         // Opcional: Re-embaralhar ao tentar novamente
-        // setObjetosDaFase(shuffle(desafio.objetos));
+        setObjetosDaFase(shuffle(desafio.objetos));
     };
 
     // Filtra os objetos disponíveis a partir da lista embaralhada
     const objetosDisponiveis = objetosDaFase.filter(
-        obj => !objetosColocados.zonaCerta.some(c => c.id === obj.id) &&
-               !objetosColocados.zonaErrada.some(c => c.id === obj.id)
+        obj => {
+            const zonaCerta = objetosColocados?.zonaCerta || [];
+            const zonaErrada = objetosColocados?.zonaErrada || [];
+            return !zonaCerta.some(c => c.id === obj.id) &&
+                !zonaErrada.some(c => c.id === obj.id);
+        }
     );
 
     return (
@@ -232,7 +252,7 @@ export default function DetetiveObjetos({ onConcluido }) {
                     </div>
 
                     <DndContext onDragEnd={handleDragEnd}>
-                        {/* Área de objetos disponíveis (Esteira Embaralhada) */}
+                        {/* Área de objetos disponíveis */}
                         <div className="area-objetos">
                             <h5>Objetos misturados:</h5>
                             <div className="objetos-grid">
@@ -249,14 +269,14 @@ export default function DetetiveObjetos({ onConcluido }) {
                             )}
                         </div>
 
-                        {/* Zonas de classificação com nomes genéricos */}
+                        {/* Zonas de classificação */}
                         <div className="zonas-classificacao">
                             <DropZone
                                 id="zonaCerta"
                                 titulo="✅ Segue a Regra"
-                                count={objetosColocados.zonaCerta.length}
+                                count={(objetosColocados?.zonaCerta || []).length}
                             >
-                                {objetosColocados.zonaCerta.map(objeto => (
+                                {(objetosColocados?.zonaCerta || []).map(objeto => (
                                     <div
                                         key={objeto.id}
                                         className={`objeto-colocado ${shake === objeto.id ? 'shake' : ''}`}
@@ -270,9 +290,9 @@ export default function DetetiveObjetos({ onConcluido }) {
                             <DropZone
                                 id="zonaErrada"
                                 titulo="❌ Não Segue"
-                                count={objetosColocados.zonaErrada.length}
+                                count={(objetosColocados?.zonaErrada || []).length}
                             >
-                                {objetosColocados.zonaErrada.map(objeto => (
+                                {(objetosColocados?.zonaErrada || []).map(objeto => (
                                     <div
                                         key={objeto.id}
                                         className={`objeto-colocado ${shake === objeto.id ? 'shake' : ''}`}
@@ -285,7 +305,7 @@ export default function DetetiveObjetos({ onConcluido }) {
                         </div>
                     </DndContext>
 
-                    {/* Feedback */}
+                    {/* Feedback Sucesso */}
                     {feedback === 'sucesso' && (
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -301,6 +321,7 @@ export default function DetetiveObjetos({ onConcluido }) {
                         </motion.div>
                     )}
 
+                    {/* Feedback Erro */}
                     {feedback === 'erro' && (
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -322,12 +343,12 @@ export default function DetetiveObjetos({ onConcluido }) {
                             <div
                                 className="progresso-bar-fill"
                                 style={{
-                                    width: `${(objetosColocados.zonaCerta.length + objetosColocados.zonaErrada.length) / desafio.objetos.length * 100}%`
+                                    width: `${((objetosColocados?.zonaCerta?.length || 0) + (objetosColocados?.zonaErrada?.length || 0)) / desafio.objetos.length * 100}%`
                                 }}
                             />
                         </div>
                         <p className="progresso-texto">
-                            {objetosColocados.zonaCerta.length + objetosColocados.zonaErrada.length} / {desafio.objetos.length} classificados
+                            {(objetosColocados?.zonaCerta?.length || 0) + (objetosColocados?.zonaErrada?.length || 0)} / {desafio.objetos.length} classificados
                         </p>
                     </div>
                 </>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useLocalStorage } from "../../hooks/useLocalStorage"; // AJUSTE: Importando o hook
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { motion, AnimatePresence } from "framer-motion";
 // Certifique-se que o caminho para sua imagem está correto
@@ -89,13 +90,16 @@ function DroppableCategoryBox({ id, title, children }) {
 
 // --- COMPONENTE PRINCIPAL MODIFICADO ---
 export default function DigitalPuzzle({ onConcluido }) {
-    const [etapa, setEtapa] = useState(1);
-    const [pecasCategorizadas, setPecasCategorizadas] = useState({ ceu: [], leao: [], vegetacao: [] });
+    // AJUSTE: Substituindo useState por useLocalStorage para persistir o progresso
+    const [etapa, setEtapa] = useLocalStorage("mod1_puzzle_etapa", 1);
+    const [pecasCategorizadas, setPecasCategorizadas] = useLocalStorage("mod1_puzzle_categorizadas", { ceu: [], leao: [], vegetacao: [] });
+    const [slotsMontagem, setSlotsMontagem] = useLocalStorage("mod1_puzzle_montagem", {});
+    const [completed, setCompleted] = useLocalStorage("mod1_puzzle_concluido", false);
+
+    // Estados visuais (não precisam de persistência)
     const [pecaAgitando, setPecaAgitando] = useState(null);
     const [feedback, setFeedback] = useState('');
     const [feedbackType, setFeedbackType] = useState('');
-    const [slotsMontagem, setSlotsMontagem] = useState({});
-    const [completed, setCompleted] = useState(false);
 
     // 2. Ref para o timer do feedback temporário
     const feedbackTimer = useRef(null);
@@ -131,13 +135,20 @@ export default function DigitalPuzzle({ onConcluido }) {
     );
 
     const pecasDisponiveis = useMemo(() => {
-        const todasCategorizadas = [
-            ...pecasCategorizadas.ceu,
-            ...pecasCategorizadas.leao,
-            ...pecasCategorizadas.vegetacao
+        // AJUSTE: Garantir que arrays existam para evitar erro ao ler do localStorage
+        const catCeu = pecasCategorizadas?.ceu || [];
+        const catLeao = pecasCategorizadas?.leao || [];
+        const catVegetacao = pecasCategorizadas?.vegetacao || [];
+        const slotsUsados = Object.values(slotsMontagem || {});
+
+        const todasCategorizadasOuMontadas = [
+            ...catCeu,
+            ...catLeao,
+            ...catVegetacao,
+            ...slotsUsados
         ];
-        return shuffledPieces.filter(p => !todasCategorizadas.includes(p.id));
-    }, [shuffledPieces, pecasCategorizadas]);
+        return shuffledPieces.filter(p => !todasCategorizadasOuMontadas.includes(p.id));
+    }, [shuffledPieces, pecasCategorizadas, slotsMontagem]);
 
 
     const findSlotForPiece = (id) => {
@@ -171,7 +182,7 @@ export default function DigitalPuzzle({ onConcluido }) {
         if (piece.correctCategory === categoryId) {
             setPecasCategorizadas(prev => ({
                 ...prev,
-                [categoryId]: [...prev[categoryId], pieceId]
+                [categoryId]: [...(prev[categoryId] || []), pieceId]
             }));
             setFeedback('Isso! Peça guardada na caixa certa. ✅');
             setFeedbackType('sucesso');
@@ -214,7 +225,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                 });
                 setPecasCategorizadas(prevCat => ({
                     ...prevCat,
-                    [piece.correctCategory]: [...prevCat[piece.correctCategory], pieceId]
+                    [piece.correctCategory]: [...(prevCat[piece.correctCategory] || []), pieceId]
                 }));
             }
             return;
@@ -251,7 +262,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                 // Veio da categoria (DEVOLVE Peça B)
                 const pieceToReturn = pieces.find(p => p.id === pieceInOverSlotId);
                 newCategorias[pieceToReturn.correctCategory] = [
-                    ...newCategorias[pieceToReturn.correctCategory],
+                    ...(newCategorias[pieceToReturn.correctCategory] || []),
                     pieceInOverSlotId
                 ];
             }
@@ -288,7 +299,8 @@ export default function DigitalPuzzle({ onConcluido }) {
 
     // 5. LÓGICA DE TRANSIÇÃO
     const totalPecas = pieces.length;
-    const totalCategorizado = pecasCategorizadas.ceu.length + pecasCategorizadas.leao.length + pecasCategorizadas.vegetacao.length;
+    // AJUSTE: Proteção contra undefined ao somar
+    const totalCategorizado = (pecasCategorizadas?.ceu?.length || 0) + (pecasCategorizadas?.leao?.length || 0) + (pecasCategorizadas?.vegetacao?.length || 0);
 
     useEffect(() => {
         if (etapa === 1 && totalCategorizado === totalPecas) {
@@ -300,7 +312,7 @@ export default function DigitalPuzzle({ onConcluido }) {
             // Define o feedback persistente de transição
             setFeedback('Muito bem! Separar as peças ajuda a organizar. Agora vamos montar!');
             setFeedbackType('sucesso');
-            setSlotsMontagem({});
+            // setSlotsMontagem({}); // REMOVIDO: Não resetar aqui, pois o usuário pode já ter começado a etapa 2 e dado F5
         }
     }, [etapa, totalCategorizado, totalPecas]); // Depende de 'etapa'
 
@@ -319,15 +331,18 @@ export default function DigitalPuzzle({ onConcluido }) {
                     setFeedback("Quase lá! Algumas peças estão no lugar errado. Tente de novo!");
                     setFeedbackType('aviso');
                 }
+            } else if (completed) {
+                // Se já estiver completo (vindo do storage), avisa o pai
+                onConcluido?.();
             }
         }
-    }, [slotsMontagem, pieces, completed, onConcluido, etapa]);
+    }, [slotsMontagem, pieces, completed, onConcluido, etapa, setCompleted]);
 
 
     // --- RENDERIZAÇÃO ---
     return (
         <div className="atividade-container puzzle-container">
-            <h3 className="puzzle-title">🧩 Quebra-Cabeça do Leão</h3>     
+            <h3 className="puzzle-title">🧩 Quebra-Cabeça do Leão</h3>      
             <p className="puzzle-instructions">
                 {etapa === 1
                     ? "Montar um quebra-cabeça pode ser uma tarefa muito grande! Vamos separar as peças por grupos para ficar mais fácil."
@@ -351,7 +366,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                         <div className="puzzle-categories">
                             {CATEGORIAS.map(cat => (
                                 <DroppableCategoryBox key={cat.id} id={cat.id} title={cat.title}>
-                                    {pecasCategorizadas[cat.id].map(pieceId => {
+                                    {(pecasCategorizadas[cat.id] || []).map(pieceId => {
                                         const piece = pieces.find(p => p.id === pieceId);
                                         // AJUSTE: Peças que já estão na caixa correta agora ficam desabilitadas (disabled={true})
                                         return (
@@ -432,7 +447,7 @@ export default function DigitalPuzzle({ onConcluido }) {
                                 <div key={cat.id} className="pb-category">
                                     <div className="pb-category-title">{cat.title}</div>
                                     <div className="pb-category-content"> 
-                                        {pecasCategorizadas[cat.id].map(pieceId => {
+                                        {(pecasCategorizadas[cat.id] || []).map(pieceId => {
                                             const piece = pieces.find(p => p.id === pieceId);
                                             // AJUSTE: Desabilita arrasto se o puzzle estiver completo
                                             return <DraggablePiece key={pieceId} id={pieceId} piece={piece} disabled={completed} />

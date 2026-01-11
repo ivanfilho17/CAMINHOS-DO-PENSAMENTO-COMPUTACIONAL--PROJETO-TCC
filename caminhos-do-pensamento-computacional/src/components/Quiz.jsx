@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import './Quiz.css';
 
-// 1. Receber a nova prop 'onQuestionAnswered'
-export default function Quiz({ quizData, onQuizComplete, onQuestionAnswered }) {
-    const [perguntaAtual, setPerguntaAtual] = useState(0);
-    const [pontuacao, setPontuacao] = useState(0);
-    const [respostaSelecionada, setRespostaSelecionada] = useState(null);
-    const [feedback, setFeedback] = useState('');
-    const [quizFinalizado, setQuizFinalizado] = useState(false);
+export default function Quiz({ quizData, onQuizComplete, onQuestionAnswered, moduleId = 0 }) {
+    
+    const keyPrefix = `mod${moduleId}_quiz`;
+
+    // Estados Persistentes
+    const [perguntaAtual, setPerguntaAtual] = useLocalStorage(`${keyPrefix}_index`, 0);
+    const [pontuacao, setPontuacao] = useLocalStorage(`${keyPrefix}_score`, 0);
+    const [respostaSelecionada, setRespostaSelecionada] = useLocalStorage(`${keyPrefix}_selected`, null);
+    const [feedback, setFeedback] = useLocalStorage(`${keyPrefix}_feedback`, '');
+    const [quizFinalizado, setQuizFinalizado] = useLocalStorage(`${keyPrefix}_finished`, false);
+
+    // Ref para garantir que o callback só seja chamado uma vez (evita loop/travamento)
+    const callbackCalledRef = useRef(false);
+
+    // EFEITO DE CONCLUSÃO ROBUSTO
+    useEffect(() => {
+        // Só executa se estiver finalizado E ainda não tiver chamado o callback
+        if (quizFinalizado && !callbackCalledRef.current) {
+            callbackCalledRef.current = true; // Marca como chamado imediatamente
+
+            // Timeout para quebrar o ciclo de renderização e evitar travamento visual
+            const timer = setTimeout(() => {
+                onQuizComplete(pontuacao);
+            }, 300); // 300ms de delay para suavidade
+
+            return () => clearTimeout(timer);
+        }
+    }, [quizFinalizado, pontuacao, onQuizComplete]);
 
     const handleResponder = (opcaoIndex) => {
         if (respostaSelecionada !== null) return;
@@ -22,26 +44,27 @@ export default function Quiz({ quizData, onQuizComplete, onQuestionAnswered }) {
             setFeedback(`Ops, não foi dessa vez. A resposta correta era a: "${quizData[perguntaAtual].options[respostaCorreta]}"`);
         }
 
-        // 2. Chamar a nova função para avisar que uma pergunta foi respondida
-        // Passamos o número da pergunta atual (começando em 0)
         if (onQuestionAnswered) {
             onQuestionAnswered(perguntaAtual);
         }
     };
 
     const proximaPergunta = () => {
-        setRespostaSelecionada(null);
-        setFeedback('');
         if (perguntaAtual < quizData.length - 1) {
+            // Se tem mais perguntas, avança
+            setRespostaSelecionada(null);
+            setFeedback('');
             setPerguntaAtual(perguntaAtual + 1);
         } else {
+            // Se é a última, APENAS marca como finalizado.
+            // O useEffect lá em cima vai detectar isso e chamar a conclusão.
             setQuizFinalizado(true);
-            // A chamada final a onQuizComplete já está a tratar dos 100%
-            onQuizComplete(pontuacao + (respostaSelecionada === quizData[perguntaAtual].answer ? 1 : 0));
         }
     };
 
     const pergunta = quizData[perguntaAtual];
+
+    if (!pergunta) return <div>Carregando...</div>;
 
     return (
         <div className="quiz-container">

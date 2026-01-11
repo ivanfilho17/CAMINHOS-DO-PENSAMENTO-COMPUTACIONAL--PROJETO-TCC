@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import './RoboSequencias.css';
 
 // Componente do Robô em SVG - COM EXPRESSÕES
@@ -95,26 +96,56 @@ const NIVEIS = [
 ];
 
 export default function RoboSequencias({ onConcluido }) {
-    const [nivelAtual, setNivelAtual] = useState(0);
-    const [algoritmo, setAlgoritmo] = useState([]);
-    const [roboPos, setRoboPos] = useState({ x: NIVEIS[0].roboInicio.x, y: NIVEIS[0].roboInicio.y });
+    // ESTADOS PERSISTENTES (Lógica + Visual)
+    const [nivelAtual, setNivelAtual] = useLocalStorage("mod4_sequencia_nivel", 0);
+    const [algoritmo, setAlgoritmo] = useLocalStorage("mod4_sequencia_algoritmo", []);
+    const [niveisCompletos, setNiveisCompletos] = useLocalStorage("mod4_sequencia_niveis_completos", []);
+    const [concluidoGeral, setConcluidoGeral] = useLocalStorage("mod4_sequencia_concluido", false);
+
+    // Inicializa nível para uso
+    const nivel = NIVEIS[nivelAtual] || NIVEIS[0]; 
+
+    // Estados Visuais PERSISTIDOS
+    const [roboPos, setRoboPos] = useLocalStorage("mod4_sequencia_robo_pos", { x: nivel.roboInicio.x, y: nivel.roboInicio.y });
+    const [feedback, setFeedback] = useLocalStorage("mod4_sequencia_feedback", '');
+    const [expressaoRobo, setExpressaoRobo] = useLocalStorage("mod4_sequencia_expressao", 'feliz');
+    // MUDANÇA: Agora 'venceu' é persistido para mostrar o botão 'Próximo' no F5
+    const [venceu, setVenceu] = useLocalStorage("mod4_sequencia_venceu", false);
+    
+    // Estados visuais temporários (Resetam com F5)
     const [executando, setExecutando] = useState(false);
-    const [venceu, setVenceu] = useState(false);
-    const [feedback, setFeedback] = useState('');
-    const [niveisCompletos, setNiveisCompletos] = useState([]);
     const [mostrarDica, setMostrarDica] = useState(false);
     const [bandeiraAnimando, setBandeiraAnimando] = useState(false);
     const [draggedItem, setDraggedItem] = useState(null);
     const [dragOverIndex, setDragOverIndex] = useState(null);
     const [comandoAtivo, setComandoAtivo] = useState(null);
-    
-    // Estado para expressão facial
-    const [expressaoRobo, setExpressaoRobo] = useState('feliz');
 
-    // Referência direta para o elemento do robô (Substitui document.querySelector)
+    // Referência direta para o elemento do robô
     const roboRef = useRef(null);
 
-    const nivel = NIVEIS[nivelAtual];
+    // Ref para rastrear mudança real de nível
+    const prevNivelRef = useRef(nivelAtual);
+
+    useEffect(() => {
+        // Se o nível mudou, reseta tudo para o padrão do novo nível
+        if (prevNivelRef.current !== nivelAtual) {
+            if (!executando) {
+                setRoboPos({ x: nivel.roboInicio.x, y: nivel.roboInicio.y });
+                setVenceu(false);
+                setFeedback('');
+                setExpressaoRobo('feliz');
+            }
+            prevNivelRef.current = nivelAtual;
+        }
+        // Se for a mesma montagem (F5), mantém os valores carregados do useLocalStorage
+    }, [nivelAtual, executando, nivel.roboInicio.x, nivel.roboInicio.y, setRoboPos, setFeedback, setExpressaoRobo, setVenceu]); 
+
+    // Efeito para notificar o pai se já terminou tudo
+    useEffect(() => {
+        if (concluidoGeral) {
+            onConcluido?.();
+        }
+    }, [concluidoGeral, onConcluido]);
 
     const resetar = () => {
         setRoboPos({ x: nivel.roboInicio.x, y: nivel.roboInicio.y });
@@ -189,19 +220,14 @@ export default function RoboSequencias({ onConcluido }) {
             // Calcula a posição para centralizar o elemento no container
             const elementRect = element.getBoundingClientRect();
             const containerRect = container.getBoundingClientRect();
-            
             const offset = elementRect.top - containerRect.top;
             const targetScroll = container.scrollTop + offset - (container.clientHeight / 2) + (elementRect.height / 2);
-
-            container.scrollTo({
-                top: targetScroll,
-                behavior: 'smooth'
-            });
+            container.scrollTo({ top: targetScroll, behavior: 'smooth' });
         }
     };
 
     const executar = async () => {
-        // Reset inicial visual obrigatório
+        // Reset inicial para começar da base
         resetar();
         await new Promise(r => setTimeout(r, 400)); 
         
@@ -225,10 +251,7 @@ export default function RoboSequencias({ onConcluido }) {
             
             // Verifica se saiu do mapa
             if (isForaDoMapa(novaPos)) {
-                // 1. Move visualmente para fora
-                setRoboPos(novaPos);
-                
-                // 2. Aguarda o tempo da transição do movimento
+                setRoboPos(novaPos); // Move para fora visualmente
                 await new Promise(r => setTimeout(r, 600));
                 
                 // 3. Executa o tremor e o feedback
@@ -236,7 +259,7 @@ export default function RoboSequencias({ onConcluido }) {
                 
                 setExecutando(false);
                 setComandoAtivo(null);
-                return;
+                return; // Sai da função, mantendo o robô "fora" e triste
             }
             
             // Move visualmente (dentro do tabuleiro)
@@ -257,13 +280,19 @@ export default function RoboSequencias({ onConcluido }) {
             await new Promise(r => setTimeout(r, 1500));
             setVenceu(true);
             setFeedback('🎉 Aê, Muito bem! Você fez a sequência de passos (algoritmo) correta e o robô chegou na bandeira!');
+            
+            let novosNiveisCompletos = niveisCompletos;
             if (!niveisCompletos.includes(nivelAtual)) {
-                setNiveisCompletos([...niveisCompletos, nivelAtual]);
+                novosNiveisCompletos = [...niveisCompletos, nivelAtual];
+                setNiveisCompletos(novosNiveisCompletos);
             }
-            if (nivelAtual === NIVEIS.length - 1 && niveisCompletos.length === NIVEIS.length - 1) {
+
+            if (nivelAtual === NIVEIS.length - 1 && novosNiveisCompletos.length === NIVEIS.length) {
+                setConcluidoGeral(true);
                 setTimeout(() => onConcluido && onConcluido(), 2000);
             }
         } else {
+            // LÓGICA MANTIDA: Se não chegou, fica triste ONDE PAROU.
             setExpressaoRobo('triste');
             setFeedback('❌ Ops! O robô não chegou na bandeira. Tente arrumar os passos!');
         }
@@ -275,8 +304,9 @@ export default function RoboSequencias({ onConcluido }) {
         if (nivelAtual < NIVEIS.length - 1) {
             const prox = nivelAtual + 1;
             setNivelAtual(prox);
-            setAlgoritmo([]);
-            setRoboPos({ x: NIVEIS[prox].roboInicio.x, y: NIVEIS[prox].roboInicio.y });
+            setAlgoritmo([]); // Limpa o algoritmo para o novo nível
+            
+            // O useEffect [nivelAtual] cuidará de resetar a posição visualmente
             setVenceu(false);
             setFeedback('');
             setMostrarDica(false);
@@ -298,14 +328,11 @@ export default function RoboSequencias({ onConcluido }) {
 
     const handleDrop = (e, dropIndex = null) => {
         e.preventDefault();
-
         if (!draggedItem) return;
 
         if (draggedItem.fromIndex === null) {
             if (dropIndex === null) {
-                if (algoritmo.length < 15) {
-                    setAlgoritmo([...algoritmo, draggedItem.item]);
-                }
+                if (algoritmo.length < 15) setAlgoritmo([...algoritmo, draggedItem.item]);
             } else {
                 if (algoritmo.length < 15) {
                     const novo = [...algoritmo];
@@ -321,7 +348,6 @@ export default function RoboSequencias({ onConcluido }) {
                 setAlgoritmo(novo);
             }
         }
-
         setDraggedItem(null);
         setDragOverIndex(null);
     };
@@ -348,12 +374,7 @@ export default function RoboSequencias({ onConcluido }) {
                         onClick={() => {
                             setNivelAtual(i);
                             setAlgoritmo([]);
-                            setRoboPos({ x: NIVEIS[i].roboInicio.x, y: NIVEIS[i].roboInicio.y });
-                            setVenceu(false);
-                            setFeedback('');
-                            setMostrarDica(false);
-                            setBandeiraAnimando(false);
-                            setExpressaoRobo('feliz');
+                            // O useEffect cuidará do reset visual
                         }}
                         disabled={executando}
                     >
@@ -456,7 +477,7 @@ export default function RoboSequencias({ onConcluido }) {
                                     return (
                                         <div
                                             key={i}
-                                            id={`cmd-${i}`} // ID ADICIONADO PARA SCROLL
+                                            id={`cmd-${i}`}
                                             className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                             draggable={!executando}
                                             onDragStart={(e) => handleDragStart(e, cmdId, i)}

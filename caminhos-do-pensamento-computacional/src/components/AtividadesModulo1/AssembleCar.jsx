@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocalStorage } from "../../hooks/useLocalStorage"; // 1. Importação do Hook
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { motion, AnimatePresence } from "framer-motion";
 import "./AssembleCar.css";
@@ -46,9 +47,15 @@ function DroppableSlot({ id, children }) {
 }
 
 export default function AssembleCar({ onConcluido }) {
-  const [placed, setPlaced] = useState({});
+  // 2. Implementação da Persistência
+  // 'placed' agora é salvo no localStorage com a chave "mod1_carro_progresso"
+  const [placed, setPlaced] = useLocalStorage("mod1_carro_progresso", {});
+  
+  // 'shaking' é um estado visual transitório (erro), então mantemos com useState normal
   const [shaking, setShaking] = useState({});
-  const [completed, setCompleted] = useState(false);
+  
+  // 'completed' também é salvo para lembrar que o usuário já terminou
+  const [completed, setCompleted] = useLocalStorage("mod1_carro_concluido", false);
 
   const allPlaced = Object.keys(placed).length === PARTS.length;
 
@@ -74,7 +81,7 @@ export default function AssembleCar({ onConcluido }) {
       setCompleted(true);
       onConcluido?.();
     }
-  }, [allPlaced, onConcluido, completed]);
+  }, [allPlaced, onConcluido, completed, setCompleted]); // setCompleted adicionado nas deps
 
   return (
     <div className="assemble-car-container atividade-container">

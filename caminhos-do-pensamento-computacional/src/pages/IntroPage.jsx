@@ -31,9 +31,43 @@ export default function IntroPage({
         currentSection === 'conclusao' ? 'conclusaoIntro' :
             'teoria';
 
+    // =====================================================================
+    // LÓGICA DE SCROLL RIGOROSA (PERSISTÊNCIA APENAS NO F5)
+    // =====================================================================
+    
+    // 1. Restaurar Scroll (apenas se existir no storage e estiver na teoria)
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [currentSection]);
+        if (tela === 'teoria') {
+            const savedScroll = sessionStorage.getItem('intro_scroll_teoria');
+            if (savedScroll) {
+                // Pequeno timeout para garantir que o DOM renderizou
+                setTimeout(() => window.scrollTo(0, parseInt(savedScroll)), 0);
+            } else {
+                window.scrollTo(0, 0);
+            }
+        } else {
+            // Se não for teoria (ex: quiz, conclusão), forçar topo
+            window.scrollTo(0, 0);
+        }
+    }, [tela]);
+
+    // 2. Salvar Scroll ao rolar (apenas na teoria)
+    useEffect(() => {
+        const handleScroll = () => {
+            if (tela === 'teoria') {
+                sessionStorage.setItem('intro_scroll_teoria', window.scrollY);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [tela]);
+
+    // 3. Função auxiliar para limpar o scroll ao navegar intencionalmente
+    const limparScrollTeoria = () => {
+        sessionStorage.removeItem('intro_scroll_teoria');
+    };
+    // =====================================================================
 
     // Desbloquear automaticamente o módulo 1 quando chegar na conclusão (apenas uma vez)
     useEffect(() => {
@@ -42,6 +76,18 @@ export default function IntroPage({
             onCompleteIntro && onCompleteIntro();
         }
     }, [tela]);
+
+    // FUNÇÃO DE LIMPEZA DO QUIZ DA INTRODUÇÃO
+    const limparDadosQuizIntro = () => {
+        const chaves = [
+            "mod0_quiz_index",
+            "mod0_quiz_score",
+            "mod0_quiz_selected",
+            "mod0_quiz_feedback",
+            "mod0_quiz_finished"
+        ];
+        chaves.forEach(chave => localStorage.removeItem(chave));
+    };
 
     const handleIntroQuizComplete = () => {
         onNavigateToSection('conclusao');
@@ -123,6 +169,9 @@ export default function IntroPage({
                             className="btn btn-icon"
                             onClick={() => {
                                 console.log('Clicou Voltar (Teoria)');
+                                // Limpa tudo ao sair
+                                limparDadosQuizIntro(); 
+                                limparScrollTeoria(); // Limpa scroll
                                 onBackHome && onBackHome();
                             }}
                             aria-label="Voltar ao Menu"
@@ -133,6 +182,7 @@ export default function IntroPage({
                             className="btn btn-icon"
                             onClick={() => {
                                 console.log('Clicou Próximo (Quiz)');
+                                limparScrollTeoria(); // Limpa scroll ao avançar
                                 onNavigateToSection && onNavigateToSection('quiz');
                             }}
                             disabled={isButtonDisabled}
@@ -152,12 +202,18 @@ export default function IntroPage({
                     <Quiz
                         quizData={quizData}
                         onQuizComplete={handleIntroQuizComplete}
+                        moduleId={0} 
                     />
                     <footer className="module-footer quiz-footer">
                         <button
                             className="btn btn-icon"
                             onClick={() => {
                                 console.log('Clicou Voltar para Teoria (Quiz)');
+                                // Ao voltar do quiz para teoria, talvez você QUEIRA manter o scroll?
+                                // Se quiser resetar, mantenha a limpeza. Se quiser manter, remova a linha abaixo.
+                                // Seguindo sua instrução de "sair e voltar reseta", aqui estamos voltando de outra tela.
+                                // Vou manter a limpeza para garantir que comece do topo como pedido na "outra tela".
+                                limparScrollTeoria(); 
                                 onNavigateToSection && onNavigateToSection('teoria');
                             }}
                             aria-label="Voltar para Teoria"
@@ -169,6 +225,8 @@ export default function IntroPage({
                             className="btn btn-icon"
                             onClick={() => {
                                 console.log('Clicou Voltar ao Menu (Quiz)');
+                                limparDadosQuizIntro();
+                                limparScrollTeoria(); // Limpa scroll
                                 onBackHome && onBackHome();
                             }}
                             aria-label="Voltar ao Menu"
@@ -195,6 +253,8 @@ export default function IntroPage({
                             className="btn btn-icon"
                             onClick={() => {
                                 console.log('Clicou Voltar ao Menu');
+                                limparDadosQuizIntro();
+                                limparScrollTeoria(); // Limpa scroll
                                 onBackHome && onBackHome();
                             }}
                             aria-label="Voltar ao Menu"
@@ -209,6 +269,8 @@ export default function IntroPage({
                             className="btn btn-icon"
                             onClick={() => {
                                 console.log('Clicou Rever Introdução');
+                                limparDadosQuizIntro();
+                                limparScrollTeoria(); // Limpa scroll para começar do topo
                                 onNavigateToSection && onNavigateToSection('teoria');
                             }}
                             aria-label="Rever Introdução"
@@ -223,7 +285,9 @@ export default function IntroPage({
                             className="btn start"
                             onClick={() => {
                                 console.log('Clicou Avançar -> Ir para ModulesHomePage');
-                                // Chama a nova função específica para ir à lista de módulos
+                                limparDadosQuizIntro();
+                                limparScrollTeoria(); // Limpa scroll
+                                
                                 if (onGoToModules) {
                                     onGoToModules();
                                 } else {

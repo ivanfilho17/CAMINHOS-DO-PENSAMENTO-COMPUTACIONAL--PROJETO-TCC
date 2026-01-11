@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import './RoboCondicoes.css';
 
 // Componente do Robô em SVG
@@ -91,13 +92,23 @@ const NIVEIS = [
 ];
 
 export default function RoboCondicoes({ onConcluido }) {
-    const [nivelAtual, setNivelAtual] = useState(0);
-    const [algoritmo, setAlgoritmo] = useState([]);
-    const [roboPos, setRoboPos] = useState({ x: NIVEIS[0].roboInicio.x, y: NIVEIS[0].roboInicio.y });
+    // 2. SUBSTITUIR useState POR useLocalStorage NOS DADOS CRÍTICOS
+    const [nivelAtual, setNivelAtual] = useLocalStorage("mod4_condicoes_nivel", 0);
+    const [algoritmo, setAlgoritmo] = useLocalStorage("mod4_condicoes_algoritmo", []);
+    const [niveisCompletos, setNiveisCompletos] = useLocalStorage("mod4_condicoes_niveis_completos", []);
+    const [concluidoGeral, setConcluidoGeral] = useLocalStorage("mod4_condicoes_concluido", false);
+
+    // Inicializa nível para uso
+    const nivel = NIVEIS[nivelAtual] || NIVEIS[0]; 
+
+    // ESTADOS VISUAIS PERSISTIDOS (Salvos no localStorage)
+    const [roboPos, setRoboPos] = useLocalStorage("mod4_condicoes_robo_pos", { x: nivel.roboInicio.x, y: nivel.roboInicio.y });
+    const [feedback, setFeedback] = useLocalStorage("mod4_condicoes_feedback", '');
+    const [expressaoRobo, setExpressaoRobo] = useLocalStorage("mod4_condicoes_expressao", 'feliz');
+    const [venceu, setVenceu] = useLocalStorage("mod4_condicoes_venceu", false);
+
+    // Estados visuais temporários (Resetam com F5)
     const [executando, setExecutando] = useState(false);
-    const [venceu, setVenceu] = useState(false);
-    const [feedback, setFeedback] = useState('');
-    const [niveisCompletos, setNiveisCompletos] = useState([]);
     const [mostrarDica, setMostrarDica] = useState(false);
     const [bandeiraAnimando, setBandeiraAnimando] = useState(false);
     const [draggedItem, setDraggedItem] = useState(null);
@@ -105,12 +116,32 @@ export default function RoboCondicoes({ onConcluido }) {
     const [comandoAtivo, setComandoAtivo] = useState(null);
     const [blocoSeAtivo, setBlocoSeAtivo] = useState(null);
     const [comandoInternoAtivo, setComandoInternoAtivo] = useState(null);
-    const [expressaoRobo, setExpressaoRobo] = useState('feliz');
 
     // REF: Referência direta para o elemento do robô na DOM
     const roboRef = useRef(null);
 
-    const nivel = NIVEIS[nivelAtual];
+    // Ref para rastrear mudança real de nível
+    const prevNivelRef = useRef(nivelAtual);
+
+    useEffect(() => {
+        // Se o nível mudou, reseta tudo para o padrão do novo nível
+        if (prevNivelRef.current !== nivelAtual) {
+            if (!executando) {
+                setRoboPos({ x: nivel.roboInicio.x, y: nivel.roboInicio.y });
+                setVenceu(false);
+                setFeedback('');
+                setExpressaoRobo('feliz');
+            }
+            prevNivelRef.current = nivelAtual;
+        }
+    }, [nivelAtual, executando, nivel.roboInicio.x, nivel.roboInicio.y, setRoboPos, setFeedback, setExpressaoRobo, setVenceu]);
+
+    // Efeito para notificar o pai se já terminou tudo
+    useEffect(() => {
+        if (concluidoGeral) {
+            onConcluido?.();
+        }
+    }, [concluidoGeral, onConcluido]);
 
     const resetar = () => {
         setRoboPos({ x: nivel.roboInicio.x, y: nivel.roboInicio.y });
@@ -232,7 +263,7 @@ export default function RoboCondicoes({ onConcluido }) {
 
     const executar = async () => {
         resetar();
-        await new Promise(r => setTimeout(r, 400)); // Tempo aumentado para garantir reset visual
+        await new Promise(r => setTimeout(r, 400)); 
 
         setExecutando(true);
         let pos = { x: nivel.roboInicio.x, y: nivel.roboInicio.y };
@@ -241,7 +272,7 @@ export default function RoboCondicoes({ onConcluido }) {
             const item = algoritmo[i];
             
             setComandoAtivo(i);
-            scrollToElement(`rc-cmd-${i}`); // (NOVO) Chama scroll para o comando principal
+            scrollToElement(`rc-cmd-${i}`); 
             
             await new Promise(r => setTimeout(r, 600));
 
@@ -254,7 +285,7 @@ export default function RoboCondicoes({ onConcluido }) {
                         const cmd = item.comandos[ci];
                         
                         setComandoInternoAtivo(ci);
-                        scrollToElement(`rc-cmd-int-${i}-${ci}`); // (NOVO) Chama scroll para o comando interno
+                        scrollToElement(`rc-cmd-int-${i}-${ci}`); 
                         
                         await new Promise(r => setTimeout(r, 600));
                         
@@ -269,7 +300,7 @@ export default function RoboCondicoes({ onConcluido }) {
                         }
 
                         setRoboPos(novaPos);
-                        await new Promise(r => setTimeout(r, 600)); // Espera movimento
+                        await new Promise(r => setTimeout(r, 600)); 
 
                         if (checarColisaoLama(novaPos)) {
                             setExpressaoRobo('triste');
@@ -324,10 +355,15 @@ export default function RoboCondicoes({ onConcluido }) {
             await new Promise(r => setTimeout(r, 2000));
             setVenceu(true);
             setFeedback('🎉 Isso aí! O robô desviou direitinho da lama e conseguiu chegar na bandeira!');
+            
+            let novosNiveisCompletos = niveisCompletos;
             if (!niveisCompletos.includes(nivelAtual)) {
-                setNiveisCompletos([...niveisCompletos, nivelAtual]);
+                novosNiveisCompletos = [...niveisCompletos, nivelAtual];
+                setNiveisCompletos(novosNiveisCompletos);
             }
-            if (nivelAtual === NIVEIS.length - 1 && niveisCompletos.length === NIVEIS.length - 1) {
+
+            if (nivelAtual === NIVEIS.length - 1 && novosNiveisCompletos.length === NIVEIS.length) {
+                setConcluidoGeral(true);
                 setTimeout(() => onConcluido && onConcluido(), 2000);
             }
         } else {
@@ -343,7 +379,7 @@ export default function RoboCondicoes({ onConcluido }) {
             const prox = nivelAtual + 1;
             setNivelAtual(prox);
             setAlgoritmo([]);
-            setRoboPos({ x: NIVEIS[prox].roboInicio.x, y: NIVEIS[prox].roboInicio.y });
+            // O useEffect cuidará do reset visual
             setVenceu(false);
             setFeedback('');
             setMostrarDica(false);
@@ -367,6 +403,11 @@ export default function RoboCondicoes({ onConcluido }) {
         e.preventDefault();
         e.stopPropagation();
         if (!draggedItem) return;
+
+        // AJUSTE: Impede aninhamento de SE dentro de SE
+        if (dropParentIndex !== null && (draggedItem.item.tipo === 'se' || draggedItem.item.id === 'se')) {
+            return;
+        }
 
         const newAlgoritmo = JSON.parse(JSON.stringify(algoritmo));
 
@@ -423,12 +464,7 @@ export default function RoboCondicoes({ onConcluido }) {
                         onClick={() => {
                             setNivelAtual(i);
                             setAlgoritmo([]);
-                            setRoboPos({ x: NIVEIS[i].roboInicio.x, y: NIVEIS[i].roboInicio.y });
-                            setVenceu(false);
-                            setFeedback('');
-                            setMostrarDica(false);
-                            setBandeiraAnimando(false);
-                            setExpressaoRobo('feliz');
+                            // O useEffect reseta o visual
                         }}
                         disabled={executando}
                     >
@@ -545,7 +581,7 @@ export default function RoboCondicoes({ onConcluido }) {
                                 algoritmo.map((item, i) => (
                                     <div
                                         key={i}
-                                        id={`rc-cmd-${i}`} // (NOVO) ID para scroll
+                                        id={`rc-cmd-${i}`}
                                         className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                         draggable={!executando}
                                         onDragStart={(e) => handleDragStart(e, item, i, null)}
@@ -568,7 +604,7 @@ export default function RoboCondicoes({ onConcluido }) {
                                                             return (
                                                                 <div 
                                                                     key={ci} 
-                                                                    id={`rc-cmd-int-${i}-${ci}`} // (NOVO) ID para scroll interno
+                                                                    id={`rc-cmd-int-${i}-${ci}`}
                                                                     className={`se-cmd ${blocoSeAtivo === i && comandoInternoAtivo === ci ? 'se-cmd-ativo' : ''}`} 
                                                                     style={{ background: cmd.cor }}
                                                                     draggable={!executando}

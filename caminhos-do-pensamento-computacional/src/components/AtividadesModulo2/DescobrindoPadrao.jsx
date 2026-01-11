@@ -1,6 +1,7 @@
 // Atividade 3 do Módulo 2: Descoberta do Padrão
 
 import React, { useState, useEffect } from 'react';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { motion, AnimatePresence } from 'framer-motion';
 import './DescobrindoPadrao.css';
 
@@ -119,26 +120,36 @@ function shuffle(array) {
 }
 
 export default function PadraoSecreto({ onConcluido }) {
-    const [desafioAtual, setDesafioAtual] = useState(0);
-    const [respostaSelecionada, setRespostaSelecionada] = useState(null);
-    const [feedback, setFeedback] = useState(null);
-    const [mostrarDica, setMostrarDica] = useState(false);
-    const [acertos, setAcertos] = useState(0);
-    const [tentativas, setTentativas] = useState(0);
-    const [concluido, setConcluido] = useState(false);
-    
-    // Estado para guardar as opções da rodada atual embaralhadas
-    const [opcoesEmbaralhadas, setOpcoesEmbaralhadas] = useState([]);
+    // ESTADOS PERSISTENTES
+    const [desafioAtual, setDesafioAtual] = useLocalStorage("mod2_padrao_desafio", 0);
+    const [acertos, setAcertos] = useLocalStorage("mod2_padrao_acertos", 0);
+    const [tentativas, setTentativas] = useLocalStorage("mod2_padrao_tentativas", 0);
+    const [concluido, setConcluido] = useLocalStorage("mod2_padrao_concluido", false);
 
-    const desafio = DESAFIOS[desafioAtual];
+    const [respostaSelecionada, setRespostaSelecionada] = useLocalStorage("mod2_padrao_resposta", null);
+    const [feedback, setFeedback] = useLocalStorage("mod2_padrao_feedback", null);
+    const [opcoesEmbaralhadas, setOpcoesEmbaralhadas] = useLocalStorage("mod2_padrao_opcoes", []);
+
+    // Estados visuais temporários
+    const [mostrarDica, setMostrarDica] = useState(false);
+    
+    const desafio = DESAFIOS[desafioAtual] || DESAFIOS[0];
     const ultimoDesafio = desafioAtual === DESAFIOS.length - 1;
 
-    // Embaralha as opções sempre que mudar o desafio
+    useEffect(() => {
+        if (concluido) {
+            onConcluido?.();
+        }
+    }, [concluido, onConcluido]);
+
     useEffect(() => {
         if (desafio) {
-            setOpcoesEmbaralhadas(shuffle(desafio.opcoes));
+            // Gera embaralhamento inicial se não existir
+            if (opcoesEmbaralhadas.length === 0) {
+                setOpcoesEmbaralhadas(shuffle(desafio.opcoes));
+            }
         }
-    }, [desafioAtual]);
+    }, [desafioAtual, opcoesEmbaralhadas.length]); 
 
     const handleSelectOpcao = (index) => {
         if (respostaSelecionada !== null) return;
@@ -165,6 +176,7 @@ export default function PadraoSecreto({ onConcluido }) {
             setDesafioAtual(prev => prev + 1);
             setRespostaSelecionada(null);
             setFeedback(null);
+            setOpcoesEmbaralhadas([]); // Limpa para gerar novo embaralhamento no useEffect
             setMostrarDica(false);
         }
     };
@@ -172,7 +184,11 @@ export default function PadraoSecreto({ onConcluido }) {
     const tentarNovamente = () => {
         setRespostaSelecionada(null);
         setFeedback(null);
-        // Opcional: Re-embaralhar ao errar? (Geralmente não, para não confundir)
+        
+        // AJUSTE: Re-embaralha as opções ao errar para dar dinâmica ao "Tentar Novamente"
+        if (desafio) {
+            setOpcoesEmbaralhadas(shuffle(desafio.opcoes));
+        }
     };
 
     return (

@@ -1,6 +1,8 @@
 // Atividade 1 do Módulo 3: Abstração - O Mapa do Bairro
 
 import React, { useState, useEffect } from 'react';
+// 1. IMPORTAR O HOOK
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import './MapaBairro.css';
@@ -70,19 +72,31 @@ function MapSlot({ row, col, children, isOver }) {
 }
 
 export default function MapaBairro({ onConcluido }) {
-    const [elementosColocados, setElementosColocados] = useState({});
+    // 2. SUBSTITUIR useState POR useLocalStorage
+    const [elementosColocados, setElementosColocados] = useLocalStorage("mod3_mapa_colocados", {});
+    const [concluido, setConcluido] = useLocalStorage("mod3_mapa_concluido", false);
+    const [tentativasErradas, setTentativasErradas] = useLocalStorage("mod3_mapa_tentativas", 0);
+    
+    // Persistir a ordem embaralhada para consistência visual no F5
+    const [elementosEmbaralhados, setElementosEmbaralhados] = useLocalStorage("mod3_mapa_embaralhado", []);
+
+    // Estados visuais temporários (não precisam persistir)
     const [shake, setShake] = useState(null);
     const [feedback, setFeedback] = useState('');
-    const [tentativasErradas, setTentativasErradas] = useState(0);
-    const [concluido, setConcluido] = useState(false);
     
-    // Estado para elementos embaralhados
-    const [elementosEmbaralhados, setElementosEmbaralhados] = useState([]);
-
-    // Embaralha ao iniciar
+    // Embaralha ao iniciar SE não houver dados salvos
     useEffect(() => {
-        setElementosEmbaralhados(shuffle(ELEMENTOS));
-    }, []);
+        if (elementosEmbaralhados.length === 0) {
+            setElementosEmbaralhados(shuffle(ELEMENTOS));
+        }
+    }, [elementosEmbaralhados.length]);
+
+    // Se já estiver concluído ao montar, avisa o pai
+    useEffect(() => {
+        if (concluido) {
+            onConcluido?.();
+        }
+    }, [concluido, onConcluido]);
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -203,7 +217,7 @@ export default function MapaBairro({ onConcluido }) {
                     </div>
                 </div>
 
-                {/* Barra de Ícones (Usando o array embaralhado) */}
+                {/* Barra de Ícones (Usando o array embaralhado salvo) */}
                 <div className="barra-icones">
                     <h5>📦 Arraste apenas o que deve ir para o mapa:</h5>
                     <div className="icones-grid">

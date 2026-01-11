@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import './RoboRepeticoes.css';
 
 // Componente do Robô em SVG - COM EXPRESSÕES
@@ -96,13 +97,23 @@ const NIVEIS = [
 ];
 
 export default function RoboRepeticoes({ onConcluido }) {
-    const [nivelAtual, setNivelAtual] = useState(0);
-    const [algoritmo, setAlgoritmo] = useState([]);
-    const [roboPos, setRoboPos] = useState(NIVEIS[0].roboInicio);
+    // 2. SUBSTITUIR useState POR useLocalStorage NOS DADOS CRÍTICOS
+    const [nivelAtual, setNivelAtual] = useLocalStorage("mod4_repeticoes_nivel", 0);
+    const [algoritmo, setAlgoritmo] = useLocalStorage("mod4_repeticoes_algoritmo", []);
+    const [niveisCompletos, setNiveisCompletos] = useLocalStorage("mod4_repeticoes_niveis_completos", []);
+    const [concluidoGeral, setConcluidoGeral] = useLocalStorage("mod4_repeticoes_concluido", false);
+
+    // Inicializa nível para uso
+    const nivel = NIVEIS[nivelAtual] || NIVEIS[0]; 
+
+    // ESTADOS VISUAIS PERSISTIDOS
+    const [roboPos, setRoboPos] = useLocalStorage("mod4_repeticoes_robo_pos", nivel.roboInicio);
+    const [feedback, setFeedback] = useLocalStorage("mod4_repeticoes_feedback", '');
+    const [expressaoRobo, setExpressaoRobo] = useLocalStorage("mod4_repeticoes_expressao", 'feliz');
+    const [venceu, setVenceu] = useLocalStorage("mod4_repeticoes_venceu", false);
+
+    // Estados visuais temporários (resetam no F5)
     const [executando, setExecutando] = useState(false);
-    const [venceu, setVenceu] = useState(false);
-    const [feedback, setFeedback] = useState('');
-    const [niveisCompletos, setNiveisCompletos] = useState([]);
     const [mostrarDica, setMostrarDica] = useState(false);
     const [bandeiraAnimando, setBandeiraAnimando] = useState(false);
     const [draggedItem, setDraggedItem] = useState(null);
@@ -111,13 +122,31 @@ export default function RoboRepeticoes({ onConcluido }) {
     const [blocoRepitaAtivo, setBlocoRepitaAtivo] = useState(null);
     const [comandoInternoAtivo, setComandoInternoAtivo] = useState(null);
     
-    // Estado para expressão facial
-    const [expressaoRobo, setExpressaoRobo] = useState('feliz');
-
     // REF para animação direta
     const roboRef = useRef(null);
 
-    const nivel = NIVEIS[nivelAtual];
+    // Ref para rastrear mudança real de nível
+    const prevNivelRef = useRef(nivelAtual);
+
+    useEffect(() => {
+        // Se o nível mudou, reseta tudo para o padrão do novo nível
+        if (prevNivelRef.current !== nivelAtual) {
+            if (!executando) {
+                setRoboPos(NIVEIS[nivelAtual].roboInicio);
+                setVenceu(false);
+                setFeedback('');
+                setExpressaoRobo('feliz');
+            }
+            prevNivelRef.current = nivelAtual;
+        }
+    }, [nivelAtual, executando, setRoboPos, setVenceu, setFeedback, setExpressaoRobo]);
+
+    // Efeito para notificar o pai se já terminou tudo
+    useEffect(() => {
+        if (concluidoGeral) {
+            onConcluido?.();
+        }
+    }, [concluidoGeral, onConcluido]);
 
     const resetar = () => {
         setRoboPos(nivel.roboInicio);
@@ -248,7 +277,7 @@ export default function RoboRepeticoes({ onConcluido }) {
             
             // Destaca e rola no container principal
             setComandoAtivo(i);
-            scrollToElement(`rr-cmd-${i}`); // (NOVO) ID com prefixo rr-
+            scrollToElement(`rr-cmd-${i}`); 
         
             await new Promise(r => setTimeout(r, 800));
 
@@ -260,7 +289,7 @@ export default function RoboRepeticoes({ onConcluido }) {
                         
                         // Destaca e rola no container interno
                         setComandoInternoAtivo(ci);
-                        scrollToElement(`rr-cmd-int-${i}-${ci}`); // (NOVO) ID com prefixo rr-
+                        scrollToElement(`rr-cmd-int-${i}-${ci}`); 
                         
                         await new Promise(r => setTimeout(r, 800));
                         
@@ -313,10 +342,14 @@ export default function RoboRepeticoes({ onConcluido }) {
             await new Promise(r => setTimeout(r, 1500));
             setVenceu(true);
             setFeedback('🎉 Perfeito! Você usou repetições com sucesso e fez o robô chegar na bandeira!');
+            
+            let novosNiveisCompletos = niveisCompletos;
             if (!niveisCompletos.includes(nivelAtual)) {
-                setNiveisCompletos([...niveisCompletos, nivelAtual]);
+                novosNiveisCompletos = [...niveisCompletos, nivelAtual];
+                setNiveisCompletos(novosNiveisCompletos);
             }
-            if (nivelAtual === NIVEIS.length - 1 && niveisCompletos.length === NIVEIS.length - 1) {
+            if (nivelAtual === NIVEIS.length - 1 && novosNiveisCompletos.length === NIVEIS.length) {
+                setConcluidoGeral(true);
                 setTimeout(() => onConcluido && onConcluido(), 2000);
             }
         } else {
@@ -358,6 +391,11 @@ export default function RoboRepeticoes({ onConcluido }) {
         e.stopPropagation();
 
         if (!draggedItem) return;
+
+        // AJUSTE: Não permitir arrastar o bloco REPITA para dentro de um bloco pai (outro REPITA)
+        if (dropParentIndex !== null && (draggedItem.item.id === 'repita' || draggedItem.item.tipo === 'repita')) {
+            return;
+        }
 
         const newAlgoritmo = JSON.parse(JSON.stringify(algoritmo));
 
@@ -487,10 +525,10 @@ export default function RoboRepeticoes({ onConcluido }) {
                     <button className="btn-dica" onClick={() => setMostrarDica(!mostrarDica)}>
                         {mostrarDica ? '🙈 Esconder' : '💡 Ver Dica'}
                     </button>
-                    
-                    {/* Feedback priorizando erro */}
+
+                    {/* Feedback ajustado para priorizar erro se houver texto de erro */}
                     {feedback && (
-                        <div className={`feedback ${venceu ? 'sucesso' : (feedback.includes('Ops') || feedback.includes('saiu') ? 'erro' : '')}`}>
+                        <div className={`feedback ${venceu ? 'sucesso' : (feedback.includes('Ops') || feedback.includes('saiu') || feedback.includes('não chegou') ? 'erro' : '')}`}>
                             {feedback}
                         </div>
                     )}
@@ -645,7 +683,7 @@ export default function RoboRepeticoes({ onConcluido }) {
 
             {niveisCompletos.length === NIVEIS.length && (
                 <div className="conclusao">
-                    <h3>🏆 Parabéns! Todos os desafios completos!</h3>
+                    <h3>🏆 Parabéns! Você completou todos os desafios!</h3>
                     <p>
                         Você dominou as <strong>REPETIÇÕES</strong>! Aprendeu a otimizar algoritmos
                         usando laços ao invés de repetir os mesmos comandos várias vezes.
