@@ -608,6 +608,20 @@
     margin: 0;
 }
 
+/* --- ESTILO NOVO: Destaque visual ao arrastar --- */
+.algoritmo-mini.area-drop-ativa {
+    border-color: #86efac; /* Verde suave borda */
+    border-style: dashed;
+    transition: all 0.2s ease;
+}
+
+/* Destaque quando o mouse está EM CIMA da área durante o arrasto */
+.algoritmo-mini.area-drop-ativa:hover {
+    background-color: #dcfce7; /* Verde bem claro fundo */
+    border-color: #22c55e;
+    box-shadow: inset 0 0 10px rgba(34, 197, 94, 0.1);
+}
+
 /* Estilos para comandos com nome */
 .cmd-content {
     display: flex;

@@ -109,7 +109,6 @@ export default function RoboSequencias({ onConcluido }) {
     const [roboPos, setRoboPos] = useLocalStorage("mod4_sequencia_robo_pos", { x: nivel.roboInicio.x, y: nivel.roboInicio.y });
     const [feedback, setFeedback] = useLocalStorage("mod4_sequencia_feedback", '');
     const [expressaoRobo, setExpressaoRobo] = useLocalStorage("mod4_sequencia_expressao", 'feliz');
-    // MUDANÇA: Agora 'venceu' é persistido para mostrar o botão 'Próximo' no F5
     const [venceu, setVenceu] = useLocalStorage("mod4_sequencia_venceu", false);
     
     // Estados visuais temporários (Resetam com F5)
@@ -125,6 +124,17 @@ export default function RoboSequencias({ onConcluido }) {
 
     // Ref para rastrear mudança real de nível
     const prevNivelRef = useRef(nivelAtual);
+
+    // --- CORREÇÃO DE CONSISTÊNCIA ---
+    useEffect(() => {
+        // Se o robô estiver na posição inicial e 'venceu' estiver true,
+        // significa que houve um reset parcial (posição resetou, mas vitória não).
+        // Isso corrige o bug de exibir o botão "Próximo" indevidamente.
+        if (venceu && roboPos.x === nivel.roboInicio.x && roboPos.y === nivel.roboInicio.y) {
+            setVenceu(false);
+        }
+    }, []); // Roda apenas na montagem
+    // --------------------------------
 
     useEffect(() => {
         // Se o nível mudou, reseta tudo para o padrão do novo nível
@@ -465,7 +475,7 @@ export default function RoboSequencias({ onConcluido }) {
                             )}
                         </div>
                         <div
-                            className="algoritmo-mini"
+                            className={`algoritmo-mini ${draggedItem ? 'area-drop-ativa' : ''}`}
                             onDragOver={(e) => handleDragOver(e, null)}
                             onDrop={(e) => handleDrop(e, null)}
                         >
@@ -477,7 +487,7 @@ export default function RoboSequencias({ onConcluido }) {
                                     return (
                                         <div
                                             key={i}
-                                            id={`cmd-${i}`}
+                                            id={`cmd-${i}`} // ID ADICIONADO PARA SCROLL
                                             className={`algo-item ${dragOverIndex === i ? 'drag-over' : ''} ${comandoAtivo === i ? 'comando-ativo' : ''}`}
                                             draggable={!executando}
                                             onDragStart={(e) => handleDragStart(e, cmdId, i)}

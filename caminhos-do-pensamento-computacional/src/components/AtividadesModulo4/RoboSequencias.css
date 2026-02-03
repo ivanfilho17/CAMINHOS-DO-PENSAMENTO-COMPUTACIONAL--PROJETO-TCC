@@ -311,6 +311,7 @@
     color: #94a3b8;
     padding: 30px 10px;
     font-size: 0.95em;
+    pointer-events: none;
 }
 
 .algo-item {
@@ -518,6 +519,20 @@
     0%, 100% { transform: rotate(0deg); }
     25% { transform: rotate(-15deg) scale(1.1); }
     75% { transform: rotate(15deg) scale(1.1); }
+}
+
+/* --- ESTILO NOVO: Destaque visual ao arrastar --- */
+.algoritmo-mini.area-drop-ativa {
+    border-color: #86efac; /* Verde suave borda */
+    border-style: dashed;
+    transition: all 0.2s ease;
+}
+
+/* Destaque quando o mouse está EM CIMA da área durante o arrasto */
+.algoritmo-mini.area-drop-ativa:hover {
+    background-color: #dcfce7; /* Verde bem claro fundo */
+    border-color: #22c55e;
+    box-shadow: inset 0 0 10px rgba(34, 197, 94, 0.1);
 }
 
 /* Responsividade */

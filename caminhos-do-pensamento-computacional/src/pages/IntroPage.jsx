@@ -24,7 +24,11 @@ export default function IntroPage({
     onGoToModules
 }) {
     const [flippedCardId, setFlippedCardId] = useState(null);
-    const [videoAssistido, setVideoAssistido] = useState(false);
+    const [videoAssistido, setVideoAssistido] = useState(() => {
+        // Restaurar do localStorage ao montar o componente
+        const saved = localStorage.getItem('mod0_video_assistido');
+        return saved === 'true';
+    });
 
     // Atualiza a tela com base na currentSection
     const tela = currentSection === 'quiz' ? 'quiz' :
@@ -87,6 +91,7 @@ export default function IntroPage({
             "mod0_quiz_finished"
         ];
         chaves.forEach(chave => localStorage.removeItem(chave));
+        // Nota: mod0_video_assistido NÃO é removido, pois deve persistir
     };
 
     const handleIntroQuizComplete = () => {
@@ -96,6 +101,7 @@ export default function IntroPage({
     // Função chamada quando o vídeo termina
     const handleVideoEnd = () => {
         setVideoAssistido(true);
+        localStorage.setItem('mod0_video_assistido', 'true');
     };
 
     // Configurações do player

@@ -566,7 +566,7 @@ export default function RoboRepeticoes({ onConcluido }) {
                             )}
                         </div>
                         <div
-                            className="algoritmo-mini"
+                            className={`algoritmo-mini ${draggedItem ? 'area-drop-ativa' : ''}`}
                             onDragOver={(e) => handleDragOver(e, null)}
                             onDrop={(e) => handleDrop(e, null, null)}
                         >

@@ -4,8 +4,8 @@ export default function AboutModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal about-modal" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal about-modal" role="dialog" aria-modal="true" aria-labelledby="about-title" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close-top" onClick={onClose} aria-label="Fechar">✕</button>
 
         <header className="about-header">
