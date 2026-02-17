@@ -15,7 +15,9 @@
 <p align="center">
   <img src="https://github.com/ivanfilho17/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/blob/main/caminhos-do-pensamento-computacional/public/screenshot-desktop.png?raw=true" height="350" alt="Tela inicial Desktop">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="https://github.com/ivanfilho17/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/blob/main/caminhos-do-pensamento-computacional/public/screenshot-mobile.png?raw=true" height="350" alt="Tela inicial Mobile">
+  <img src="https://github.com/ivanfilho17/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/blob/main/caminhos-do-pensamento-computacional/public/screenshot-mobile-smartphone.png?raw=true" height="350" alt="Tela inicial Mobile Smartphone">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://github.com/ivanfilho17/CAMINHOS-DO-PENSAMENTO-COMPUTACIONAL--PROJETO-TCC/blob/main/caminhos-do-pensamento-computacional/public/screenshot-mobile-tablet.png?raw=true" height="350" alt="Tela inicial Mobile Tablet">
 </p>
 
 ## ℹ️ Sobre o Projeto

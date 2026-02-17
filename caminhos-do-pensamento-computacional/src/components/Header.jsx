@@ -34,7 +34,7 @@ export default function Header({
   theme,       // Nova prop: tema atual ('light' ou 'dark')
   toggleTheme  // Nova prop: função para alternar tema
 }) {
-    const formUrl = "https://forms.gle/w4KKJsiey3iXBFRE6"; // substitua pelo link real
+    const formUrl = "https://forms.gle/eqSCMeme9DqYEojb8"; // link do formulário de avaliação (Google Forms) - pode ser alterado para outro serviço se necessário
 
     return (
         <header className="header">

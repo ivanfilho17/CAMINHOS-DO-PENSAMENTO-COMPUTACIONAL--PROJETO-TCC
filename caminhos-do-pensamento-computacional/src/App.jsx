@@ -659,7 +659,7 @@ export default function App() {
       {/* Passamos o tema e a função de toggle para o Header */}
       <Header
         onOpenAbout={() => setAboutOpen(true)}
-        onOpenForm={() => window.open("https://forms.gle/w4KKJsiey3iXBFRE6", "_blank")}
+        onOpenForm={() => window.open("https://forms.gle/eqSCMeme9DqYEojb8", "_blank")}
         showHomeButtons={showAboutButtons}
         onResetProgress={resetAllProgress}
         showResetButton={showResetButton}

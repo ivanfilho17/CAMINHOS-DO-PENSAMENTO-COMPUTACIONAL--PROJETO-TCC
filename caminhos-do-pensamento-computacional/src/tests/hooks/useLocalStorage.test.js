@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useLocalStorage } from '../useLocalStorage';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { beforeEach, expect, vi } from 'vitest';
 
 // Mock do localStorage para rodar no JSDOM
