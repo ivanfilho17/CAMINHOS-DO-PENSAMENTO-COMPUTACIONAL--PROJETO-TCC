@@ -116,9 +116,11 @@ export default function IntroPage({
         },
     };
 
-    const isButtonDisabled = !introEverCompleted && !videoAssistido;
-    const opacityValue = isButtonDisabled ? 0.5 : 1;
-    const cursorValue = isButtonDisabled ? 'not-allowed' : 'pointer';
+    // O botão de avançar não deve mais ser bloqueado pelo vídeo para permitir
+    // uso offline. Sempre deixamos o usuário livre para seguir para o quiz.
+    const isButtonDisabled = false;
+    const opacityValue = 1;
+    const cursorValue = 'pointer';
 
     return (
         <div className="intro-container">
@@ -173,6 +175,7 @@ export default function IntroPage({
                     <footer className="module-footer">
                         <button
                             className="btn btn-icon"
+                            title="Ir para o Menu Inicial"
                             onClick={() => {
                                 console.log('Clicou Voltar (Teoria)');
                                 // Limpa tudo ao sair
@@ -180,12 +183,14 @@ export default function IntroPage({
                                 limparScrollTeoria(); // Limpa scroll
                                 onBackHome && onBackHome();
                             }}
-                            aria-label="Voltar ao Menu"
+                            aria-label="Voltar ao Menu Inicial"
                         >
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
                         <button
                             className="btn btn-icon"
+                            title="Avançar para o Quiz"
+                            aria-label="Avançar para o Quiz"
                             onClick={() => {
                                 console.log('Clicou Próximo (Quiz)');
                                 limparScrollTeoria(); // Limpa scroll ao avançar
@@ -213,22 +218,21 @@ export default function IntroPage({
                     <footer className="module-footer quiz-footer">
                         <button
                             className="btn btn-icon"
+                            title="Voltar para a Teoria"
                             onClick={() => {
                                 console.log('Clicou Voltar para Teoria (Quiz)');
-                                // Ao voltar do quiz para teoria, talvez você QUEIRA manter o scroll?
-                                // Se quiser resetar, mantenha a limpeza. Se quiser manter, remova a linha abaixo.
-                                // Seguindo sua instrução de "sair e voltar reseta", aqui estamos voltando de outra tela.
-                                // Vou manter a limpeza para garantir que comece do topo como pedido na "outra tela".
+                                
                                 limparScrollTeoria(); 
                                 onNavigateToSection && onNavigateToSection('teoria');
                             }}
-                            aria-label="Voltar para Teoria"
+                            aria-label="Voltar para a Teoria"
                         >
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
                         </button>
 
                         <button
                             className="btn btn-icon"
+                            title="Ir para o Menu Inicial"
                             onClick={() => {
                                 console.log('Clicou Voltar ao Menu (Quiz)');
                                 limparDadosQuizIntro();
@@ -257,13 +261,14 @@ export default function IntroPage({
                         {/* BOTÃO VOLTAR AO MENU */}
                         <button
                             className="btn btn-icon"
+                            title="Ir para o Menu Inicial"
                             onClick={() => {
                                 console.log('Clicou Voltar ao Menu');
                                 limparDadosQuizIntro();
                                 limparScrollTeoria(); // Limpa scroll
                                 onBackHome && onBackHome();
                             }}
-                            aria-label="Voltar ao Menu"
+                            aria-label="Voltar ao Menu Inicial"
                         >
                             <svg viewBox="0 0 24 24">
                                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
@@ -273,6 +278,7 @@ export default function IntroPage({
                         {/* BOTÃO REVER INTRODUÇÃO */}
                         <button
                             className="btn btn-icon"
+                            title="Rever Introdução"
                             onClick={() => {
                                 console.log('Clicou Rever Introdução');
                                 limparDadosQuizIntro();

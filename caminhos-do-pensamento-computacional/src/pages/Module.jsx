@@ -395,7 +395,7 @@ export default function Module({
                     )}
 
                     <footer className="module-footer module-footer-fixed">
-                        <button className="btn btn-icon" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
+                        <button className="btn btn-icon" title="Voltar ao Menu de Módulos" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
                             <svg className="icon-voltar" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
                         <button className="btn start" onClick={handleTeoriaConcluida}>
@@ -416,10 +416,10 @@ export default function Module({
                     {moduleData.atividades?.map((atividadeId, index) => renderAtividade(atividadeId, index))}
 
                     <footer className="module-footer module-footer-fixed">
-                        <button className="btn btn-icon" onClick={() => onNavigateToSection('teoria')} aria-label="Voltar">
+                        <button className="btn btn-icon" title="Voltar" onClick={() => onNavigateToSection('teoria')} aria-label="Voltar">
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
                         </button>
-                        <button className="btn btn-icon" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
+                        <button className="btn btn-icon" title="Voltar ao Menu de Módulos" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
                             <svg className="icon-voltar" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
 
@@ -443,10 +443,10 @@ export default function Module({
                         onQuestionAnswered={handleQuestionAnswered}
                     />
                     <footer className="module-footer quiz-footer module-footer-fixed">
-                        <button className="btn btn-icon" onClick={() => onNavigateToSection('atividades-interativas')} aria-label="Voltar para Atividades">
+                        <button className="btn btn-icon" title="Voltar para Atividades" onClick={() => onNavigateToSection('atividades-interativas')} aria-label="Voltar para Atividades">
                             <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
                         </button>
-                        <button className="btn btn-icon" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
+                        <button className="btn btn-icon" title="Voltar ao Menu de Módulos" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                         </button>
                     </footer>
@@ -466,13 +466,13 @@ export default function Module({
                         <p className="subtitulo">Você concluiu: {moduleData.title}. ✅</p>
                         <p className="final-message">{moduleData.finalMessage || "Parabéns! Você concluiu o módulo com sucesso!"}</p>
                         <footer className="module-footer conclusao-botoes">
-                            <button className="btn btn-icon btn-home" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
+                            <button className="btn btn-icon btn-home" title="Voltar ao Menu de Módulos" onClick={handleVoltarHome} aria-label="Voltar ao Menu de Módulos">
                                 <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
                             </button>
-                            <button className="btn btn-icon btn-refazer" onClick={handleReiniciar} aria-label="Reiniciar Módulo">
+                            <button className="btn btn-icon btn-refazer" title="Reiniciar Módulo" onClick={handleReiniciar} aria-label="Reiniciar Módulo">
                                 <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"></path></svg>
                             </button>
-                            <button className="btn btn-icon btn-avancar" onClick={handleAvancarModulo} aria-label="Avançar para o Próximo Módulo">
+                            <button className="btn btn-icon btn-avancar" title="Avançar para o Próximo Módulo" onClick={handleAvancarModulo} aria-label="Avançar para o Próximo Módulo">
                                 <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
                             </button>
                         </footer>
