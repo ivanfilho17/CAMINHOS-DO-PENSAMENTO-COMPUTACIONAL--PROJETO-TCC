@@ -27,11 +27,7 @@ export default function ModulesHomePage({ modules = [], progress = {}, onOpenMod
         if (isUnlocked(m)) {
             onOpenModule && onOpenModule(m.id);
         } else {
-            if (m.id === 1) {
-                onShowAlert && onShowAlert("Complete a Introdução primeiro! Clique no botão 'Voltar' e depois em 'Introdução'.");
-            } else {
-                onShowAlert && onShowAlert("Módulo bloqueado. Complete o módulo anterior para desbloqueá-lo.");
-            }
+            onShowAlert && onShowAlert("Complete a Introdução primeiro! Clique no botão 'Voltar' e depois em 'Iniciar' para abrir a introdução.");
         }
     };
 
